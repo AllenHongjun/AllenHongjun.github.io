@@ -1,5 +1,5 @@
 ---
-title: teachyourselfcs
+title: Teach Yourself CS
 permalink: teachyourselfcs
 date: 2020-10-20 06:28:49
 tags:
