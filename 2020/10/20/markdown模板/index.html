@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.hongjy.cn","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="有道云笔记 markdown模板[toc]    什么是Markdown？Markdown是一种轻量级的「标记语言」，通常为程序员群体所用，目前它已是全球最大的技术分享网站 GitHub 和技术问答网站 StackOverFlow 的御用书写格式。 有道云笔记内置Markdown编辑器和使用指南，非技术类笔记用户，千万不要被「标记」、「语言」吓到，Markdown的语法十分简单，常用的标记符号不超">
+<meta property="og:type" content="article">
+<meta property="og:title" content="markdown模板">
+<meta property="og:url" content="http://blog.hongjy.cn/2020/10/20/markdown%E6%A8%A1%E6%9D%BF/index.html">
+<meta property="og:site_name" content="小小笙">
+<meta property="og:description" content="有道云笔记 markdown模板[toc]    什么是Markdown？Markdown是一种轻量级的「标记语言」，通常为程序员群体所用，目前它已是全球最大的技术分享网站 GitHub 和技术问答网站 StackOverFlow 的御用书写格式。 有道云笔记内置Markdown编辑器和使用指南，非技术类笔记用户，千万不要被「标记」、「语言」吓到，Markdown的语法十分简单，常用的标记符号不超">
+<meta property="og:locale">
+<meta property="og:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/758x240-2.jpg">
+<meta property="og:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/1-1%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE.png">
+<meta property="og:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/1-2%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9.png">
+<meta property="og:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/%E6%B5%81%E7%A8%8B%E5%9B%BE.png">
+<meta property="og:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/%E5%BA%8F%E5%88%97%E5%9B%BE.png">
+<meta property="og:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/%E7%94%98%E7%89%B9%E5%9B%BE.png">
+<meta property="og:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/1-3%E8%A1%A8%E6%A0%BC.png">
+<meta property="og:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.png">
+<meta property="og:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/2-0-%E6%A0%87%E9%A2%98.png">
+<meta property="og:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/2-2%E5%BC%95%E7%94%A8.png">
+<meta property="og:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/2-3-%E7%B2%97%E4%BD%93%E6%96%9C%E4%BD%93.png">
+<meta property="og:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/2-4%E9%93%BE%E6%8E%A5%E4%B8%8E%E5%9B%BE%E7%89%87.png">
+<meta property="og:image" content="http://note.youdao.com/favicon.ico">
+<meta property="og:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/2-5-%E5%88%86%E5%89%B2%E7%BA%BF.png">
+<meta property="og:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/2-6%E8%A1%A8%E6%A0%BC.png">
+<meta property="og:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/2-6%E8%A1%A8%E6%A0%BC-3.jpg">
+<meta property="og:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/1-3%E8%A1%A8%E6%A0%BC1.png">
+<meta property="og:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/2-6-8.png">
+<meta property="og:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/91.jpg">
+<meta property="article:published_time" content="2020-10-20T12:37:06.000Z">
+<meta property="article:modified_time" content="2020-10-20T12:39:24.419Z">
+<meta property="article:author" content="小小笙">
+<meta property="article:tag" content="dotnet C# FE">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/758x240-2.jpg">
+
+<link rel="canonical" href="http://blog.hongjy.cn/2020/10/20/markdown%E6%A8%A1%E6%9D%BF/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>markdown模板 | 小小笙</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?749761669bb5184278820a5fa5d144a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+    <!--github 挂饰-->
+    <a target="_blank" rel="noopener" href="https://github.com/allenHongjun" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小小笙</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">抽刀断水水更流，举杯消愁愁更愁</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://blog.hongjy.cn/2020/10/20/markdown%E6%A8%A1%E6%9D%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/./images/avatar1.jpg">
+      <meta itemprop="name" content="小小笙">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小小笙">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          markdown模板
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-10-20 20:37:06 / 修改时间：20:39:24" itemprop="dateCreated datePublished" datetime="2020-10-20T20:37:06+08:00">2020-10-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="有道云笔记-markdown模板"><a href="#有道云笔记-markdown模板" class="headerlink" title="有道云笔记 markdown模板"></a>有道云笔记 markdown模板</h3><p>[toc] </p>
+<p><font size=4></font></p>
+<p><img src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/758x240-2.jpg" alt="image"></p>
+<p>什么是Markdown？Markdown是一种轻量级的「标记语言」，通常为程序员群体所用，目前它已是全球最大的技术分享网站 GitHub 和技术问答网站 StackOverFlow 的御用书写格式。</p>
+<p><strong>有道云笔记内置Markdown编辑器和使用指南，非技术类笔记用户，千万不要被「标记」、「语言」吓到，Markdown的语法十分简单，常用的标记符号不超过十个，用于日常写作记录绰绰有余，不到半小时就能完全掌握。</strong></p>
+<p>就是这十个不到的标记符号，却能让人<strong>优雅地沉浸式记录，专注内容而不是纠结排版</strong>，达到「心中无尘，码字入神」的境界。</p>
+<a id="more"></a>
+<h1 id="一、利用Markdown可以做什么？"><a href="#一、利用Markdown可以做什么？" class="headerlink" title="一、利用Markdown可以做什么？"></a>一、利用Markdown可以做什么？</h1><ol>
+<li>代码高亮</li>
+</ol>
+<p><img src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/1-1%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE.png" alt="image"></p>
+<h3 id="代码高亮"><a href="#代码高亮" class="headerlink" title="代码高亮"></a>代码高亮</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@requires_authorization</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">somefunc</span>(<span class="params">param1=<span class="string">&#x27;&#x27;</span>, param2=<span class="number">0</span></span>):</span></span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;A docstring&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> param1 &gt; param2: <span class="comment"># interesting</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">&#x27;Greater&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> (param2-param1+<span class="number">1</span>) <span class="keyword">or</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">Class SomeClass:</span><br><span class="line"></span><br><span class="line"><span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>message = <span class="string">&#x27;&#x27;&#x27;interpreter</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="meta">... </span>prompt&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>制作待办事项To-do List</li>
+</ol>
+<p><img src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/1-2%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9.png" alt="image"></p>
+<h3 id="To-do-List"><a href="#To-do-List" class="headerlink" title="To-do List"></a>To-do List</h3><ul>
+<li><p><input checked="" disabled="" type="checkbox">  已完成项目1</p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox">  已完成事项1</p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox">  已完成事项2</p>
+</li>
+<li><p><input disabled="" type="checkbox">  待办事项1</p>
+</li>
+<li><p><input disabled="" type="checkbox">  待办事项2</p>
+</li>
+</ul>
+<ol start="3">
+<li>高效绘制 流程图、序列图、甘特图、表格</li>
+</ol>
+<h3 id="流程图："><a href="#流程图：" class="headerlink" title="流程图："></a>流程图：</h3><p><img src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="image"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">graph TD</span><br><span class="line"></span><br><span class="line">A[christmas] --&gt;B(Go shopping)</span><br><span class="line"></span><br><span class="line">B --&gt; C&#123;LEt me think&#125;</span><br><span class="line"></span><br><span class="line">C --&gt;|One| D[Laptop]</span><br><span class="line"></span><br><span class="line">C --&gt;|Two| E[iPhone]</span><br><span class="line"></span><br><span class="line">C --&gt;|Three|F[Car]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="序列图："><a href="#序列图：" class="headerlink" title="序列图："></a>序列图：</h3><p><img src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/%E5%BA%8F%E5%88%97%E5%9B%BE.png" alt="image"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">sequenceDiagram</span><br><span class="line"></span><br><span class="line">loop every day</span><br><span class="line"></span><br><span class="line">Alice-&gt;&gt;John: Hello John, how are you?</span><br><span class="line"></span><br><span class="line">John--&gt;&gt; Alice: Great!</span><br><span class="line"></span><br><span class="line">end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="甘特图："><a href="#甘特图：" class="headerlink" title="甘特图："></a>甘特图：</h3><p><img src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/%E7%94%98%E7%89%B9%E5%9B%BE.png" alt="image"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">gantt</span><br><span class="line"></span><br><span class="line">dateFormat YYYY-MM-DD</span><br><span class="line"></span><br><span class="line">title 产品计划表</span><br><span class="line"></span><br><span class="line">section 初期阶段</span><br><span class="line"></span><br><span class="line">明确需求: 2016-03-01, 10d</span><br><span class="line"></span><br><span class="line">section 中期阶段</span><br><span class="line"></span><br><span class="line">跟进开发: 2016-03-11, 15d</span><br><span class="line"></span><br><span class="line">section 后期阶段</span><br><span class="line"></span><br><span class="line">走查测试: 2016-03-20, 9d</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>==tips==: 以上流程图均为半角标点</strong></p>
+<h3 id="表格："><a href="#表格：" class="headerlink" title="表格："></a>表格：</h3><p><img src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/1-3%E8%A1%A8%E6%A0%BC.png" alt="image"></p>
+<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>|Item | Value | Qty |</p>
+<p>|:——    |———:    |:–:  |</p>
+<p>|Computer  |  1600 USD    |  5  |</p>
+<p>|Phone      |  12 USD      |  12  |</p>
+<p>|Pipe      |  12 USD      |  234  |</p>
+<ol start="4">
+<li>书写数学公式</li>
+</ol>
+<p><img src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.png" alt="image"></p>
+<h2 id="Mathematical-formula-y-x-2"><a href="#Mathematical-formula-y-x-2" class="headerlink" title="Mathematical formula $y = x^2$"></a>Mathematical formula <code>$y = x^2$</code></h2><p>Inline math: <code>$\dfrac&#123;\tfrac&#123;1&#125;&#123;2&#125;[1-(\tfrac&#123;1&#125;&#123;2&#125;)^n]&#125;&#123;1 - \tfrac&#123;1&#125;&#123;2&#125;&#125; = s_n$</code></p>
+<p>Math block:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">\oint_C x^3\, dx+4y^2\,dy</span><br><span class="line"></span><br><span class="line">2 &#x3D; \left(\frac&#123;\left(3-x\right)\times 2&#125;&#123;3-x&#125;\right)</span><br><span class="line"></span><br><span class="line">\sum_&#123;m&#x3D;1&#125;^\infty\sum_&#123;n&#x3D;1&#125;^\infty\frac&#123;m^2n&#125;&#123;3^m\left(m3^n+n3^m\right)&#125;</span><br><span class="line"></span><br><span class="line">\phi_n(\kappa) &#x3D; \frac&#123;1&#125;&#123;4\pi^2\kappa^2&#125;\int_0^\infty\frac&#123;\sin(\kappa R)&#125;&#123;\kappa R&#125;\frac&#123;\partial&#125;&#123;\partial R&#125;\left[R^2\frac&#123;\partial D_n(R)&#125;&#123;\partial R&#125;\right]dR</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="二、有道云笔记Markdown简明版使用指南"><a href="#二、有道云笔记Markdown简明版使用指南" class="headerlink" title="二、有道云笔记Markdown简明版使用指南"></a>二、有道云笔记Markdown简明版使用指南</h1><p><strong>0. 标题</strong></p>
+<p>标题是每篇文章必备而且最常用的格式。</p>
+<p>在Markdown中，如果想将一段文字定义为标题，只需要在这段文字前面加上 #，再在 # 后加一个空格即可。还可增加二、三、四、五、六级标题，总共六级，只需要增加 # ，增加一个 # ，标题字号相应降低一级。如图：</p>
+<p><img src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/2-0-%E6%A0%87%E9%A2%98.png" alt="image"></p>
+<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><p><strong>1. 列表</strong></p>
+<p>列表格式也很常用，它可以让你的文稿变得井井有条。在 Markdown 中，你只需要在文字前面加上 - 就可以了；如果你希望是有序列表，在文字前面加上 1. 2. 3. 即可</p>
+<h4 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h4><ul>
+<li><p>列表1</p>
+</li>
+<li><p>列表1.1</p>
+</li>
+<li><p>列表1.2</p>
+</li>
+<li><p>列表2</p>
+</li>
+<li><p>列表3</p>
+</li>
+</ul>
+<p>-</p>
+<h4 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h4><ol>
+<li><p>列表1</p>
+</li>
+<li><p>列表1.1</p>
+</li>
+<li><p>列表1.2</p>
+</li>
+<li><p>列表2</p>
+</li>
+<li><p>列表3</p>
+</li>
+</ol>
+<p><strong>2. 引用</strong></p>
+<p>如果你需要在文稿中引用一段别处的句子，那么就要用到「引用」格式。</p>
+<p>在引用文字前加上 &gt; 并与文字保留一个字符的空格，即可。</p>
+<p><img src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/2-2%E5%BC%95%E7%94%A8.png" alt="image"></p>
+<p>######引用</p>
+<blockquote>
+<p>记录， 成为更好的自己。————有道云笔记</p>
+</blockquote>
+<p><strong>3. 粗体和斜体</strong></p>
+<p>Markdown 的粗体和斜体也非常简单：</p>
+<p>用两个 * 包含一段文本就是粗体的语法；</p>
+<p>用一个 * 包含一段文本就是斜体的语法。</p>
+<p><img src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/2-3-%E7%B2%97%E4%BD%93%E6%96%9C%E4%BD%93.png" alt="image"></p>
+<p><em>这是斜体</em></p>
+<p><strong>这是粗体</strong></p>
+<h4 id="注意：-符号与文本之间无需空格"><a href="#注意：-符号与文本之间无需空格" class="headerlink" title="注意： 符号与文本之间无需空格"></a>注意： 符号与文本之间无需空格</h4><p><strong>4. 链接和图片</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">链接：在 Markdown 中，插入链接只需要使用 [显示文本](链接地址) 即可。</span><br><span class="line"></span><br><span class="line">图片：在 Markdown 中，插入图片只需要使用 ![显示文本](图片链接地址)即可。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>注：插入图片的语法和链接的语法很像，只是前面多了一个 ！</p>
+<p><img src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/2-4%E9%93%BE%E6%8E%A5%E4%B8%8E%E5%9B%BE%E7%89%87.png" alt="image"></p>
+<h4 id="插入链接"><a href="#插入链接" class="headerlink" title="插入链接"></a>插入链接</h4><p><a target="_blank" rel="noopener" href="http://note.youdao.com/">有道云笔记官网</a></p>
+<h4 id="插入图片"><a href="#插入图片" class="headerlink" title="插入图片"></a>插入图片</h4><p><img src="http://note.youdao.com/favicon.ico" alt="有道云笔记"></p>
+<p><strong>5. 分割线</strong></p>
+<p>分割线的语法只需要另起一行，连续输入三个星号 *** 即可分割两段文字内容。</p>
+<p>如图：</p>
+<p><img src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/2-5-%E5%88%86%E5%89%B2%E7%BA%BF.png" alt="image"></p>
+<h4 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h4><p>这是第一段内容</p>
+<hr>
+<p>这是第二段内容</p>
+<p><strong>6. 表格</strong></p>
+<p>当你需要在Markdown文稿中键入表格，代码如下：</p>
+<p><img src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/2-6%E8%A1%A8%E6%A0%BC.png" alt="image"></p>
+<p>示例参考：</p>
+<h3 id="表格-1"><a href="#表格-1" class="headerlink" title="表格"></a>表格</h3><p>|Item | Value | Qty |</p>
+<p>|:——    |———:    |:–:  |</p>
+<p>|Computer  |  1600 USD    |  5  |</p>
+<p>|Phone      |  12 USD      |  12  |</p>
+<p>|Pipe      |  12 USD      |  234  |</p>
+<p><strong>如上7大格式是写作文稿时最常使用的。</strong></p>
+<p>怎么样，看了相关Markdown语法是不是觉得挺简单？</p>
+<p>当然，Markdown新手在使用不熟练的情况下，可能会忘记相关语法，也没关系，笔记的工具栏内置了Markdown语法，方便学习与熟悉。</p>
+<p>如，「表格」语法相对复杂，你可能忘记了，这时候，你只需要点击编辑框上方工具栏，点选「表格」的图标，左边编辑区便会出现「表格」相应代码：</p>
+<p><img src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/2-6%E8%A1%A8%E6%A0%BC-3.jpg" alt="image"></p>
+<p>然后，你只需要将代码替换成相应文本即可，如图：</p>
+<p><img src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/1-3%E8%A1%A8%E6%A0%BC1.png"></p>
+<p>熟悉语法之后，还是建议大家少使用辅助工具栏，尽量自己键入代码，感受纯文本之美。</p>
+<p>当然，有道云笔记的Markdown还能支持制作待办事项，书写流程图、序列图、甘特图，书写数学公式等，是不是够极客，够有逼格？</p>
+<p>看看笔记菌用Markdown甘特图写的项目计划时间表：</p>
+<p><img src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/2-6-8.png" alt="image"></p>
+<h2 id="Tips-for-有道云笔记中的-Markdown"><a href="#Tips-for-有道云笔记中的-Markdown" class="headerlink" title="Tips for 有道云笔记中的 Markdown"></a>Tips for 有道云笔记中的 Markdown</h2><p><strong>① 实时同步预览，所看即所得</strong></p>
+<p>我们将笔记编辑界面一分为二，左边为编辑区，右边为预览区，两区滚动条同步。在编辑区的操作能够实时反映在预览区，方便及时调整和查看最终版面效果。</p>
+<p><strong>② 工具栏内置Markdown语法，方便新手学习</strong></p>
+<p>编辑页面顶端的工具栏有对应代码，如果你是一个不熟悉Markdown语法的新手，可以先尝试用工具栏辅助操作。也可以在网上搜索「Markdown语法指南」进行学习。</p>
+<p>当然，如果你觉得工具栏太打扰，点击下方分界条即可隐藏工具栏，切换到极简编辑环境。</p>
+<p><strong>③ 实时云端保存</strong></p>
+<p>Markdown模式继承了有道云笔记的优良传统，你每一次击键的内容都会实时保存在云端，无需担心浏览器崩溃、设备没电、突然断网等情况。对于写作者来说，更是再也不用担心因为各种原因痛失文稿的情况了。</p>
+<p><strong>④ 界面大小可点击分界条调整。</strong></p>
+<p>点击“1”处，工具栏收起；</p>
+<p>点击“2”处，右侧预览区收起。</p>
+<p><img src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/91.jpg" alt="image"></p>
+<h2 id="在有道云笔记-Markdown模式下的显示效果"><a href="#在有道云笔记-Markdown模式下的显示效果" class="headerlink" title="在有道云笔记 - Markdown模式下的显示效果:"></a>在有道云笔记 - Markdown模式下的显示效果:</h2><p><a target="_blank" rel="noopener" href="http://note.youdao.com/noteshare?id=6ec3c87769048bf2ba7df068f377e5a3&amp;sub=131D97485A5E4AE5A1E2CBC0CF3E679C">http://note.youdao.com/noteshare?id=6ec3c87769048bf2ba7df068f377e5a3&amp;sub=131D97485A5E4AE5A1E2CBC0CF3E679C</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>小小笙
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://blog.hongjy.cn/2020/10/20/markdown%E6%A8%A1%E6%9D%BF/" title="markdown模板">http://blog.hongjy.cn/2020/10/20/markdown模板/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/20/%E8%8B%B1%E6%96%87%E6%91%98%E6%8A%84/" rel="prev" title="英文摘抄">
+      <i class="fa fa-chevron-left"></i> 英文摘抄
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/10/20/%E6%88%91%E7%9A%84%E4%BD%9C%E5%93%81/" rel="next" title="我的项目">
+      我的项目 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0-markdown%E6%A8%A1%E6%9D%BF"><span class="nav-number">1.</span> <span class="nav-text">有道云笔记 markdown模板</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%88%A9%E7%94%A8Markdown%E5%8F%AF%E4%BB%A5%E5%81%9A%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number"></span> <span class="nav-text">一、利用Markdown可以做什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE"><span class="nav-number">1.</span> <span class="nav-text">代码高亮</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#To-do-List"><span class="nav-number">2.</span> <span class="nav-text">To-do List</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E5%9B%BE%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">流程图：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E5%9B%BE%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">序列图：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%98%E7%89%B9%E5%9B%BE%EF%BC%9A"><span class="nav-number">5.</span> <span class="nav-text">甘特图：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A8%E6%A0%BC%EF%BC%9A"><span class="nav-number">6.</span> <span class="nav-text">表格：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A8%E6%A0%BC"><span class="nav-number">7.</span> <span class="nav-text">表格</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mathematical-formula-y-x-2"><span class="nav-number"></span> <span class="nav-text">Mathematical formula $y &#x3D; x^2$</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0Markdown%E7%AE%80%E6%98%8E%E7%89%88%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97"><span class="nav-number"></span> <span class="nav-text">二、有道云笔记Markdown简明版使用指南</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E7%BA%A7%E6%A0%87%E9%A2%98"><span class="nav-number"></span> <span class="nav-text">一级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E7%BA%A7%E6%A0%87%E9%A2%98"><span class="nav-number"></span> <span class="nav-text">二级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E7%BA%A7%E6%A0%87%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">三级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9B%E7%BA%A7%E6%A0%87%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">四级标题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A0%E5%BA%8F%E5%88%97%E8%A1%A8"><span class="nav-number">1.2.</span> <span class="nav-text">无序列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E5%BA%8F%E5%88%97%E8%A1%A8"><span class="nav-number">1.3.</span> <span class="nav-text">有序列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%EF%BC%9A-%E7%AC%A6%E5%8F%B7%E4%B8%8E%E6%96%87%E6%9C%AC%E4%B9%8B%E9%97%B4%E6%97%A0%E9%9C%80%E7%A9%BA%E6%A0%BC"><span class="nav-number">1.4.</span> <span class="nav-text">注意： 符号与文本之间无需空格</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E9%93%BE%E6%8E%A5"><span class="nav-number">1.5.</span> <span class="nav-text">插入链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87"><span class="nav-number">1.6.</span> <span class="nav-text">插入图片</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E5%89%B2%E7%BA%BF"><span class="nav-number">1.7.</span> <span class="nav-text">分割线</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A8%E6%A0%BC-1"><span class="nav-number">2.</span> <span class="nav-text">表格</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tips-for-%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0%E4%B8%AD%E7%9A%84-Markdown"><span class="nav-number"></span> <span class="nav-text">Tips for 有道云笔记中的 Markdown</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0-Markdown%E6%A8%A1%E5%BC%8F%E4%B8%8B%E7%9A%84%E6%98%BE%E7%A4%BA%E6%95%88%E6%9E%9C"><span class="nav-number"></span> <span class="nav-text">在有道云笔记 - Markdown模式下的显示效果:</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="小小笙"
+      src="/./images/avatar1.jpg">
+  <p class="site-author-name" itemprop="name">小小笙</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AllenHongjun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AllenHongjun" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hongjy1991@gmail.com" title="E-Mail → mailto:hongjy1991@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/hongjy1991" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;hongjy1991" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/lu-yan-41-84" title="知  乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;lu-yan-41-84" rel="noopener" target="_blank"><i class=" fa-fw"></i>知  乎</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.hongjy.cn/" title="http:&#x2F;&#x2F;www.hongjy.cn" rel="noopener" target="_blank">my_site</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://dotnet.microsoft.com/" title="https:&#x2F;&#x2F;dotnet.microsoft.com&#x2F;" rel="noopener" target="_blank">dotnet</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.xiami.com/" title="https:&#x2F;&#x2F;www.xiami.com&#x2F;" rel="noopener" target="_blank">xiami</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.uniqlo.cn/" title="https:&#x2F;&#x2F;www.uniqlo.cn&#x2F;" rel="noopener" target="_blank">uniqlo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.lagou.com/" title="https:&#x2F;&#x2F;www.lagou.com&#x2F;" rel="noopener" target="_blank">latou</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://stackoverflow.com/" title="https:&#x2F;&#x2F;stackoverflow.com&#x2F;" rel="noopener" target="_blank">stackoverflow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.voicetube.com/" title="https:&#x2F;&#x2F;www.voicetube.com&#x2F;" rel="noopener" target="_blank">voicetube</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">浙ICP备18047156号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小小笙</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">28k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">25 分钟</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
