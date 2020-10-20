@@ -1,6 +1,6 @@
 ---
 title: Teach Yourself CS
-permalink: teachyourselfcs
+# permalink: teachyourselfcs
 date: 2020-10-20 06:28:49
 tags:
 categories:
@@ -22,6 +22,7 @@ categories:
 
 在这份指引中，我们尝试对这些问题做出确定的回答。
 
+<!--more-->
 ## 简而言之
 
 大致按照列出的顺序，借助我们所建议的教材或者视频课程（但是最好二者兼用），学习如下的九门科目。目标是先花100到200个小时学习完每一个科目，然后在你职业生涯中，不时温习其中的精髓🚀。

@@ -14,7 +14,7 @@ tags:
 2. [them-bext-使用文档](https://theme-next.iissnan.com/getting-started.html)
 3. [GitHub+Hexo 搭建个人网站详细教程](https://zhuanlan.zhihu.com/p/26625249)
 
-
+<!--more-->
 ### 常用命令
 - hexo init 博客名   #新建一个博客
 - hexo page 文章名   #新建一片文章

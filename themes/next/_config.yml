@@ -166,7 +166,7 @@ sidebar:
 # Sidebar Avatar
 avatar:
   # Replace the default image and set the url here.
-  url: https://lh3.googleusercontent.com/ogw/ADGmqu-vMi07bQ3m_gsjy8j7OyV4yuHDwAJ0kPO6geF3=s83-c-mo
+  url: ./images/avatar1.jpg
   # If true, the avatar will be dispalyed in circle.
   rounded: true
   # If true, the avatar will be rotated with the cursor.
@@ -205,7 +205,13 @@ links_settings:
   layout: block
 
 links:
-  主页: http://www.hongjy.cn
+  my_site: http://www.hongjy.cn
+  dotnet: https://dotnet.microsoft.com/
+  xiami: https://www.xiami.com/
+  uniqlo: https://www.uniqlo.cn/
+  latou: https://www.lagou.com/
+  stackoverflow: https://stackoverflow.com/
+  voicetube: https://www.voicetube.com/
 
 # Table of Contents in the Sidebar
 # Front-matter variable (unsupport wrap expand_all).
@@ -379,7 +385,7 @@ back2top:
 
 # Reading progress bar
 reading_progress:
-  enable: false
+  enable: true
   # Available values: top | bottom
   position: top
   color: "#37c6c0"
@@ -387,7 +393,7 @@ reading_progress:
 
 # Bookmark Support
 bookmark:
-  enable: false
+  enable: true
   # Customize the color of the bookmark.
   color: "#222"
   # If auto, save the reading progress when closing the page or clicking the bookmark-icon.
@@ -876,7 +882,7 @@ canvas_ribbon:
 
 # Cursor effects
 cursor:
-  enable: true
+  enable: false
   type: love
 
 #! ---------------------------------------------------------------
