@@ -866,7 +866,7 @@ pace:
 # JavaScript 3D library.
 # Dependencies: https://github.com/theme-next/theme-next-three
 three:
-  enable: true
+  enable: false
   three_waves: false
   canvas_lines: false
   canvas_sphere: true

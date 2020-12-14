@@ -33,6 +33,43 @@ tags:
         - 可以有tab切换
         - 介绍说明
         - 可以滚动华业展示。
+        - 开发一个集成一些通用功能的后台系统。。和服务。。可以接一些第三方的框架。。相当于一个演示demo.
+        - 有这一个套功能。。开发能加的迅速 好比前端有的功能
+        - 在ABP的基础上开发。实现一起具体的功能。
+        - 选择使用的人最多的组件。。整合到一起。。
+        - 前端
+            - 控制台
+            - 日志记录 错误。请求参数。过滤 管道
+            - 缓存清楚。
+            - 表单提交验证
+            - 导入导出 Ex
+
+            - 表格过滤
+            - 分页搜索。排序
+            - 上传图片。
+            - 二维码
+            - 实时聊天
+            cel pdf
+            - 打印数据
+            - 图片处理
+            - 搜索统计。
+            
+            - 下载。
+            - 登录
+            - 支付
+            - 发送验证码
+            - 邮件服务
+            - 网站设置
+            - 消息中心 通知 私信
+            - 菜单管理
+            
+            
+        - 后端
+            - 百度地图。统计图表
+            - 表单验证效果
+            - 提示
+            - 弹框提示
+            - 后台界面排版
     - ![](https://blogimg.hongjy.cn/9ec623184e2ef2363b32994de2aefec4.jpg)
     ![](https://blogimg.hongjy.cn/9ec623184e2ef2363b32994de2aefec4.jpg)
 ![](https://blogimg.hongjy.cn/02fdf96ceb1889d13caeda1b478da0e5.jpg)
@@ -45,3 +82,13 @@ tags:
     - 分割
     - 分级用户赠券
     - 其他功能维护（总体）
+
+6. git quick set up
+echo "# hongjy" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/AllenHongjun/hongjy.git
+git push -u origin main
+                
