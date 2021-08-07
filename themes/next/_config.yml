@@ -205,13 +205,12 @@ links_settings:
   layout: block
 
 links:
-  my_site: http://www.hongjy.cn
-  dotnet: https://dotnet.microsoft.com/
-  xiami: https://www.xiami.com/
-  uniqlo: https://www.uniqlo.cn/
-  latou: https://www.lagou.com/
+  google: https://www.google.com/
+  # github: https://www.github.cn/
   stackoverflow: https://stackoverflow.com/
-  voicetube: https://www.voicetube.com/
+  youtube: https://www.youtube.com/
+  leetcode: https://leetcode-cn.com/
+  # hongjy: http://www.hongjy.cn
 
 # Table of Contents in the Sidebar
 # Front-matter variable (unsupport wrap expand_all).
