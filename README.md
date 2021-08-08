@@ -12,6 +12,9 @@
 - [用 Hexo-Console-Rename 修改文件名](https://roro4ever.github.io/2019/11/28/%E7%94%A8-hexo-console-rename-%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E5%90%8D/%E7%94%A8-hexo-console-rename-%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E5%90%8D/)
 - [如何取一个沙雕的名字](https://www.zhihu.com/question/340847881/answer/975410254)
 - [如何在线生成文章的标题]()
+- [如何自动更新，部署到到自己的服务器上。]
+- [修改发布blog之后之后，主题界面没有更新]
+    - 原因是需要重新生成，重新发布。
 
 ### 安装教程
 1. [hexo-文档](https://hexo.io/zh-cn/docs/)
