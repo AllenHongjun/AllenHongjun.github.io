@@ -2,8 +2,7 @@
 title: hexo-next 博客安装使用之个人体验
 date: 2020-10-17 22:46:08
 categories:
-- 前端
-- 工具
+- 其他
 tags:
 --- 
 - 工具 

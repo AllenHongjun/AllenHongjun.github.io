@@ -101,8 +101,8 @@ creative_commons:
 
 # Schemes
 #scheme: Muse
-scheme: Mist
-#scheme: Pisces
+# scheme: Mist
+scheme: Pisces
 #scheme: Gemini
 
 # Dark Mode
@@ -141,8 +141,8 @@ menu_settings:
 
 sidebar:
   # Sidebar Position.
-  #position: left
-  position: right
+  position: left
+  # position: right
 
   # Manual define the sidebar width. If commented, will be default for:
   # Muse | Mist: 320
@@ -166,11 +166,11 @@ sidebar:
 # Sidebar Avatar
 avatar:
   # Replace the default image and set the url here.
-  url: ./images/avatar1.jpg
+  url: http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg
   # If true, the avatar will be dispalyed in circle.
-  rounded: true
+  # rounded: true
   # If true, the avatar will be rotated with the cursor.
-  rotated: false
+  rotated: true
 
 # Posts / Categories / Tags in sidebar.
 site_state: true
@@ -183,14 +183,14 @@ social:
   GitHub: https://github.com/AllenHongjun || fab fa-github
   E-Mail: mailto:hongjy1991@gmail.com || fa fa-envelope
   #Weibo: https://weibo.com/yourname || fab fa-weibo
-  #Google: https://plus.google.com/yourname || fab fa-google
+  Google: https://www.google.com/ || fab fa-google
   Twitter: https://twitter.com/hongjy1991 || fab fa-twitter
   #FB Page: https://www.facebook.com/yourname || fab fa-facebook
-  #StackOverflow: https://stackoverflow.com/yourname || fab fa-stack-overflow
-  #YouTube: https://youtube.com/yourname || fab fa-youtube
+  # StackOverflow: https://stackoverflow.com/users/11774779/%e6%b4%aa%e4%bf%8a%e8%a3%95 || fab fa-stack-overflow
+  YouTube: https://youtube.com/ || fab fa-youtube
   #Instagram: https://instagram.com/yourname || fab fa-instagram
   #Skype: skype:yourname?call|chat || fab fa-skype
-  知  乎 : https://www.zhihu.com/people/lu-yan-41-84 ||
+  # 知  乎 : https://www.zhihu.com/people/lu-yan-41-84 ||
 
 social_icons:
   enable: true
@@ -205,10 +205,7 @@ links_settings:
   layout: block
 
 links:
-  google: https://www.google.com/
-  # github: https://www.github.cn/
-  stackoverflow: https://stackoverflow.com/
-  youtube: https://www.youtube.com/
+
   leetcode: https://leetcode-cn.com/
   # hongjy: http://www.hongjy.cn
 
@@ -380,7 +377,7 @@ back2top:
   # Back to top in sidebar.
   sidebar: false
   # Scroll percent label in b2t button.
-  scrollpercent: false
+  scrollpercent: true
 
 # Reading progress bar
 reading_progress:

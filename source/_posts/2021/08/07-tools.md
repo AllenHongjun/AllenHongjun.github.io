@@ -8,26 +8,6 @@ categories:
 
 > 使用的开发工具越来越多，有时候查找资料都要临时去找文档，这里做一个归纳整理方便以后查阅
 
-
-
-### 装机配置
-
-> 电脑硬件配置,虽然不是玩大型游戏，但是要开个虚拟机，开一些工具 IDE，浏览器 查资料，主机配置还是高一点更爽。最好是有两块屏幕
-
-- [2021年7月装机电脑配置推荐（配置单可以直接照抄）](https://zhuanlan.zhihu.com/p/217881116)
-
-- [平民机械键盘推荐](https://zhuanlan.zhihu.com/p/312382807)
-
-- [装机教程](https://zhuanlan.zhihu.com/p/91459238)
-
-- 土豪笔记本
-
-  - [ThinkPad X1 Carbon 2021](https://tk.lenovo.com.cn/product/1013335.html)
-
-  - [macbook pro16](https://www.apple.com.cn/macbook-pro-16/)
-
-<!-- more -->
-
 ###  *轻松创建USB启动盘* :  [https://rufus.ie/zh/](https://rufus.ie/zh/)
 
 > 操作系统重装也是必备的技能。
@@ -48,6 +28,23 @@ categories:
   - [部署j2ee项目到linux教程](https://how2j.cn/k/deploy2linux/deploy2linux-breif/1591.html)
 
   - [ASP.NET Core教程：ASP.NET Core程序部署到Linux](https://www.cnblogs.com/dotnet261010/p/12169294.html)
+
+<!-- more -->
+### 装机配置
+
+> 电脑硬件配置,虽然不是玩大型游戏，但是要开个虚拟机，开一些工具 IDE，浏览器 查资料，主机配置还是高一点更爽。最好是有两块屏幕
+
+- [2021年7月装机电脑配置推荐（配置单可以直接照抄）](https://zhuanlan.zhihu.com/p/217881116)
+
+- [平民机械键盘推荐](https://zhuanlan.zhihu.com/p/312382807)
+
+- [装机教程](https://zhuanlan.zhihu.com/p/91459238)
+
+- 土豪笔记本
+
+  - [ThinkPad X1 Carbon 2021](https://tk.lenovo.com.cn/product/1013335.html)
+
+  - [macbook pro16](https://www.apple.com.cn/macbook-pro-16/)
 
 
 

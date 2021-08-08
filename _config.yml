@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 小小笙
-subtitle: '抽刀断水水更流，举杯消愁愁更愁'
-#description: '抽刀断水水更流，举杯消愁愁更愁'
-keywords: dotnet C# FE 
-author: 小小笙
+title: 花生了什么树的博客
+subtitle: '处事不可不决断 存心不可不宽厚'
+description: '.NET工程师'
+keywords: .NET工程师 后端开发
+author: 花生了什么树
 language: zh-Hans
 timezone: 'Asia/Shanghai'
 # 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://example.com/child' and root as '/child/'
-url: http://blog.hongjy.cn
+url: http://www.hongjy.cn/blog
 root: /blog/
 permalink: :year/:month/:day/:title/
 permalink_defaults:

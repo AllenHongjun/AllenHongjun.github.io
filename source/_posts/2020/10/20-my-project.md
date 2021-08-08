@@ -1,7 +1,6 @@
 ---
 title: 我的项目
 categories:
-  - dotnet
   - 项目
 date: 2020-10-20 20:40:08
 tags:
@@ -17,6 +16,7 @@ tags:
 
 
 ![image](http://blogimg.hongjy.cn/2020-10-20%20%2815%29.png)
+<!-- more -->
 ![image](http://blogimg.hongjy.cn/2020-10-20%20%2816%29.png)
 ![image](http://blogimg.hongjy.cn/2020-10-20%20%2818%29.png)
 ![image](http://blogimg.hongjy.cn/2020-10-20%20%2819%29.png)

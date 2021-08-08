@@ -4,7 +4,7 @@ title: Teach Yourself CS
 date: 2020-10-20 06:28:49
 tags:
 categories:
-- cs
+- 计算机基础
 ---
 
 # 自学计算机科学
