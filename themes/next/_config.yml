@@ -100,10 +100,10 @@ creative_commons:
 # ---------------------------------------------------------------
 
 # Schemes
-# scheme: Muse
+scheme: Muse
 # scheme: Mist
 # scheme: Pisces
-scheme: Gemini
+# scheme: Gemini
 
 # Dark Mode
 darkmode: false
@@ -124,8 +124,8 @@ menu:
   tags: /tags/ || fa fa-tags
   categories: /categories/ || fa fa-th
   archives: /archives/ || fa fa-archive
-  #schedule: /schedule/ || fa fa-calendar
-  #sitemap: /sitemap.xml || fa fa-sitemap
+  schedule: /schedule/ || fa fa-calendar
+  sitemap: /sitemap.xml || fa fa-sitemap
   commonweal: /404/ || fa fa-heartbeat
 
 # Enable / Disable menu icons / item badges.
@@ -161,7 +161,7 @@ sidebar:
   # Sidebar offset from top menubar in pixels (only for Pisces | Gemini).
   offset: 12
   # Enable sidebar on narrow view (only for Muse | Mist).
-  onmobile: false
+  onmobile: true
 
 # Sidebar Avatar
 avatar:
@@ -389,7 +389,7 @@ reading_progress:
 
 # Bookmark Support
 bookmark:
-  enable: true
+  enable: false
   # Customize the color of the bookmark.
   color: "#222"
   # If auto, save the reading progress when closing the page or clicking the bookmark-icon.
