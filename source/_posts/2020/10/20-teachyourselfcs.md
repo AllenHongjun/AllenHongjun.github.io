@@ -3,6 +3,7 @@ title: Teach Yourself CS
 # permalink: teachyourselfcs
 date: 2020-10-20 06:28:49
 tags:
+top: true
 categories:
 - 计算机基础
 ---
@@ -10,8 +11,10 @@ categories:
 # 自学计算机科学
 
 > 本文档是对[TeachYourselfCS](https://teachyourselfcs.com)内容的中文翻译，原作者为[Ozan Onay](https://twitter.com/oznova_)和[Myles Byrne](https://twitter.com/quackingduck)。如需了解翻译相关信息或帮助改进翻译，请参见[本文档结尾](#这份指引是谁翻译的)。
->
+
 > This document is a Chinese translation of [TeachYourselfCS](https://teachyourselfcs.com), which is written by [Ozan Onay](https://twitter.com/oznova_) and [Myles Byrne](https://twitter.com/quackingduck). For more information about this translation, please refer to [the end of this document](#这份指引是谁翻译的).
+
+<!--more-->
 
 如果你是一个自学成才的工程师，或者从编程培训班毕业，那么你很有必要学习计算机科学。幸运的是，不必为此花上数年光阴和不菲费用去攻读一个学位：仅仅依靠自己，你就可以获得世界一流水平的教育💸。
 
@@ -22,7 +25,7 @@ categories:
 
 在这份指引中，我们尝试对这些问题做出确定的回答。
 
-<!--more-->
+
 ## 简而言之
 
 大致按照列出的顺序，借助我们所建议的教材或者视频课程（但是最好二者兼用），学习如下的九门科目。目标是先花100到200个小时学习完每一个科目，然后在你职业生涯中，不时温习其中的精髓🚀。
