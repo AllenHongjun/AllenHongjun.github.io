@@ -36,6 +36,13 @@
 - hexo d/deploy     #发布到github page
 - hexo server -p 5000 --debug #在指定的端口本地浏览
 
+### 初始安装
+- 安装 nodejs 
+- 安装 hexo
+- set-ExecutionPolicy RemoteSigned 开启
+- 
+
+
 ### 常用网站
 - [hexo官网](https://hexo.io/zh-cn/)
 - [theme-next](https://theme-next.iissnan.com/)
