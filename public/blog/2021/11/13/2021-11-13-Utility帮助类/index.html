@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hongjy.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这个还是很强大的一个通用帮助类，有了它，感觉能做的事情有变了很多，而且也不要自己一个一个单独的去收集，这个类库有一种前端UIi组件的感觉，全部都封装好，然后直接调用，有需要的地方 然后再单独修改一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Utility帮助类">
+<meta property="og:url" content="http://www.hongjy.cn/2021/11/13/2021-11-13-Utility%E5%B8%AE%E5%8A%A9%E7%B1%BB/index.html">
+<meta property="og:site_name" content="花生了什么树的博客">
+<meta property="og:description" content="这个还是很强大的一个通用帮助类，有了它，感觉能做的事情有变了很多，而且也不要自己一个一个单独的去收集，这个类库有一种前端UIi组件的感觉，全部都封装好，然后直接调用，有需要的地方 然后再单独修改一下。">
+<meta property="og:locale">
+<meta property="og:image" content="http://www.hongjy.cn/2021/11/13/2021-11-13-Utility%E5%B8%AE%E5%8A%A9%E7%B1%BB/5.png">
+<meta property="og:image" content="http://www.hongjy.cn/2021/11/13/2021-11-13-Utility%E5%B8%AE%E5%8A%A9%E7%B1%BB/1.png">
+<meta property="og:image" content="http://www.hongjy.cn/2021/11/13/2021-11-13-Utility%E5%B8%AE%E5%8A%A9%E7%B1%BB/2.png">
+<meta property="og:image" content="http://www.hongjy.cn/2021/11/13/2021-11-13-Utility%E5%B8%AE%E5%8A%A9%E7%B1%BB/3.png">
+<meta property="og:image" content="http://www.hongjy.cn/2021/11/13/2021-11-13-Utility%E5%B8%AE%E5%8A%A9%E7%B1%BB/4.png">
+<meta property="article:published_time" content="2021-11-13T08:43:02.000Z">
+<meta property="article:modified_time" content="2022-12-20T10:56:36.596Z">
+<meta property="article:author" content="花生了什么树">
+<meta property="article:tag" content=".NET工程师 后端开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.hongjy.cn/2021/11/13/2021-11-13-Utility%E5%B8%AE%E5%8A%A9%E7%B1%BB/5.png">
+
+<link rel="canonical" href="http://www.hongjy.cn/2021/11/13/2021-11-13-Utility%E5%B8%AE%E5%8A%A9%E7%B1%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Utility帮助类 | 花生了什么树的博客</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?749761669bb5184278820a5fa5d144a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+    <!--github 挂饰-->
+    <a target="_blank" rel="noopener" href="https://github.com/allenHongjun" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">花生了什么树的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">修身治国齐家平天下</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于我</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.hongjy.cn/2021/11/13/2021-11-13-Utility%E5%B8%AE%E5%8A%A9%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+      <meta itemprop="name" content="花生了什么树">
+      <meta itemprop="description" content=".NET工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花生了什么树的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Utility帮助类
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-13 16:43:02" itemprop="dateCreated datePublished" datetime="2021-11-13T16:43:02+08:00">2021-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-20 18:56:36" itemprop="dateModified" datetime="2022-12-20T18:56:36+08:00">2022-12-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BB%84%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">组件</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>这个还是很强大的一个通用帮助类，有了它，感觉能做的事情有变了很多，而且也不要自己一个一个单独的去收集，这个类库有一种前端UIi组件的感觉，全部都封装好，然后直接调用，有需要的地方 然后再单独修改一下。 </p>
+</blockquote>
+<a id="more"></a>
+
+
+
+<ul>
+<li>梳理了一下帮助类的分类，方便以后查找使用</li>
+</ul>
+<img src="/2021/11/13/2021-11-13-Utility%E5%B8%AE%E5%8A%A9%E7%B1%BB/5.png" class="">
+
+
+
+<h2 id="如何来使用-Utility"><a href="#如何来使用-Utility" class="headerlink" title="如何来使用 Utility"></a>如何来使用 Utility</h2><blockquote>
+<p>虽然说大部分的功能都是开箱即用，但是如果重来都没有用过，第一次上手，有些类库用起来还是不那么顺手的，比如会遇到，导出excel 不同的版本应该选择什么类库， 生成的二维码中间放logo,怎么变颜色， 文件，目录 上传操作应该调用什么帮助类等，总之有空余的时间 提前熟悉一下，总是好的。</p>
+</blockquote>
+<h3 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/Jimmey-Jiang/Common.Utility">common.utility通用帮助类 github</a></li>
+</ul>
+<h3 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%9D%A1%E5%BD%A2%E7%A0%81">条形码-概念-维基百科</a></li>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E4%BA%8C%E7%BB%B4%E7%A0%81/2385673">什么是二维码?</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20798376">二维码中间放logo还能识别吗?</a></li>
+<li><a target="_blank" rel="noopener" href="https://dyfloveslife.github.io/2017/06/17/File-and-directory-operations/">C# 文件目录操作复习</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/353330601">xls和 xlsx的区别</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/nissl-lab/npoi">npoi</a> a .NET library that can read/write Office formats without Microsoft Office installed. No COM+, no interop.  一个能够操作 excel的类库</li>
+</ul>
+<h3 id="部分类调用代码演示"><a href="#部分类调用代码演示" class="headerlink" title="部分类调用代码演示"></a>部分类调用代码演示</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br></pre></td><td class="code"><pre><span class="line">      <span class="comment">// 时间日期</span></span><br><span class="line">      DateTime dt = DateTime.Now.AddMonths(<span class="number">-3</span>);</span><br><span class="line">      <span class="keyword">var</span> dayOfWeek = dt.DayOfWeek;</span><br><span class="line">      <span class="keyword">int</span> dayOfYear = dt.DayOfYear;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      TimeHelper timeHelper = <span class="keyword">new</span> TimeHelper();</span><br><span class="line">      <span class="keyword">string</span> dtFormat1 =  timeHelper.GetFormatDate(dt, <span class="string">&#x27;-&#x27;</span>);</span><br><span class="line">      <span class="keyword">string</span> timeFormat = timeHelper.GetFormatTime(dt, <span class="string">&#x27;:&#x27;</span>);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">int</span> second = <span class="number">1502</span>;</span><br><span class="line">      <span class="keyword">int</span> minite = TimeHelper.SecondToMinute(second);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">int</span> lastDay = TimeHelper.GetMonthLastDate(<span class="number">2088</span>, <span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      DateTime dt1 = <span class="keyword">new</span> DateTime(<span class="number">2028</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">      DateTime dt2 = <span class="keyword">new</span> DateTime(<span class="number">2032</span>, <span class="number">12</span>, <span class="number">9</span>);</span><br><span class="line">      <span class="keyword">string</span> dateDiff = TimeHelper.DateDiff(dt1, dt2);</span><br><span class="line">      TimeSpan timeSpan = TimeHelper.DateDiff2(dt1, dt2);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">string</span> formatDate = TimeHelper.FormatDate(dt1, <span class="string">&quot;0&quot;</span>);</span><br><span class="line">      DateTime randomDate = TimeHelper.GetRandomTime(dt1, dt2);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      <span class="comment">// 随机数</span></span><br><span class="line">      BaseRandom baseRandom = <span class="keyword">new</span> BaseRandom();</span><br><span class="line">      <span class="keyword">int</span> randomInt1 = baseRandom.GetRandom();</span><br><span class="line">      <span class="keyword">int</span> randomInt2 = baseRandom.GetRandom(<span class="number">50000</span>, <span class="number">999999</span>);</span><br><span class="line">      <span class="keyword">string</span> randomStr = baseRandom.GetRandomString(<span class="number">13</span>);</span><br><span class="line"></span><br><span class="line">      Random random = <span class="keyword">new</span> Random();</span><br><span class="line">      <span class="keyword">double</span> randomDouble =  random.NextDouble();</span><br><span class="line"></span><br><span class="line">      ViewBag.randomInt1 = randomInt1;</span><br><span class="line">      ViewBag.randomInt2 = randomInt2;</span><br><span class="line">      ViewBag.randomStr = randomStr;</span><br><span class="line">      ViewBag.randomDouble = randomDouble;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">      <span class="comment"><span class="doctag">///</span> 文件操作</span></span><br><span class="line">      <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">      <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">FileOperator</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">          <span class="comment">// 文件操作。  删除，创建目录，写入文件。写日志。生成二维码。写入图片。返回图片路径。</span></span><br><span class="line"></span><br><span class="line">          <span class="keyword">string</span> existFile1 = Server.MapPath(<span class="string">&quot;/dir/test2.txt&quot;</span>);</span><br><span class="line">          <span class="keyword">string</span> existFile2 = System.AppDomain.CurrentDomain.BaseDirectory + <span class="string">&quot;/dir/test3.txt&quot;</span>;</span><br><span class="line"></span><br><span class="line">          DirFile.ExistsFile(existFile1);</span><br><span class="line">          DirFile.ExistsFile(existFile2);</span><br><span class="line"></span><br><span class="line">          <span class="keyword">string</span> fileExtension =  DirFile.GetExtension(existFile1);</span><br><span class="line">          <span class="keyword">string</span> fileExtension2 = DirFile.GetExtension(<span class="string">&quot;./dir/text3.txt&quot;</span>);</span><br><span class="line">          ViewBag.fileExtension = fileExtension;</span><br><span class="line">          ViewBag.fileExtension2 = fileExtension2;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">      <span class="comment"><span class="doctag">///</span> 生成中间带图片的二维码</span></span><br><span class="line">      <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">      <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">GenerateQrcode</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>      &#123;</span><br><span class="line">          <span class="comment">// 生成二维码到指定的路径</span></span><br><span class="line">          QRcode qrCode = <span class="keyword">new</span> QRcode();</span><br><span class="line">          <span class="keyword">var</span> userQrCode = qrCode.Create(<span class="string">&quot;https://cn.ubuntu.com/&quot;</span>, <span class="number">4</span>, <span class="string">&quot;/Content/Images/QrCode/&quot;</span>);</span><br><span class="line">          ViewBag.UserQrCode = userQrCode;</span><br><span class="line"></span><br><span class="line">          <span class="comment">// 二维码中间放图片</span></span><br><span class="line">          <span class="keyword">var</span> qrCodePath = Request.MapPath(userQrCode);</span><br><span class="line">          <span class="keyword">var</span> logoPath = Request.MapPath(<span class="string">&quot;~/Content/Images/ubuntu.png&quot;</span>);</span><br><span class="line">          System.Drawing.Image image = System.Drawing.Image.FromFile(qrCodePath);</span><br><span class="line">          System.Drawing.Image combinImage = QRcode.CombinImage(image, logoPath);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">          <span class="comment">// 保存合成的图片，将路径输出到界面</span></span><br><span class="line">          <span class="keyword">string</span> filename = <span class="string">&quot;~&quot;</span> + <span class="string">&quot;/Content/Images/QrCode/&quot;</span> + Guid.NewGuid() + <span class="string">&quot;.jpg&quot;</span>;</span><br><span class="line">          combinImage.Save(Request.MapPath(filename));</span><br><span class="line">          <span class="keyword">var</span> fileCombinUrl = filename.Replace(<span class="string">&quot;~&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">          ViewBag.fileCombinUrl = fileCombinUrl;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">      <span class="comment"><span class="doctag">///</span> 导出Excel 模板数据</span></span><br><span class="line">      <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ExportTemplate</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>      &#123;   </span><br><span class="line">          <span class="comment">// <span class="doctag">TODO:</span> 增加一个sheet来说明导出注意事项的功能，修改Export方法。来增加一个sheet</span></span><br><span class="line">          <span class="meta">#<span class="meta-keyword">region</span> 生成测试DataTable数据 正式环境 从数据库中读取，在转换为DataTable格式导出</span></span><br><span class="line">          DataTable dataTable = <span class="keyword">new</span> DataTable();</span><br><span class="line">          dataTable.Columns.Add(<span class="string">&quot;item_no&quot;</span>, <span class="keyword">typeof</span>(<span class="keyword">string</span>));</span><br><span class="line">          dataTable.Columns.Add(<span class="string">&quot;barcode&quot;</span>, <span class="keyword">typeof</span>(<span class="keyword">string</span>));</span><br><span class="line">          dataTable.Columns.Add(<span class="string">&quot;unit&quot;</span>, <span class="keyword">typeof</span>(<span class="keyword">string</span>));</span><br><span class="line">          dataTable.Columns.Add(<span class="string">&quot;ware_house&quot;</span>, <span class="keyword">typeof</span>(<span class="keyword">string</span>));</span><br><span class="line">          dataTable.Columns.Add(<span class="string">&quot;quantity&quot;</span>, <span class="keyword">typeof</span>(<span class="keyword">int</span>));</span><br><span class="line">          dataTable.Columns.Add(<span class="string">&quot;price&quot;</span>, <span class="keyword">typeof</span>(<span class="keyword">decimal</span>));</span><br><span class="line">          dataTable.Columns.Add(<span class="string">&quot;discount_rate&quot;</span>, <span class="keyword">typeof</span>(<span class="keyword">decimal</span>));</span><br><span class="line">          dataTable.Columns.Add(<span class="string">&quot;tax_rate&quot;</span>, <span class="keyword">typeof</span>(<span class="keyword">decimal</span>));</span><br><span class="line">          dataTable.Columns.Add(<span class="string">&quot;sn&quot;</span>, <span class="keyword">typeof</span>(<span class="keyword">string</span>));</span><br><span class="line">          dataTable.Columns.Add(<span class="string">&quot;manufacture_date&quot;</span>, <span class="keyword">typeof</span>(DateTime));</span><br><span class="line">          dataTable.Columns.Add(<span class="string">&quot;remark&quot;</span>, <span class="keyword">typeof</span>(<span class="keyword">string</span>));</span><br><span class="line"></span><br><span class="line">          Random r = <span class="keyword">new</span> Random();</span><br><span class="line">          BaseRandom baseRandom = <span class="keyword">new</span> BaseRandom();</span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++)</span><br><span class="line">          &#123;</span><br><span class="line">              DataRow row = dataTable.NewRow();</span><br><span class="line"></span><br><span class="line">              row[<span class="string">&quot;item_no&quot;</span>] = baseRandom.GetRandomString(<span class="number">13</span>);</span><br><span class="line">              row[<span class="string">&quot;barcode&quot;</span>] = baseRandom.GetRandom(<span class="number">1000000</span>, <span class="number">9000000</span>).ToString();</span><br><span class="line">              row[<span class="string">&quot;unit&quot;</span>] = r.Next(<span class="number">2</span>) % <span class="number">2</span> == <span class="number">0</span> ? <span class="string">&quot;千克&quot;</span> : <span class="string">&quot;克&quot;</span>;</span><br><span class="line">              row[<span class="string">&quot;ware_house&quot;</span>] = baseRandom.GetRandomString(<span class="number">6</span>);</span><br><span class="line">              row[<span class="string">&quot;quantity&quot;</span>] = r.Next(<span class="number">5000</span>).ToString();</span><br><span class="line">              row[<span class="string">&quot;discount_rate&quot;</span>] = <span class="number">0.22</span>.ToString();</span><br><span class="line">              row[<span class="string">&quot;tax_rate&quot;</span>] = <span class="number">0.35</span>.ToString();</span><br><span class="line">              row[<span class="string">&quot;sn&quot;</span>] = baseRandom.GetRandomString(<span class="number">13</span>);</span><br><span class="line">              row[<span class="string">&quot;manufacture_date&quot;</span>] = TimeHelper.GetRandomTime(DateTime.Now.AddYears(<span class="number">-10</span>), DateTime.Now.AddYears(<span class="number">10</span>)).ToString();</span><br><span class="line">              row[<span class="string">&quot;remark&quot;</span>] = baseRandom.GetRandomString(<span class="number">23</span>);</span><br><span class="line"></span><br><span class="line">              dataTable.Rows.Add(row);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          <span class="comment">//DataTable的列名和excel的列名对应字典，因为excel的列名一般是中文的，DataTable的列名是英文的，字典主要是存储excel和DataTable列明的对应关系，当然我们也可以把这个对应关系存在配置文件或者其他地方</span></span><br><span class="line">          Dictionary&lt;<span class="keyword">string</span>, <span class="keyword">string</span>&gt; dir = <span class="keyword">new</span> Dictionary&lt;<span class="keyword">string</span>, <span class="keyword">string</span>&gt;();</span><br><span class="line">          dir.Add(<span class="string">&quot;item_no&quot;</span>, <span class="string">&quot;存货编码&quot;</span>);</span><br><span class="line">          dir.Add(<span class="string">&quot;barcode&quot;</span>, <span class="string">&quot;条码&quot;</span>);</span><br><span class="line">          dir.Add(<span class="string">&quot;unit&quot;</span>, <span class="string">&quot;计量单位&quot;</span>);</span><br><span class="line">          dir.Add(<span class="string">&quot;ware_house&quot;</span>, <span class="string">&quot;仓库&quot;</span>);</span><br><span class="line">          dir.Add(<span class="string">&quot;quantity&quot;</span>, <span class="string">&quot;数量&quot;</span>);</span><br><span class="line">          dir.Add(<span class="string">&quot;price&quot;</span>, <span class="string">&quot;单价&quot;</span>);</span><br><span class="line">          dir.Add(<span class="string">&quot;discount_rate&quot;</span>, <span class="string">&quot;折扣率%&quot;</span>);</span><br><span class="line">          dir.Add(<span class="string">&quot;tax_rate&quot;</span>, <span class="string">&quot;税率&quot;</span>);</span><br><span class="line">          dir.Add(<span class="string">&quot;sn&quot;</span>, <span class="string">&quot;SN码&quot;</span>);</span><br><span class="line">          dir.Add(<span class="string">&quot;manufacture_date&quot;</span>, <span class="string">&quot;生产日期&quot;</span>);</span><br><span class="line">          dir.Add(<span class="string">&quot;remark&quot;</span>, <span class="string">&quot;备注&quot;</span>); </span><br><span class="line">          <span class="meta">#<span class="meta-keyword">endregion</span></span></span><br><span class="line"></span><br><span class="line">          </span><br><span class="line">          <span class="keyword">string</span> fileName = <span class="string">&quot;导入模板-进货单&quot;</span> + DateTime.Now.ToString(<span class="string">&quot;yyyy-MM-dd-HH-mm-ss&quot;</span>)+<span class="string">&quot;.xls&quot;</span>;</span><br><span class="line">          NPOIHelper.ExportByWeb(dataTable, <span class="string">&quot;进货单&quot;</span>, fileName, dir);</span><br><span class="line"></span><br><span class="line">          <span class="comment">//string excelTemplateName = @&quot;~\Content\Files\ExcelTempalte&quot; + &quot;进货单&quot; + &quot;.xls&quot;;</span></span><br><span class="line">          <span class="comment">//NPOIHelper.Export(dataTable, &quot;考勤信息表&quot;, dir, Server.MapPath( excelTemplateName));</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="使用效果"><a href="#使用效果" class="headerlink" title="使用效果"></a>使用效果</h3><blockquote>
+<p>展示部分通用帮助类</p>
+</blockquote>
+<img src="/2021/11/13/2021-11-13-Utility%E5%B8%AE%E5%8A%A9%E7%B1%BB/1.png" class="">
+
+
+
+<blockquote>
+<p>生成拼音码 39码 条形码</p>
+</blockquote>
+<img src="/2021/11/13/2021-11-13-Utility%E5%B8%AE%E5%8A%A9%E7%B1%BB/2.png" class="">
+
+<blockquote>
+<p>生成随机数，编码操作， excel 导入导出等</p>
+</blockquote>
+<img src="/2021/11/13/2021-11-13-Utility%E5%B8%AE%E5%8A%A9%E7%B1%BB/3.png" class="">
+
+<blockquote>
+<p>导出Excel表格</p>
+</blockquote>
+<img src="/2021/11/13/2021-11-13-Utility%E5%B8%AE%E5%8A%A9%E7%B1%BB/4.png" class="">
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>花生了什么树
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.hongjy.cn/2021/11/13/2021-11-13-Utility%E5%B8%AE%E5%8A%A9%E7%B1%BB/" title="Utility帮助类">http://www.hongjy.cn/2021/11/13/2021-11-13-Utility帮助类/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-jwt%E5%85%A5%E9%97%A8/" rel="prev" title="jwt入门">
+      <i class="fa fa-chevron-left"></i> jwt入门
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-ActionFilter%E8%BF%87%E6%BB%A4%E5%99%A8/" rel="next" title="ActionFilter过滤器">
+      ActionFilter过滤器 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%9D%A5%E4%BD%BF%E7%94%A8-Utility"><span class="nav-number">1.</span> <span class="nav-text">如何来使用 Utility</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99"><span class="nav-number">1.1.</span> <span class="nav-text">学习资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">1.2.</span> <span class="nav-text">知识点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E5%88%86%E7%B1%BB%E8%B0%83%E7%94%A8%E4%BB%A3%E7%A0%81%E6%BC%94%E7%A4%BA"><span class="nav-number">1.3.</span> <span class="nav-text">部分类调用代码演示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%95%88%E6%9E%9C"><span class="nav-number">1.4.</span> <span class="nav-text">使用效果</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="花生了什么树"
+      src="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+  <p class="site-author-name" itemprop="name">花生了什么树</p>
+  <div class="site-description" itemprop="description">.NET工程师</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AllenHongjun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AllenHongjun" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hongjy1991@gmail.com" title="E-Mail → mailto:hongjy1991@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.google.com/" title="Google → https:&#x2F;&#x2F;www.google.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/hongjy1991" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;hongjy1991" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://youtube.com/" title="YouTube → https:&#x2F;&#x2F;youtube.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://leetcode-cn.com/" title="https:&#x2F;&#x2F;leetcode-cn.com&#x2F;" rel="noopener" target="_blank">leetcode</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://lailin.xyz/" title="https:&#x2F;&#x2F;lailin.xyz&#x2F;" rel="noopener" target="_blank">lailin</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ciweigg2.github.io/" title="https:&#x2F;&#x2F;ciweigg2.github.io&#x2F;" rel="noopener" target="_blank">ciweigg2</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.itmuch.com/" title="https:&#x2F;&#x2F;www.itmuch.com&#x2F;" rel="noopener" target="_blank">itmuch</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://tengj.top/" title="http:&#x2F;&#x2F;tengj.top&#x2F;" rel="noopener" target="_blank">tengj</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">浙ICP备18047156号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花生了什么树</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">383k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5:49</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

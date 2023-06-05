@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hongjy.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="PostmanPostman是一个可扩展的API开发和测试协同平台工具，可以快速集成到CI&#x2F;CD管道中。旨在简化测试和开发中的API工作流。 Postman 工具有 Chrome 扩展和独立客户端，推荐安装独立客户端。 Postman 有个 workspace 的概念，workspace 分 personal 和 team 类型。Personal workspace 只能自己查看的 API，Tea">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Postman使用完全指南">
+<meta property="og:url" content="http://www.hongjy.cn/2021/11/13/2021-11-13-Postman%E4%BD%BF%E7%94%A8%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/index.html">
+<meta property="og:site_name" content="花生了什么树的博客">
+<meta property="og:description" content="PostmanPostman是一个可扩展的API开发和测试协同平台工具，可以快速集成到CI&#x2F;CD管道中。旨在简化测试和开发中的API工作流。 Postman 工具有 Chrome 扩展和独立客户端，推荐安装独立客户端。 Postman 有个 workspace 的概念，workspace 分 personal 和 team 类型。Personal workspace 只能自己查看的 API，Tea">
+<meta property="og:locale">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70-163681840891962.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70-163681840891963.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_16,color_FFFFFF,t_70.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70-163681840892164.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/20200611181846413.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_5,color_FFFFFF,t_70.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70-163681840892265.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70-163681840892366.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840892367.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840892468.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840892469.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840892470.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840892471.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840892572.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_16,color_FFFFFF,t_70-163681840892573.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840892574.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840892675.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_16,color_FFFFFF,t_70-163681840892976.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/20200622161148159.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840892977.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/20200622161456159.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840893078.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840893079.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/20200622161717819.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840893180.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70-163681840893181.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840893182.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840893283.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_16,color_FFFFFF,t_70-163681840893284.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840893385.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840893386.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70-163681840893387.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70-163681840893488.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840893489.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840893590.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70-163681840893591.png">
+<meta property="article:published_time" content="2021-11-13T15:46:17.000Z">
+<meta property="article:modified_time" content="2022-12-20T10:56:36.507Z">
+<meta property="article:author" content="花生了什么树">
+<meta property="article:tag" content=".NET工程师 后端开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70.png">
+
+<link rel="canonical" href="http://www.hongjy.cn/2021/11/13/2021-11-13-Postman%E4%BD%BF%E7%94%A8%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Postman使用完全指南 | 花生了什么树的博客</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?749761669bb5184278820a5fa5d144a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+    <!--github 挂饰-->
+    <a target="_blank" rel="noopener" href="https://github.com/allenHongjun" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">花生了什么树的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">修身治国齐家平天下</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于我</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.hongjy.cn/2021/11/13/2021-11-13-Postman%E4%BD%BF%E7%94%A8%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+      <meta itemprop="name" content="花生了什么树">
+      <meta itemprop="description" content=".NET工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花生了什么树的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Postman使用完全指南
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-13 23:46:17" itemprop="dateCreated datePublished" datetime="2021-11-13T23:46:17+08:00">2021-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-20 18:56:36" itemprop="dateModified" datetime="2022-12-20T18:56:36+08:00">2022-12-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开发工具</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Postman"><a href="#Postman" class="headerlink" title="Postman"></a>Postman</h2><p>Postman是一个可扩展的API开发和测试协同平台工具，可以快速集成到CI/CD管道中。旨在简化测试和开发中的API工作流。</p>
+<p>Postman 工具有 Chrome 扩展和独立客户端，推荐安装独立客户端。</p>
+<p>Postman 有个 workspace 的概念，workspace 分 personal 和 team 类型。Personal workspace 只能自己查看的 API，Team workspace 可添加成员和设置成员权限，成员之间可共同管理 API。</p>
+<p>当然我个人使用一般是不登录的，因为登录之后会自动将你的测试历史数据保存到账户里，你可以登陆网页端进行查看。<br>因为API的很多数据是很敏感的，有的含有Token，或者就是一些私密信息，虽然Postman自己也强调说这样很安全，不会私下窥探用户的信息之类的，但是呢还是至少做一点有效的防范吧，自己不上传，因为网络并没有绝对的安全。<br>所以我每次测试之后会将数据(Case)保存在本地，下次使用或者换设备的情况下将数据拷贝过来又可以继续使用了。</p>
+<p>下面正式开始介绍如何使用Postman吧。</p>
+<a id="more"></a>
+
+
+
+<h2 id="为什么选择Postman"><a href="#为什么选择Postman" class="headerlink" title="为什么选择Postman?"></a>为什么选择Postman?</h2><p>如今，Postman的开发者已超过1000万(来自官网)，选择使用Postman的原因如下:<br><strong>简单易用</strong> - 要使用Postman，你只需登录自己的账户，只要在电脑上安装了Postman应用程序，就可以方便地随时随地访问文件。<br><strong>使用集合</strong> - Postman允许用户为他们的API调用创建集合。每个集合可以创建子文件夹和多个请求。这有助于组织测试结构。<br><strong>多人协作</strong> - 可以导入或导出集合和环境，从而方便共享文件。直接使用链接还可以用于共享集合。<br><strong>创建环境</strong> - 创建多个环境有助于减少测试重复(DEV/QA/STG/UAT/PROD)，因为可以为不同的环境使用相同的集合。这是参数化发生的地方，将在后续介绍。<br><strong>创建测试</strong> - 测试检查点(如验证HTTP响应状态是否成功)可以添加到每个API调用中，这有助于确保测试覆盖率。<br><strong>自动化测试</strong> - 通过使用集合Runner或Newman，可以在多个迭代中运行测试，节省了重复测试的时间。<br><strong>调试</strong> - Postman控制台有助于检查已检索到的数据，从而易于调试测试。<br><strong>持续集成</strong>——通过其支持持续集成的能力，可以维护开发实践。</p>
+<h2 id="如何下载安装Postman？"><a href="#如何下载安装Postman？" class="headerlink" title="如何下载安装Postman？"></a>如何下载安装Postman？</h2><p>Step 1） 官网主页：<a target="_blank" rel="noopener" href="https://www.postman.com/downloads/%EF%BC%8C">https://www.postman.com/downloads/，</a> 下载所需版本进行安装即可。<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70.png" alt="在这里插入图片描述"><br>Step2）安装完成之后会要求你必须登录才能使用，没有账号可以进行注册，注册是免费的。(也可使用Google账号，不过基本不能登录，你懂的)</p>
+<p>Step3）在Workspace选择你要使用的工具并点击“Save My Preferences”保存。<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70-163681840891962.png" alt="在这里插入图片描述"><br>Step4）你将看到启动后的页面如下<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70-163681840891963.png" alt="在这里插入图片描述"></p>
+<h2 id="如何使用Postman"><a href="#如何使用Postman" class="headerlink" title="如何使用Postman?"></a>如何使用Postman?</h2><p>下图是Postman的工作区间，各个模块功能的介绍如下：</p>
+<p>1、New，在这里创建新的请求、集合或环境；还可以创建更高级的文档、Mock Server 和 Monitor以及API。<br>2、Import，这用于导入集合或环境。有一些选项，例如从文件，文件夹导入，链接或粘贴原始文本。<br>3、Runner，可以通过Collection Runner执行自动化测试。后续介绍。<br>4、Open New，打开一个新的标签，Postman窗口或Runner窗口。<br>5、My Workspace - 可以单独或以团队的形式创建新的工作区。<br>6、Invite - 通过邀请团队成员在工作空间上进行协同工作。<br>7、History - 所有秦秋的历史记录，这样可以很容易地跟踪你所做的操作。<br>8、Collections - 通过创建集合来组织你的测试套件。每个集合可能有子文件夹和多个请求。请求或文件夹也可以被复制。<br>9、Request tab - 这将显示您正在处理的请求的标题。默认对于没有标题的请求会显示“Untitled Request”。<br>10、HTTP Request - 单击它将显示不同请求的下拉列表，例如 GET, POST, COPY, DELETE, etc. 在测试中，最常用的请求是GET和POST。<br>11、Request URL - 也称为端点，显示API的URL。.<br>12、Save - 如果对请求进行了更改，必须单击save，这样新更改才不会丢失或覆盖。<br>13、Params - 在这里将编写请求所需的参数，比如Key - Value。<br>14、Authorization - 为了访问api，需要适当的授权。它可以是Username、Password、Token等形式。<br>15、Headers - 请求头信息<br>16、Body - 请求体信息，一般在POST中才会使用到<br>17、Pre-request Script - 请求之前 先执行脚本，使用设置环境的预请求脚本来确保在正确的环境中运行测试。<br>18、Tests - 这些脚本是在请求期间执行的。进行测试非常重要，因为它设置检查点来验证响应状态是否正常、检索的数据是否符合预期以及其他测试。<br>19、Settings - 最新版本的有设置，一般用不到。<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_16,color_FFFFFF,t_70.png" alt="在这里插入图片描述"></p>
+<h2 id="如何处理GET请求"><a href="#如何处理GET请求" class="headerlink" title="如何处理GET请求"></a>如何处理GET请求</h2><p>Get请求用于从指定的URL获取信息，不会对端点进行任何更改。<br>在这里我们使用如下的URL作为演示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://jsonplaceholder.typicode.com/users	</span><br></pre></td></tr></table></figure>
+
+<p>在Postman的工作区中：<br>1、选择HTTP请求方式为GET<br>2、在URL区域输入 链接<br>3、点击 “Send”按钮<br>4、你将看到下方返回200状态码<br>5、在正文中应该有10个用户结果，表明您的测试已经成功运行。<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70-163681840892164.png" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>注意：</strong>在某些情况下，Get请求失败可能由于URL无效或需要身份验证。</p>
+</blockquote>
+<h2 id="如何处理POST请求"><a href="#如何处理POST请求" class="headerlink" title="如何处理POST请求"></a>如何处理POST请求</h2><p>Post请求与Get请求不同，因为存在用户向端点添加数据的数据操作。使用之前GET 请求中相同数据，现在添加我们自己的用户。<br>Step 1）创建一个新请求<br><img src="http://blogimg.hongjy.cn/20200611181846413.png" alt="在这里插入图片描述"><br>Step 2 ）在新请求中<br>1、选择HTTP请求方式为GET<br>2、在URL区域输入 链接：<a target="_blank" rel="noopener" href="https://jsonplaceholder.typicode.com/users">https://jsonplaceholder.typicode.com/users</a><br>3、切换到Body选项<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_5,color_FFFFFF,t_70.png" alt="在这里插入图片描述"><br><strong>Step 3）</strong> Body选项<br>1、选中raw选项<br>2、选择JSON<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70.png" alt="在这里插入图片描述"><br><strong>Step 4）</strong> 复制前面GET请求返回的json内容的第一节<br>更改id为11，更改name以及uesrname和email</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">&quot;id&quot;</span>: <span class="number">11</span>,</span><br><span class="line">        <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;Krishna Rungta&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;username&quot;</span>: <span class="string">&quot;Bret&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;email&quot;</span>: <span class="string">&quot;Sincere@april.biz</span></span><br><span class="line"><span class="string">	&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;address&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;street&quot;</span>: <span class="string">&quot;Kulas Light&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;suite&quot;</span>: <span class="string">&quot;Apt. 556&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;city&quot;</span>: <span class="string">&quot;Gwenborough&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;zipcode&quot;</span>: <span class="string">&quot;92998-3874&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;geo&quot;</span>: &#123;</span><br><span class="line">                <span class="attr">&quot;lat&quot;</span>: <span class="string">&quot;-37.3159&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;lng&quot;</span>: <span class="string">&quot;81.1496&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;phone&quot;</span>: <span class="string">&quot;1-770-736-8031 x56442&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;website&quot;</span>: <span class="string">&quot;hildegard.org&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;company&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;Romaguera-Crona&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;catchPhrase&quot;</span>: <span class="string">&quot;Multi-layered client-server neural-net&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;bs&quot;</span>: <span class="string">&quot;harness real-time e-markets&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70-163681840892265.png" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>注意：</strong> 检查Body里用到的JSON格式很重要，以确保数据正确。<br>检测的工具比如：<a target="_blank" rel="noopener" href="https://jsonformatter.curiousconcept.com/">https://jsonformatter.curiousconcept.com/</a></p>
+</blockquote>
+<p><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70-163681840892366.png" alt="在这里插入图片描述"><br>Step 5 ）发送请求<br>1、完成上述的信息输入，点击Send按钮<br>2、Status:应该是201，显示为创建成功<br>3、在Body里返回数据<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840892367.png" alt="在这里插入图片描述"></p>
+<h2 id="如何将请求参数化"><a href="#如何将请求参数化" class="headerlink" title="如何将请求参数化"></a>如何将请求参数化</h2><p>数据参数化是Postman最有用的特征之一。你可以将使用到的变量进行参数化，而不是使用不同的数据创建相同的请求，这样会事半功倍，简洁明了。<br>这些数据可以来自<strong>数据文件</strong>或<strong>环境变量</strong>。参数化有助于避免重复相同的测试，可用于自动化迭代测试。</p>
+<p>参数通过使用<strong>双花括号</strong>创建:<strong>**。<br>比如下面的请求：<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840892468.png" alt="在这里插入图片描述"><br>接下来创建一个参数化get请求：<br>**Step 1）</strong> 创建一个参数化get请求<br>1、将HTTP请求设置为GET<br>2、输入URL： <a target="_blank" rel="noopener" href="https://jsonplaceholder.typicode.com/users%EF%BC%9B%E5%B0%86%E9%93%BE%E6%8E%A5%E7%9A%84%E5%9F%9F%E5%90%8D%E9%83%A8%E5%88%86%E6%9B%BF%E6%8D%A2%E4%B8%BA%E5%8F%82%E6%95%B0%EF%BC%8C%E4%BE%8B%E5%A6%82%60">https://jsonplaceholder.typicode.com/users；将链接的域名部分替换为参数，例如`</a>`。请求url现在应该是/users。<br>3、点击Send按钮。<br>应该没有响应，因为我们没有设置参数的源，如下图：<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840892469.png" alt="在这里插入图片描述"><br><strong>Step 2)</strong> 使用环境设置所需的参数<br>1、点击眼睛图标<br>2、单击Edit将该变量设置为可在所有集合中使用的全局环境。<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840892470.png" alt="在这里插入图片描述"><br><strong>Step 3）</strong> 变量–variable<br>1、将名称设置为url，该url为<a target="_blank" rel="noopener" href="https://jsonplaceholder.typicode.com/">https://jsonplaceholder.typicode.com</a><br>2、点击保存按钮<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840892471.png" alt="在这里插入图片描述"><br><strong>Step 4）</strong> 如果看到下面截图的样式，请单击Close<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840892572.png" alt="在这里插入图片描述"><br><strong>Step 5 ）</strong> 回到你的Get请求页面，然后单击发送Send按钮，Get请求应该就会返回结果了，如下图：<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_16,color_FFFFFF,t_70-163681840892573.png" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>注意：</strong>请确保所有的参数都有准确的源数据，不管是<strong>环境变量</strong>还是<strong>数据文件</strong>，以避免出错。</p>
+</blockquote>
+<h2 id="如何创建Postman-Tests"><a href="#如何创建Postman-Tests" class="headerlink" title="如何创建Postman Tests"></a>如何创建Postman Tests</h2><p>Postman Tests在请求中添加JavaScript代码来协助验证结果，如：成功或失败状态、预期结果的比较等等。<br>通常从pm.test开始。它可以与断言相比较，验证其他工具中可用的命令。<br>接下来创建一个包含Tests的请求：<br><strong>Step 1）</strong> 创建一个Get请求<br>1、切换到Tests选项，右边是代码片段选项。<br>2、从右边的代码片段选项里面选中 “Status code: Code is 200”<br>3、JS代码就自动出现在窗口中<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840892574.png" alt="在这里插入图片描述"><br><strong>Step 2)</strong> 点击发送请求按钮。测试结果就显示出来了，如下图：<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840892675.png" alt="在这里插入图片描述"><br><strong>Step 3)</strong> 回到Tests选项卡，让我们添加另一个测试。这次我们将比较预期结果和实际结果。<br>在右边的SNIPPETS区域选择”Response body:JSON value check”选项，我们将检查Leanne Graham是否拥有userid 1。<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_16,color_FFFFFF,t_70-163681840892976.png" alt="在这里插入图片描述"><br><strong>Step 4）</strong><br>1、将代码中的“Your Test Name”替换为“Check if user with id1 is Leanne Graham”，以便测试名称确切描述我们想测试的内容。<br>2、使用jsonData[0].name代替jsonData.value; 获取路径，在获取结果之前检查Body。因为Leanne Graham是userid 1，所以jsonData在第一个结果中，这个结果应该从0开始。如果你想获得第二个结果，那么对后续结果使用jsonData[1] 即可。<br>3、在eql中，输入“Leanne Graham”</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pm.test(<span class="string">&quot;Check if user with id1 is Leanne Graham&quot;</span>, <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    var jsonData = pm.response.json();</span><br><span class="line">    pm.expect(jsonData[0].name).to.eql(<span class="string">&quot;Leanne Graham&quot;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blogimg.hongjy.cn/20200622161148159.png" alt="在这里插入图片描述"><br><strong>Step 5)</strong> 点击发送请求，可以看到你的请求之后测试结果中有两项显示测试通过。<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840892977.png" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>注意：</strong><br>有不同种类的测试可以在Postman中创建。尝试探索这个工具，看看哪些测试适合你实际测试。</p>
+</blockquote>
+<h2 id="如何创建测试集合"><a href="#如何创建测试集合" class="headerlink" title="如何创建测试集合"></a>如何创建测试集合</h2><p>集合在组织测试套件中扮演着重要的角色。它可以被导入和导出，使得在团队之间共享集合变得很容易。在本教程中，我们将学习如何创建和执行集合。</p>
+<p><strong>Step 1)</strong> 单击页面左上角的New按钮，如下图：<br><img src="http://blogimg.hongjy.cn/20200622161456159.png" alt="在这里插入图片描述"><br><strong>Step 2)</strong> 选择Collection(集合). 创建collection窗口弹出，如下图.<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840893078.png" alt="在这里插入图片描述"><br><strong>Step 3)</strong> 输入所需的集合名称和描述，然后单击create。<br>现在已经创建了一个集合。<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840893079.png" alt="在这里插入图片描述"><br><strong>Step 4 )</strong> 和前面的Get请求一样，点击保存。<br><img src="http://blogimg.hongjy.cn/20200622161717819.png" alt="在这里插入图片描述"><br><strong>Step5 ）</strong><br>1、选择Postman 测试集合(Test Collection)。<br>2、点击保存Postman Test Collection<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840893180.png" alt="在这里插入图片描述"><br><strong>Step 6)</strong> Postman test collection现在应该包含了一个请求，如下图：<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70-163681840893181.png" alt="在这里插入图片描述"><br><strong>Step 7)</strong> 重复上述的Step4-5，继续创建请求，这样，测试集合就应该有2个请求了，如下图。<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840893182.png" alt="在这里插入图片描述"></p>
+<h2 id="如何使用Collection-Runner-运行集合"><a href="#如何使用Collection-Runner-运行集合" class="headerlink" title="如何使用Collection Runner 运行集合"></a>如何使用Collection Runner 运行集合</h2><p>有两种方式来运行一个集合，即Collection Runner和Newman。<br><strong>Collection Runner:</strong><br><strong>Step 1)</strong> 单击页面顶部导入按钮旁边的<strong>Runner</strong>按钮，如下图。<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840893283.png" alt="在这里插入图片描述"><br><strong>Step 2）</strong>Collection Runner页面应该出现如下所示。以下是对各个字段的描述<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_16,color_FFFFFF,t_70-163681840893284.png" alt="在这里插入图片描述"><br><strong>Step 3)</strong> 做如下设置，运行你的测试集合</p>
+<ul>
+<li><p>选择Postman测试集合-集合迭代次数为3</p>
+</li>
+<li><p>设置延迟为2500毫秒</p>
+</li>
+<li><p>点击Start Run按钮<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840893385.png" alt="在这里插入图片描述"></p>
+<p><strong>Step 4)</strong> 单击Run按钮后将显示Run结果页。根据延迟的不同，你应该在测试执行的同时看到显示的结果。</p>
+</li>
+</ul>
+<p>1、一旦测试完成，你就可以看到测试状态是通过还是失败，以及每个迭代的结果。<br>2、你将看到Get请求的Pass状态；<br>3、由于我们没有任何Post测试，所以应该会出现请求没有任何测试的消息。<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840893386.png" alt="在这里插入图片描述"><br>可以出在请求中进行测试是多么重要，这样你就可以验证HTTP请求状态是否成功，以及是否创建或检索了数据。</p>
+<h2 id="如何使用Newman运行集合"><a href="#如何使用Newman运行集合" class="headerlink" title="如何使用Newman运行集合"></a>如何使用Newman运行集合</h2><p>运行集合的另一种方式是通过Newman。Newman和Collection Runner之间的主要区别如下:<br>1、Newman是Postman的替代品，所以需要单独安装Newman；<br>2、Newman使用命令行，而Collection Runner使用UI界面；<br>3、Newman可以用于持续集成。</p>
+<p>安装Newman并运行Collection，步骤如下:<br><strong>Step 1)</strong> 下载并安装NodeJs: <a target="_blank" rel="noopener" href="http://nodejs.org/download/">http://nodejs.org/download/</a><br><strong>Step 2)</strong> 打开命令行窗口并输入下面命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g newman</span><br></pre></td></tr></table></figure>
+
+<p>安装后 如下图：<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70-163681840893387.png" alt="在这里插入图片描述"><br><strong>Step 3 ）</strong><br>Newman安装好之后，让我们回到Postman的workspace。在Collections框中，单击三个点 <strong>…</strong> 会出现新的选择选项，可看到Export选项，如下图：<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70-163681840893488.png" alt="在这里插入图片描述"><br><strong>Step 4 ）</strong><br>选择导出集合，默认使用推荐的集合版本，比如此处是v2.1，然后单击导出：<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840893489.png" alt="在这里插入图片描述"></p>
+<p><strong>Step 5 ）</strong> 选择你想要保存的地址之后点击保存，这里建议专门新建一个文件夹来存放你的Postman tests。<br><strong>Step 6 ）</strong> 另外还需要导出我们的环境(enviroment)。单击全局环境下拉菜单旁边的eye图标，选择JSON格式下载。选择你想要的位置，然后单击Save。最好将环境放在与Step5 导出的集合相同的文件夹中。<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_6,color_FFFFFF,t_70-163681840893590.png" alt="在这里插入图片描述"></p>
+<p><strong>Step 7 ）</strong> 导出Environment 到集合文件夹后，现在回到命令行，将目录更改为保存集合和环境的位置。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> C:\Users\Asus\Desktop\Postman Tests</span><br></pre></td></tr></table></figure>
+
+<p><strong>Step 8 ）</strong> 使用下面的命令运行你的测试集合：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">newman run PostmanTestCollection.postman_collection.json -e Testing.postman_globals.json</span><br></pre></td></tr></table></figure>
+
+<p>运行的结果应该如下图：<br><img src="http://blogimg.hongjy.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3piajE4MzE0NDY5Mzk1,size_1,color_FFFFFF,t_70-163681840893591.png" alt="在这里插入图片描述"></p>
+<p>关于Newman的一些基础指导如下：<br>1、只运行集合（如果没有环境或测试数据文件依赖关系，则可以使用此选项。）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">newman run &lt;collection name&gt; </span><br></pre></td></tr></table></figure>
+
+<p>2、运行集合和环境（参数-e 是environment）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">newman run &lt;collection name&gt; -e &lt;environment name&gt; </span><br></pre></td></tr></table></figure>
+
+<p>3、使用所需的编号运行集合的迭代。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">newman run &lt;collection name&gt; -n &lt;no.of iterations&gt;</span><br></pre></td></tr></table></figure>
+
+<p>4、运行数据文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">newman run &lt;collection name&gt; --data &lt;file name&gt;  -n &lt;no.of iterations&gt; -e &lt;environment name&gt; </span><br></pre></td></tr></table></figure>
+
+<p>5、设置延迟时间。(这一点很重要，因为如果由于请求在后台服务器上，完成前一个请求时没有延迟时间直接启动下一个请求，测试可能会失败。)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">newman run &lt;collection name&gt; -d &lt;delay time&gt;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/softwaretesterpz/p/13205666.html">转载-API测试之Postman使用完全指南(Postman教程，这篇文章就够了)</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>花生了什么树
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.hongjy.cn/2021/11/13/2021-11-13-Postman%E4%BD%BF%E7%94%A8%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/" title="Postman使用完全指南">http://www.hongjy.cn/2021/11/13/2021-11-13-Postman使用完全指南/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-Navicat%E7%94%9F%E6%88%90ER%E5%85%B3%E7%B3%BB%E5%9B%BE/" rel="prev" title="Navicat生成ER关系图">
+      <i class="fa fa-chevron-left"></i> Navicat生成ER关系图
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/" rel="next" title="后端开发学习路线">
+      后端开发学习路线 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Postman"><span class="nav-number">1.</span> <span class="nav-text">Postman</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9Postman"><span class="nav-number">2.</span> <span class="nav-text">为什么选择Postman?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85Postman%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">如何下载安装Postman？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Postman"><span class="nav-number">4.</span> <span class="nav-text">如何使用Postman?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86GET%E8%AF%B7%E6%B1%82"><span class="nav-number">5.</span> <span class="nav-text">如何处理GET请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86POST%E8%AF%B7%E6%B1%82"><span class="nav-number">6.</span> <span class="nav-text">如何处理POST请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E5%8C%96"><span class="nav-number">7.</span> <span class="nav-text">如何将请求参数化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BAPostman-Tests"><span class="nav-number">8.</span> <span class="nav-text">如何创建Postman Tests</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E6%B5%8B%E8%AF%95%E9%9B%86%E5%90%88"><span class="nav-number">9.</span> <span class="nav-text">如何创建测试集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Collection-Runner-%E8%BF%90%E8%A1%8C%E9%9B%86%E5%90%88"><span class="nav-number">10.</span> <span class="nav-text">如何使用Collection Runner 运行集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Newman%E8%BF%90%E8%A1%8C%E9%9B%86%E5%90%88"><span class="nav-number">11.</span> <span class="nav-text">如何使用Newman运行集合</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="花生了什么树"
+      src="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+  <p class="site-author-name" itemprop="name">花生了什么树</p>
+  <div class="site-description" itemprop="description">.NET工程师</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AllenHongjun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AllenHongjun" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hongjy1991@gmail.com" title="E-Mail → mailto:hongjy1991@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.google.com/" title="Google → https:&#x2F;&#x2F;www.google.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/hongjy1991" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;hongjy1991" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://youtube.com/" title="YouTube → https:&#x2F;&#x2F;youtube.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://leetcode-cn.com/" title="https:&#x2F;&#x2F;leetcode-cn.com&#x2F;" rel="noopener" target="_blank">leetcode</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://lailin.xyz/" title="https:&#x2F;&#x2F;lailin.xyz&#x2F;" rel="noopener" target="_blank">lailin</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ciweigg2.github.io/" title="https:&#x2F;&#x2F;ciweigg2.github.io&#x2F;" rel="noopener" target="_blank">ciweigg2</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.itmuch.com/" title="https:&#x2F;&#x2F;www.itmuch.com&#x2F;" rel="noopener" target="_blank">itmuch</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://tengj.top/" title="http:&#x2F;&#x2F;tengj.top&#x2F;" rel="noopener" target="_blank">tengj</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">浙ICP备18047156号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花生了什么树</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">383k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5:49</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

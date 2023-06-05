@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hongjy.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="如果想执行一个简单的 C# 语句并获得运行结果，通常我们需要做几个步骤才能达成：  打开 Visual Studio 并新建一个控制台项目。 在 Program.cs 中编写代码并保存。 点击运行按钮或者 F5 运行程序并查看结果。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linqpad使用教程">
+<meta property="og:url" content="http://www.hongjy.cn/2021/11/13/2021-11-13-linqpad%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="花生了什么树的博客">
+<meta property="og:description" content="如果想执行一个简单的 C# 语句并获得运行结果，通常我们需要做几个步骤才能达成：  打开 Visual Studio 并新建一个控制台项目。 在 Program.cs 中编写代码并保存。 点击运行按钮或者 F5 运行程序并查看结果。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blogimg.hongjy.cn/202005171031488862-1024x465.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/202005171200416206-1024x514.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/202005171204145313-1024x501.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/202005171230422692-1024x583.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/202005171235518162-1024x583.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/202005171240351915-1024x643.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/202005171250575509-1024x643.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/202005171412122665.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/202005171424342919-1024x697.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/202005171426479956-1024x525.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/202005171434114458-1024x525.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/202005171438309901-1024x525.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/202005171456157849.gif">
+<meta property="og:image" content="http://blogimg.hongjy.cn/202005171502213855-1024x828.png">
+<meta property="article:published_time" content="2021-11-13T15:40:58.000Z">
+<meta property="article:modified_time" content="2022-12-20T10:56:36.730Z">
+<meta property="article:author" content="花生了什么树">
+<meta property="article:tag" content=".NET工程师 后端开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blogimg.hongjy.cn/202005171031488862-1024x465.png">
+
+<link rel="canonical" href="http://www.hongjy.cn/2021/11/13/2021-11-13-linqpad%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>linqpad使用教程 | 花生了什么树的博客</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?749761669bb5184278820a5fa5d144a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+    <!--github 挂饰-->
+    <a target="_blank" rel="noopener" href="https://github.com/allenHongjun" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">花生了什么树的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">修身治国齐家平天下</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于我</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.hongjy.cn/2021/11/13/2021-11-13-linqpad%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+      <meta itemprop="name" content="花生了什么树">
+      <meta itemprop="description" content=".NET工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花生了什么树的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          linqpad使用教程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-13 23:40:58" itemprop="dateCreated datePublished" datetime="2021-11-13T23:40:58+08:00">2021-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-20 18:56:36" itemprop="dateModified" datetime="2022-12-20T18:56:36+08:00">2022-12-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开发工具</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>如果想执行一个简单的 C# 语句并获得运行结果，通常我们需要做几个步骤才能达成：</p>
+<ul>
+<li>打开 Visual Studio 并新建一个控制台项目。</li>
+<li>在 Program.cs 中编写代码并保存。</li>
+<li>点击运行按钮或者 F5 运行程序并查看结果。</li>
+</ul>
+<a id="more"></a>
+
+<p>通常来说这并不会产生问题。但如果你和笔者一样为 Visual Studio 安装了各种插件，那么 Visual Studio 的启动时间就会变得很长。在新建项目时，我们必须为这些临时的代码指定名称和保存路径，如果保持默认的名字，就很可能在今后忘记建立这些文件的用途。</p>
+<p>使用 LINQPad 可以解决上面的问题。LINQPad 的软件包很小只有二十兆左右，启动速度很快。使用时只需输入想要执行的 C# 语句，并按下 F5 即可：</p>
+<p><img src="http://blogimg.hongjy.cn/202005171031488862-1024x465.png" alt="img"></p>
+<p>快捷键 F4 可以打开“查询属性”窗口，在这个窗口中，你可以引用所有在运行时需要的东西，包括：dll、配置文件、json和文本文件等，这些引用的文件将会被复制到输出目录。</p>
+<p><img src="http://blogimg.hongjy.cn/202005171200416206-1024x514.png" alt="img"></p>
+<p>同时，LINQPad 也支持直接将 NuGet 包引用到查询中：</p>
+<p><img src="http://blogimg.hongjy.cn/202005171204145313-1024x501.png" alt="img"></p>
+<p>也可以将查询保存为一个扩展名为 .linq 的文件，以便复用代码。</p>
+<h2 id="语言支持"><a href="#语言支持" class="headerlink" title="语言支持"></a>语言支持</h2><p>包括“C# 表达式（C# Expression）”在内，LINQPad 一共支持 4 种语言和 10 种查询类型：</p>
+<ul>
+<li>C# Expression</li>
+<li>C# Statement(s)</li>
+<li>C# Program</li>
+<li>VB Expression</li>
+<li>VB Statement(s)</li>
+<li>VB Program</li>
+<li>SQL</li>
+<li>ESQL</li>
+<li>F# Expression</li>
+<li>F# Program</li>
+</ul>
+<p>LINQPad 会根据我们键入的代码自动选择正确的查询类型，大部分时候我们无需担心。</p>
+<h2 id="结果输出"><a href="#结果输出" class="headerlink" title="结果输出"></a>结果输出</h2><p>使用 <code>Console.WriteLine</code> 等方法输出的控制台内容会直接在 Result 标签页显示：</p>
+<p><img src="http://blogimg.hongjy.cn/202005171230422692-1024x583.png" alt="img"></p>
+<p>LINQPad 内置了名为 <code>Dump</code> 的扩展方法用于将对象的值展示出来。该方法对 Object 类型进行了扩展，并提供了多个重载，让我们可以对展示结果进行标记：</p>
+<p><img src="http://blogimg.hongjy.cn/202005171235518162-1024x583.png" alt="img"></p>
+<p>除了简单类型，<code>Dump</code> 方法对复杂类型的支持也值得称赞。我们完全可以仅依赖 <code>Dump</code> 方法就能了解到某个对象的全部取值：</p>
+<p><img src="http://blogimg.hongjy.cn/202005171240351915-1024x643.png" alt="img"></p>
+<p>甚至可以直接将一个 WinForm 或 WPF 控件 <code>Dump</code> 出来，且支持交互：</p>
+<p><img src="http://blogimg.hongjy.cn/202005171250575509-1024x643.png" alt="img"></p>
+<p>查询结果也可以进行导出，目前支持：Word、Excel 和 HTML 三种格式。</p>
+<p>查询编辑器的左下方是一个状态指示，在这里会展示出查询的运行状态和执行时间。这样，当我们需要简略测试一个算法的效率时，无需再编写额外的监测代码。</p>
+<h2 id="数据库集成"><a href="#数据库集成" class="headerlink" title="数据库集成"></a>数据库集成</h2><p>LINQPad 可以通过 Entity Framework 或者 Entity framework Core 及对应的数据库驱动链接至数据库，比如常见的 SQL Server , MySQL , Oracle 甚至 SQLite 。可以通过程序右上角的“Add connection”完成链接工作：</p>
+<p><img src="http://blogimg.hongjy.cn/202005171412122665.png" alt="img"></p>
+<p>在配置好数据库链接后，我们就可以选定这个链接，编写 C# 代码来访问数据库：</p>
+<p><img src="http://blogimg.hongjy.cn/202005171424342919-1024x697.png" alt="img"></p>
+<p>除了可以通过执行 <code>Dump</code> 方法看到运行结果以外，也可以切换至 <code>SQL</code> 标签页查看执行的 SQL 语句：</p>
+<p><img src="http://blogimg.hongjy.cn/202005171426479956-1024x525.png" alt="img"></p>
+<p>如果需要直接在 LINQPad 中执行 SQL 语句，只需将语言（Language）设置为 SQL 即可：</p>
+<p><img src="http://blogimg.hongjy.cn/202005171434114458-1024x525.png" alt="img"></p>
+<h2 id="图表支持"><a href="#图表支持" class="headerlink" title="图表支持"></a>图表支持</h2><p>除了将结果集以表格的形式呈现，LINQPad 也支持直接根据结果集生成统计图。柱状图、折线图、饼状图等均不再话下，且无需很多的额外代码：</p>
+<p><img src="http://blogimg.hongjy.cn/202005171438309901-1024x525.png" alt="img"></p>
+<h2 id="LINQPad-的-Visual-Studio-扩展-LINQBridgeVs"><a href="#LINQPad-的-Visual-Studio-扩展-LINQBridgeVs" class="headerlink" title="LINQPad 的 Visual Studio 扩展 LINQBridgeVs"></a>LINQPad 的 Visual Studio 扩展 LINQBridgeVs</h2><p>LINQBridgeVs 把 LINQPad 强大的 Dump 能力链接到了 Visual Studio 上，支持 2012 到 2019 版本：</p>
+<p><img src="http://blogimg.hongjy.cn/202005171456157849.gif" alt="img"></p>
+<h2 id="了解更多"><a href="#了解更多" class="headerlink" title="了解更多"></a>了解更多</h2><p>本文涵盖了 LINQPad 的大部分常用操作。作为一个开发者工具，LINQPad 的上手难度并不大。你可以在 <a target="_blank" rel="noopener" href="https://www.linqpad.net/Resources.aspx">https://www.linqpad.net/Resources.aspx</a> 上找到更多关于 LINQPad 的资源。</p>
+<p>LINQPad 本身也携带了大量的示例代码，切换左下角的选项卡到 “ Samples ”标签即可看到：</p>
+<p><img src="http://blogimg.hongjy.cn/202005171502213855-1024x828.png" alt="img"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>经过几个月的使用，LINQPad 确实成为了<a target="_blank" rel="noopener" href="https://www.coderbusy.com/">笔者</a>工作中不可或缺的工具。现在，LINQPad 已经被固定在了任务栏，除了运行一些测试性的代码，它也被用来作为数据导出工具和工具箱。笔者最喜欢的是其内置的图表生成功能，当枯燥的数据以图表的形式展示出来时，除了惊艳，就是说不出来的满足。</p>
+<p>LINQPad 的销售策略是买断制，一次购买终身有效且可以在最多三台电脑上同时安装，高级版单用户的售价为 700 元人民币左右，同时支持 LINQPad 5 和 LINQPad 6 两个版本。如果确实帮助了你，且经济实力允许，那么购买一个正版授权也未尝不可。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>花生了什么树
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.hongjy.cn/2021/11/13/2021-11-13-linqpad%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" title="linqpad使用教程">http://www.hongjy.cn/2021/11/13/2021-11-13-linqpad使用教程/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-github-desktop%E5%85%A5%E9%97%A8/" rel="prev" title="github-desktop入门">
+      <i class="fa fa-chevron-left"></i> github-desktop入门
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-Navicat%E7%94%9F%E6%88%90ER%E5%85%B3%E7%B3%BB%E5%9B%BE/" rel="next" title="Navicat生成ER关系图">
+      Navicat生成ER关系图 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E8%A8%80%E6%94%AF%E6%8C%81"><span class="nav-number">1.</span> <span class="nav-text">语言支持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C%E8%BE%93%E5%87%BA"><span class="nav-number">2.</span> <span class="nav-text">结果输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9B%86%E6%88%90"><span class="nav-number">3.</span> <span class="nav-text">数据库集成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E8%A1%A8%E6%94%AF%E6%8C%81"><span class="nav-number">4.</span> <span class="nav-text">图表支持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LINQPad-%E7%9A%84-Visual-Studio-%E6%89%A9%E5%B1%95-LINQBridgeVs"><span class="nav-number">5.</span> <span class="nav-text">LINQPad 的 Visual Studio 扩展 LINQBridgeVs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%86%E8%A7%A3%E6%9B%B4%E5%A4%9A"><span class="nav-number">6.</span> <span class="nav-text">了解更多</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="花生了什么树"
+      src="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+  <p class="site-author-name" itemprop="name">花生了什么树</p>
+  <div class="site-description" itemprop="description">.NET工程师</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AllenHongjun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AllenHongjun" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hongjy1991@gmail.com" title="E-Mail → mailto:hongjy1991@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.google.com/" title="Google → https:&#x2F;&#x2F;www.google.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/hongjy1991" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;hongjy1991" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://youtube.com/" title="YouTube → https:&#x2F;&#x2F;youtube.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://leetcode-cn.com/" title="https:&#x2F;&#x2F;leetcode-cn.com&#x2F;" rel="noopener" target="_blank">leetcode</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://lailin.xyz/" title="https:&#x2F;&#x2F;lailin.xyz&#x2F;" rel="noopener" target="_blank">lailin</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ciweigg2.github.io/" title="https:&#x2F;&#x2F;ciweigg2.github.io&#x2F;" rel="noopener" target="_blank">ciweigg2</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.itmuch.com/" title="https:&#x2F;&#x2F;www.itmuch.com&#x2F;" rel="noopener" target="_blank">itmuch</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://tengj.top/" title="http:&#x2F;&#x2F;tengj.top&#x2F;" rel="noopener" target="_blank">tengj</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">浙ICP备18047156号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花生了什么树</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">383k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5:49</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

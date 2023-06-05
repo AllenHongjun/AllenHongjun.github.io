@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hongjy.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一文搞懂 RabbitMQ 的重要概念以及安装 一 RabbitMQ 介绍 1.1 RabbitMQ 简介 1.2 RabbitMQ 核心概念 1.2.1 Producer(生产者) 和 Consumer(消费者) 1.2.2 Exchange(交换器) 1.2.3 Queue(消息队列) 1.2.4 Broker（消息中间件的服务节点） 1.2.5 Exchange Types(交换器类型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RabbitMQ入门">
+<meta property="og:url" content="http://www.hongjy.cn/2021/11/13/2021-11-13-rabbit-mq%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="花生了什么树的博客">
+<meta property="og:description" content="一文搞懂 RabbitMQ 的重要概念以及安装 一 RabbitMQ 介绍 1.1 RabbitMQ 简介 1.2 RabbitMQ 核心概念 1.2.1 Producer(生产者) 和 Consumer(消费者) 1.2.2 Exchange(交换器) 1.2.3 Queue(消息队列) 1.2.4 Broker（消息中间件的服务节点） 1.2.5 Exchange Types(交换器类型">
+<meta property="og:locale">
+<meta property="og:image" content="http://blogimg.hongjy.cn/96388546.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24007899.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/70553134.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/67952922.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/37008021.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/73843.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/RabbitMQ-Erlang.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/49570541.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/62504246.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/45835332.jpg">
+<meta property="article:published_time" content="2021-11-13T01:27:27.000Z">
+<meta property="article:modified_time" content="2022-12-20T10:56:36.769Z">
+<meta property="article:author" content="花生了什么树">
+<meta property="article:tag" content=".NET工程师 后端开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blogimg.hongjy.cn/96388546.jpg">
+
+<link rel="canonical" href="http://www.hongjy.cn/2021/11/13/2021-11-13-rabbit-mq%E5%85%A5%E9%97%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>RabbitMQ入门 | 花生了什么树的博客</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?749761669bb5184278820a5fa5d144a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+    <!--github 挂饰-->
+    <a target="_blank" rel="noopener" href="https://github.com/allenHongjun" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">花生了什么树的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">修身治国齐家平天下</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于我</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.hongjy.cn/2021/11/13/2021-11-13-rabbit-mq%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+      <meta itemprop="name" content="花生了什么树">
+      <meta itemprop="description" content=".NET工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花生了什么树的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RabbitMQ入门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-13 09:27:27" itemprop="dateCreated datePublished" datetime="2021-11-13T09:27:27+08:00">2021-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-20 18:56:36" itemprop="dateModified" datetime="2022-12-20T18:56:36+08:00">2022-12-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">消息队列</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!-- TOC -->
+
+<ul>
+<li><a href="#%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82-rabbitmq-%E7%9A%84%E9%87%8D%E8%A6%81%E6%A6%82%E5%BF%B5%E4%BB%A5%E5%8F%8A%E5%AE%89%E8%A3%85">一文搞懂 RabbitMQ 的重要概念以及安装</a><ul>
+<li><a href="#%E4%B8%80-rabbitmq-%E4%BB%8B%E7%BB%8D">一 RabbitMQ 介绍</a><ul>
+<li><a href="#11-rabbitmq-%E7%AE%80%E4%BB%8B">1.1 RabbitMQ 简介</a></li>
+<li><a href="#12-rabbitmq-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5">1.2 RabbitMQ 核心概念</a><ul>
+<li><a href="#121-producer%E7%94%9F%E4%BA%A7%E8%80%85-%E5%92%8C-consumer%E6%B6%88%E8%B4%B9%E8%80%85">1.2.1 Producer(生产者) 和 Consumer(消费者)</a></li>
+<li><a href="#122-exchange%E4%BA%A4%E6%8D%A2%E5%99%A8">1.2.2 Exchange(交换器)</a></li>
+<li><a href="#123-queue%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97">1.2.3 Queue(消息队列)</a></li>
+<li><a href="#124-broker%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E6%9C%8D%E5%8A%A1%E8%8A%82%E7%82%B9">1.2.4 Broker（消息中间件的服务节点）</a></li>
+<li><a href="#125-exchange-types%E4%BA%A4%E6%8D%A2%E5%99%A8%E7%B1%BB%E5%9E%8B">1.2.5 Exchange Types(交换器类型)</a><ul>
+<li><a href="#-fanout">① fanout</a></li>
+<li><a href="#-direct">② direct</a></li>
+<li><a href="#-topic">③ topic</a></li>
+<li><a href="#-headers%E4%B8%8D%E6%8E%A8%E8%8D%90">④ headers(不推荐)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E4%BA%8C-%E5%AE%89%E8%A3%85-rabbitmq">二 安装 RabbitMq</a><ul>
+<li><a href="#21-%E5%AE%89%E8%A3%85-erlang">2.1 安装 erlang</a></li>
+<li><a href="#22-%E5%AE%89%E8%A3%85-rabbitmq">2.2 安装 RabbitMQ</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+
+<a id="more"></a>
+
+<h1 id="一文搞懂-RabbitMQ-的重要概念以及安装"><a href="#一文搞懂-RabbitMQ-的重要概念以及安装" class="headerlink" title="一文搞懂 RabbitMQ 的重要概念以及安装"></a>一文搞懂 RabbitMQ 的重要概念以及安装</h1><h2 id="一-RabbitMQ-介绍"><a href="#一-RabbitMQ-介绍" class="headerlink" title="一 RabbitMQ 介绍"></a>一 RabbitMQ 介绍</h2><p>这部分参考了 《RabbitMQ实战指南》这本书的第 1 章和第 2 章。</p>
+<h3 id="1-1-RabbitMQ-简介"><a href="#1-1-RabbitMQ-简介" class="headerlink" title="1.1 RabbitMQ 简介"></a>1.1 RabbitMQ 简介</h3><p>RabbitMQ 是采用 Erlang 语言实现 AMQP(Advanced Message Queuing Protocol，高级消息队列协议）的消息中间件，它最初起源于金融系统，用于在分布式系统中存储转发消息。</p>
+<p>RabbitMQ 发展到今天，被越来越多的人认可，这和它在易用性、扩展性、可靠性和高可用性等方面的卓著表现是分不开的。RabbitMQ 的具体特点可以概括为以下几点：</p>
+<ul>
+<li><strong>可靠性：</strong> RabbitMQ使用一些机制来保证消息的可靠性，如持久化、传输确认及发布确认等。</li>
+<li><strong>灵活的路由：</strong> 在消息进入队列之前，通过交换器来路由消息。对于典型的路由功能，RabbitMQ 己经提供了一些内置的交换器来实现。针对更复杂的路由功能，可以将多个交换器绑定在一起，也可以通过插件机制来实现自己的交换器。这个后面会在我们将 RabbitMQ 核心概念的时候详细介绍到。</li>
+<li><strong>扩展性：</strong> 多个RabbitMQ节点可以组成一个集群，也可以根据实际业务情况动态地扩展集群中节点。</li>
+<li><strong>高可用性：</strong> 队列可以在集群中的机器上设置镜像，使得在部分节点出现问题的情况下队列仍然可用。</li>
+<li><strong>支持多种协议：</strong> RabbitMQ 除了原生支持 AMQP 协议，还支持 STOMP、MQTT 等多种消息中间件协议。</li>
+<li><strong>多语言客户端：</strong> RabbitMQ几乎支持所有常用语言，比如 Java、Python、Ruby、PHP、C#、JavaScript等。</li>
+<li><strong>易用的管理界面：</strong> RabbitMQ提供了一个易用的用户界面，使得用户可以监控和管理消息、集群中的节点等。在安装 RabbitMQ 的时候会介绍到，安装好 RabbitMQ 就自带管理界面。</li>
+<li><strong>插件机制：</strong> RabbitMQ 提供了许多插件，以实现从多方面进行扩展，当然也可以编写自己的插件。感觉这个有点类似 Dubbo 的 SPI机制。</li>
+</ul>
+<h3 id="1-2-RabbitMQ-核心概念"><a href="#1-2-RabbitMQ-核心概念" class="headerlink" title="1.2 RabbitMQ 核心概念"></a>1.2 RabbitMQ 核心概念</h3><p>RabbitMQ 整体上是一个生产者与消费者模型，主要负责接收、存储和转发消息。可以把消息传递的过程想象成：当你将一个包裹送到邮局，邮局会暂存并最终将邮件通过邮递员送到收件人的手上，RabbitMQ就好比由邮局、邮箱和邮递员组成的一个系统。从计算机术语层面来说，RabbitMQ 模型更像是一种交换机模型。</p>
+<p>下面再来看看图1—— RabbitMQ 的整体模型架构。</p>
+<p><img src="http://blogimg.hongjy.cn/96388546.jpg" alt="图1-RabbitMQ 的整体模型架构"></p>
+<p>下面我会一一介绍上图中的一些概念。</p>
+<h4 id="1-2-1-Producer-生产者-和-Consumer-消费者"><a href="#1-2-1-Producer-生产者-和-Consumer-消费者" class="headerlink" title="1.2.1 Producer(生产者) 和 Consumer(消费者)"></a>1.2.1 Producer(生产者) 和 Consumer(消费者)</h4><ul>
+<li><strong>Producer(生产者)</strong> :生产消息的一方（邮件投递者）</li>
+<li><strong>Consumer(消费者)</strong> :消费消息的一方（邮件收件人）</li>
+</ul>
+<p>消息一般由 2 部分组成：<strong>消息头</strong>（或者说是标签 Label）和 <strong>消息体</strong>。消息体也可以称为 payLoad ,消息体是不透明的，而消息头则由一系列的可选属性组成，这些属性包括 routing-key（路由键）、priority（相对于其他消息的优先权）、delivery-mode（指出该消息可能需要持久性存储）等。生产者把消息交由 RabbitMQ 后，RabbitMQ 会根据消息头把消息发送给感兴趣的 Consumer(消费者)。</p>
+<h4 id="1-2-2-Exchange-交换器"><a href="#1-2-2-Exchange-交换器" class="headerlink" title="1.2.2 Exchange(交换器)"></a>1.2.2 Exchange(交换器)</h4><p>在 RabbitMQ 中，消息并不是直接被投递到 <strong>Queue(消息队列)</strong> 中的，中间还必须经过 <strong>Exchange(交换器)</strong> 这一层，<strong>Exchange(交换器)</strong> 会把我们的消息分配到对应的 <strong>Queue(消息队列)</strong> 中。</p>
+<p><strong>Exchange(交换器)</strong> 用来接收生产者发送的消息并将这些消息路由给服务器中的队列中，如果路由不到，或许会返回给 <strong>Producer(生产者)</strong> ，或许会被直接丢弃掉 。这里可以将RabbitMQ中的交换器看作一个简单的实体。</p>
+<p><strong>RabbitMQ 的 Exchange(交换器) 有4种类型，不同的类型对应着不同的路由策略</strong>：<strong>direct(默认)**，</strong>fanout**, <strong>topic</strong>, 和 <strong>headers</strong>，不同类型的Exchange转发消息的策略有所区别。这个会在介绍 <strong>Exchange Types(交换器类型)</strong> 的时候介绍到。</p>
+<p>Exchange(交换器) 示意图如下：</p>
+<p><img src="http://blogimg.hongjy.cn/24007899.jpg" alt="Exchange(交换器) 示意图"></p>
+<p>生产者将消息发给交换器的时候，一般会指定一个 <strong>RoutingKey(路由键)**，用来指定这个消息的路由规则，而这个 **RoutingKey 需要与交换器类型和绑定键(BindingKey)联合使用才能最终生效</strong>。</p>
+<p>RabbitMQ 中通过 <strong>Binding(绑定)</strong> 将 <strong>Exchange(交换器)</strong> 与 <strong>Queue(消息队列)</strong> 关联起来，在绑定的时候一般会指定一个 <strong>BindingKey(绑定建)</strong> ,这样 RabbitMQ 就知道如何正确将消息路由到队列了,如下图所示。一个绑定就是基于路由键将交换器和消息队列连接起来的路由规则，所以可以将交换器理解成一个由绑定构成的路由表。Exchange 和 Queue 的绑定可以是多对多的关系。</p>
+<p>Binding(绑定) 示意图：</p>
+<p><img src="http://blogimg.hongjy.cn/70553134.jpg" alt="Binding(绑定) 示意图"></p>
+<p>生产者将消息发送给交换器时，需要一个RoutingKey,当 BindingKey 和 RoutingKey 相匹配时，消息会被路由到对应的队列中。在绑定多个队列到同一个交换器的时候，这些绑定允许使用相同的 BindingKey。BindingKey 并不是在所有的情况下都生效，它依赖于交换器类型，比如fanout类型的交换器就会无视，而是将消息路由到所有绑定到该交换器的队列中。</p>
+<h4 id="1-2-3-Queue-消息队列"><a href="#1-2-3-Queue-消息队列" class="headerlink" title="1.2.3 Queue(消息队列)"></a>1.2.3 Queue(消息队列)</h4><p><strong>Queue(消息队列)</strong> 用来保存消息直到发送给消费者。它是消息的容器，也是消息的终点。一个消息可投入一个或多个队列。消息一直在队列里面，等待消费者连接到这个队列将其取走。</p>
+<p><strong>RabbitMQ</strong> 中消息只能存储在 <strong>队列</strong> 中，这一点和 <strong>Kafka</strong> 这种消息中间件相反。Kafka 将消息存储在 <strong>topic（主题）</strong> 这个逻辑层面，而相对应的队列逻辑只是topic实际存储文件中的位移标识。 RabbitMQ 的生产者生产消息并最终投递到队列中，消费者可以从队列中获取消息并消费。</p>
+<p><strong>多个消费者可以订阅同一个队列</strong>，这时队列中的消息会被平均分摊（Round-Robin，即轮询）给多个消费者进行处理，而不是每个消费者都收到所有的消息并处理，这样避免的消息被重复消费。</p>
+<p><strong>RabbitMQ</strong> 不支持队列层面的广播消费,如果有广播消费的需求，需要在其上进行二次开发,这样会很麻烦，不建议这样做。</p>
+<h4 id="1-2-4-Broker（消息中间件的服务节点）"><a href="#1-2-4-Broker（消息中间件的服务节点）" class="headerlink" title="1.2.4 Broker（消息中间件的服务节点）"></a>1.2.4 Broker（消息中间件的服务节点）</h4><p>对于 RabbitMQ 来说，一个 RabbitMQ Broker 可以简单地看作一个 RabbitMQ 服务节点，或者RabbitMQ服务实例。大多数情况下也可以将一个 RabbitMQ Broker 看作一台 RabbitMQ 服务器。</p>
+<p>下图展示了生产者将消息存入 RabbitMQ Broker,以及消费者从Broker中消费数据的整个流程。</p>
+<p><img src="http://blogimg.hongjy.cn/67952922.jpg" alt="消息队列的运转过程"></p>
+<p>这样图1中的一些关于 RabbitMQ 的基本概念我们就介绍完毕了，下面再来介绍一下 <strong>Exchange Types(交换器类型)</strong> 。</p>
+<h4 id="1-2-5-Exchange-Types-交换器类型"><a href="#1-2-5-Exchange-Types-交换器类型" class="headerlink" title="1.2.5 Exchange Types(交换器类型)"></a>1.2.5 Exchange Types(交换器类型)</h4><p>RabbitMQ 常用的 Exchange Type 有 <strong>fanout</strong>、<strong>direct</strong>、<strong>topic</strong>、<strong>headers</strong> 这四种（AMQP规范里还提到两种 Exchange Type，分别为 system 与 自定义，这里不予以描述）。</p>
+<h5 id="①-fanout"><a href="#①-fanout" class="headerlink" title="① fanout"></a>① fanout</h5><p>fanout 类型的Exchange路由规则非常简单，它会把所有发送到该Exchange的消息路由到所有与它绑定的Queue中，不需要做任何判断操作，所以 fanout 类型是所有的交换机类型里面速度最快的。fanout 类型常用来广播消息。</p>
+<h5 id="②-direct"><a href="#②-direct" class="headerlink" title="② direct"></a>② direct</h5><p>direct 类型的Exchange路由规则也很简单，它会把消息路由到那些 Bindingkey 与 RoutingKey 完全匹配的 Queue 中。 </p>
+<p><img src="http://blogimg.hongjy.cn/37008021.jpg" alt="direct 类型交换器"></p>
+<p>以上图为例，如果发送消息的时候设置路由键为“warning”,那么消息会路由到 Queue1 和 Queue2。如果在发送消息的时候设置路由键为”Info”或者”debug”，消息只会路由到Queue2。如果以其他的路由键发送消息，则消息不会路由到这两个队列中。</p>
+<p>direct 类型常用在处理有优先级的任务，根据任务的优先级把消息发送到对应的队列，这样可以指派更多的资源去处理高优先级的队列。</p>
+<h5 id="③-topic"><a href="#③-topic" class="headerlink" title="③ topic"></a>③ topic</h5><p>前面讲到direct类型的交换器路由规则是完全匹配 BindingKey 和 RoutingKey ，但是这种严格的匹配方式在很多情况下不能满足实际业务的需求。topic类型的交换器在匹配规则上进行了扩展，它与 direct 类型的交换器相似，也是将消息路由到 BindingKey 和 RoutingKey 相匹配的队列中，但这里的匹配规则有些不同，它约定：</p>
+<ul>
+<li>RoutingKey 为一个点号“．”分隔的字符串（被点号“．”分隔开的每一段独立的字符串称为一个单词），如 “com.rabbitmq.client”、“java.util.concurrent”、“com.hidden.client”;</li>
+<li>BindingKey 和 RoutingKey 一样也是点号“．”分隔的字符串；</li>
+<li>BindingKey 中可以存在两种特殊字符串“*”和“#”，用于做模糊匹配，其中“*”用于匹配一个单词，“#”用于匹配多个单词(可以是零个)。</li>
+</ul>
+<p><img src="http://blogimg.hongjy.cn/73843.jpg" alt="topic 类型交换器"></p>
+<p>以上图为例：</p>
+<ul>
+<li>路由键为 “com.rabbitmq.client” 的消息会同时路由到 Queuel 和 Queue2;</li>
+<li>路由键为 “com.hidden.client” 的消息只会路由到 Queue2 中；</li>
+<li>路由键为 “com.hidden.demo” 的消息只会路由到 Queue2 中；</li>
+<li>路由键为 “java.rabbitmq.demo” 的消息只会路由到Queuel中；</li>
+<li>路由键为 “java.util.concurrent” 的消息将会被丢弃或者返回给生产者（需要设置 mandatory 参数），因为它没有匹配任何路由键。</li>
+</ul>
+<h5 id="④-headers-不推荐"><a href="#④-headers-不推荐" class="headerlink" title="④ headers(不推荐)"></a>④ headers(不推荐)</h5><p>headers 类型的交换器不依赖于路由键的匹配规则来路由消息，而是根据发送的消息内容中的 headers 属性进行匹配。在绑定队列和交换器时制定一组键值对，当发送消息到交换器时，RabbitMQ会获取到该消息的 headers（也是一个键值对的形式)’对比其中的键值对是否完全匹配队列和交换器绑定时指定的键值对，如果完全匹配则消息会路由到该队列，否则不会路由到该队列。headers 类型的交换器性能会很差，而且也不实用，基本上不会看到它的存在。</p>
+<h2 id="二-安装-RabbitMq"><a href="#二-安装-RabbitMq" class="headerlink" title="二 安装 RabbitMq"></a>二 安装 RabbitMq</h2><p>通过 Docker 安装非常方便，只需要几条命令就好了，我这里是只说一下常规安装方法。</p>
+<p>前面提到了 RabbitMQ 是由 Erlang语言编写的，也正因如此，在安装RabbitMQ 之前需要安装 Erlang。</p>
+<p>注意：在安装 RabbitMQ 的时候需要注意 RabbitMQ 和 Erlang 的版本关系，如果不注意的话会导致出错，两者对应关系如下:</p>
+<p><img src="http://blogimg.hongjy.cn/RabbitMQ-Erlang.png" alt="RabbitMQ 和 Erlang 的版本关系"></p>
+<h3 id="2-1-安装-erlang"><a href="#2-1-安装-erlang" class="headerlink" title="2.1 安装 erlang"></a>2.1 安装 erlang</h3><p><strong>1 下载 erlang 安装包</strong></p>
+<p>在官网下载然后上传到 Linux 上或者直接使用下面的命令下载对应的版本。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@SnailClimb local]#wget https://erlang.org/download/otp_src_19.3.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>erlang 官网下载：<a target="_blank" rel="noopener" href="https://www.erlang.org/downloads">https://www.erlang.org/downloads</a>  </p>
+<p> <strong>2 解压 erlang 安装包</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@SnailClimb local]#tar -xvzf otp_src_19.3.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p><strong>3 删除 erlang 安装包</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@SnailClimb local]#rm -rf otp_src_19.3.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p><strong>4 安装 erlang 的依赖工具</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@SnailClimb local]#yum -y install make gcc gcc-c++ kernel-devel m4 ncurses-devel openssl-devel unixODBC-devel</span><br></pre></td></tr></table></figure>
+
+<p><strong>5 进入erlang 安装包解压文件对 erlang 进行安装环境的配置</strong></p>
+<p>新建一个文件夹</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@SnailClimb local]# mkdir erlang</span><br></pre></td></tr></table></figure>
+
+<p>对 erlang 进行安装环境的配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@SnailClimb otp_src_19.3]# </span><br><span class="line">./configure --prefix=/usr/local/erlang --without-javac</span><br></pre></td></tr></table></figure>
+
+<p><strong>6 编译安装</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@SnailClimb otp_src_19.3]# </span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+
+<p><strong>7 验证一下 erlang 是否安装成功了</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@SnailClimb otp_src_19.3]# ./bin/erl</span><br></pre></td></tr></table></figure>
+
+<p>运行下面的语句输出“hello world”</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">io:format(<span class="string">&quot;hello world~n&quot;</span>, []).</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blogimg.hongjy.cn/49570541.jpg" alt="输出“hello world”"></p>
+<p>大功告成，我们的 erlang 已经安装完成。</p>
+<p><strong>8 配置  erlang 环境变量</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@SnailClimb etc]# vim profile</span><br></pre></td></tr></table></figure>
+
+<p>追加下列环境变量到文件末尾</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">erlang</span></span><br><span class="line">ERL_HOME=/usr/local/erlang</span><br><span class="line">PATH=$ERL_HOME/bin:$PATH</span><br><span class="line">export ERL_HOME PATH</span><br></pre></td></tr></table></figure>
+
+<p>运行下列命令使配置文件<code>profile</code>生效</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@SnailClimb etc]# source /etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>输入 erl 查看 erlang 环境变量是否配置正确</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@SnailClimb etc]# erl</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blogimg.hongjy.cn/62504246.jpg" alt="输入 erl 查看 erlang 环境变量是否配置正确"></p>
+<h3 id="2-2-安装-RabbitMQ"><a href="#2-2-安装-RabbitMQ" class="headerlink" title="2.2 安装 RabbitMQ"></a>2.2 安装 RabbitMQ</h3><p><strong>1. 下载rpm</strong> </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://www.rabbitmq.com/releases/rabbitmq-server/v3.6.8/rabbitmq-server-3.6.8-1.el7.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<p>或者直接在官网下载</p>
+<p><a target="_blank" rel="noopener" href="https://www.rabbitmq.com/install-rpm.html">https://www.rabbitmq.com/install-rpm.html</a></p>
+<p><strong>2. 安装rpm</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://www.rabbitmq.com/rabbitmq-release-signing-key.asc</span><br></pre></td></tr></table></figure>
+
+<p>紧接着执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install rabbitmq-server-3.6.8-1.el7.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<p>中途需要你输入”y”才能继续安装。</p>
+<p><strong>3 开启 web 管理插件</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins enable rabbitmq_management</span><br></pre></td></tr></table></figure>
+
+<p><strong>4 设置开机启动</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig rabbitmq-server on</span><br></pre></td></tr></table></figure>
+
+<p><strong>4. 启动服务</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service rabbitmq-server start</span><br></pre></td></tr></table></figure>
+
+<p><strong>5. 查看服务状态</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service rabbitmq-server status</span><br></pre></td></tr></table></figure>
+
+<p><strong>6. 访问 RabbitMQ 控制台</strong></p>
+<p>浏览器访问：http://你的ip地址:15672/</p>
+<p>默认用户名和密码： guest/guest;但是需要注意的是：guestuest用户只是被容许从localhost访问。官网文档描述如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“guest” user can only connect via localhost</span><br></pre></td></tr></table></figure>
+
+<p><strong>解决远程访问 RabbitMQ 远程访问密码错误</strong></p>
+<p>新建用户并授权 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@SnailClimb rabbitmq]# rabbitmqctl add_user root root</span><br><span class="line">Creating user &quot;root&quot; ...</span><br><span class="line">[root@SnailClimb rabbitmq]# rabbitmqctl set_user_tags root administrator</span><br><span class="line"></span><br><span class="line">Setting tags for user &quot;root&quot; to [administrator] ...</span><br><span class="line">[root@SnailClimb rabbitmq]# </span><br><span class="line">[root@SnailClimb rabbitmq]# rabbitmqctl set_permissions -p / root &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;</span><br><span class="line">Setting permissions for user &quot;root&quot; in vhost &quot;/&quot; ...</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>再次访问:http://你的ip地址:15672/ ,输入用户名和密码：root root</p>
+<p><img src="http://blogimg.hongjy.cn/45835332.jpg" alt="RabbitMQ控制台"></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>花生了什么树
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.hongjy.cn/2021/11/13/2021-11-13-rabbit-mq%E5%85%A5%E9%97%A8/" title="RabbitMQ入门">http://www.hongjy.cn/2021/11/13/2021-11-13-rabbit-mq入门/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-%E4%B8%80%E5%8D%83%E8%A1%8Cmysql%E5%91%BD%E4%BB%A4/" rel="prev" title="一千行mysql命令">
+      <i class="fa fa-chevron-left"></i> 一千行mysql命令
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-putty%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" rel="next" title="putty使用教程">
+      putty使用教程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82-RabbitMQ-%E7%9A%84%E9%87%8D%E8%A6%81%E6%A6%82%E5%BF%B5%E4%BB%A5%E5%8F%8A%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">一文搞懂 RabbitMQ 的重要概念以及安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-RabbitMQ-%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.</span> <span class="nav-text">一 RabbitMQ 介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-RabbitMQ-%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 RabbitMQ 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-RabbitMQ-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 RabbitMQ 核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-Producer-%E7%94%9F%E4%BA%A7%E8%80%85-%E5%92%8C-Consumer-%E6%B6%88%E8%B4%B9%E8%80%85"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">1.2.1 Producer(生产者) 和 Consumer(消费者)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-Exchange-%E4%BA%A4%E6%8D%A2%E5%99%A8"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">1.2.2 Exchange(交换器)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-3-Queue-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">1.2.3 Queue(消息队列)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-4-Broker%EF%BC%88%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E6%9C%8D%E5%8A%A1%E8%8A%82%E7%82%B9%EF%BC%89"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">1.2.4 Broker（消息中间件的服务节点）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-5-Exchange-Types-%E4%BA%A4%E6%8D%A2%E5%99%A8%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.2.5.</span> <span class="nav-text">1.2.5 Exchange Types(交换器类型)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E2%91%A0-fanout"><span class="nav-number">1.1.2.5.1.</span> <span class="nav-text">① fanout</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E2%91%A1-direct"><span class="nav-number">1.1.2.5.2.</span> <span class="nav-text">② direct</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E2%91%A2-topic"><span class="nav-number">1.1.2.5.3.</span> <span class="nav-text">③ topic</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E2%91%A3-headers-%E4%B8%8D%E6%8E%A8%E8%8D%90"><span class="nav-number">1.1.2.5.4.</span> <span class="nav-text">④ headers(不推荐)</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E5%AE%89%E8%A3%85-RabbitMq"><span class="nav-number">1.2.</span> <span class="nav-text">二 安装 RabbitMq</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%AE%89%E8%A3%85-erlang"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 安装 erlang</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%AE%89%E8%A3%85-RabbitMQ"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 安装 RabbitMQ</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="花生了什么树"
+      src="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+  <p class="site-author-name" itemprop="name">花生了什么树</p>
+  <div class="site-description" itemprop="description">.NET工程师</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AllenHongjun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AllenHongjun" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hongjy1991@gmail.com" title="E-Mail → mailto:hongjy1991@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.google.com/" title="Google → https:&#x2F;&#x2F;www.google.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/hongjy1991" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;hongjy1991" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://youtube.com/" title="YouTube → https:&#x2F;&#x2F;youtube.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://leetcode-cn.com/" title="https:&#x2F;&#x2F;leetcode-cn.com&#x2F;" rel="noopener" target="_blank">leetcode</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://lailin.xyz/" title="https:&#x2F;&#x2F;lailin.xyz&#x2F;" rel="noopener" target="_blank">lailin</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ciweigg2.github.io/" title="https:&#x2F;&#x2F;ciweigg2.github.io&#x2F;" rel="noopener" target="_blank">ciweigg2</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.itmuch.com/" title="https:&#x2F;&#x2F;www.itmuch.com&#x2F;" rel="noopener" target="_blank">itmuch</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://tengj.top/" title="http:&#x2F;&#x2F;tengj.top&#x2F;" rel="noopener" target="_blank">tengj</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">浙ICP备18047156号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花生了什么树</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">383k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5:49</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

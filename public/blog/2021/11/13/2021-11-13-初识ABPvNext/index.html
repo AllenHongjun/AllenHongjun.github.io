@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hongjy.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="初识ABPvNextTips：本篇已加入系列文章阅读目录，可点击查看更多相关文章。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识ABPvNext">
+<meta property="og:url" content="http://www.hongjy.cn/2021/11/13/2021-11-13-%E5%88%9D%E8%AF%86ABPvNext/index.html">
+<meta property="og:site_name" content="花生了什么树的博客">
+<meta property="og:description" content="初识ABPvNextTips：本篇已加入系列文章阅读目录，可点击查看更多相关文章。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-11-13T08:08:20.000Z">
+<meta property="article:modified_time" content="2022-12-20T10:56:36.928Z">
+<meta property="article:author" content="花生了什么树">
+<meta property="article:tag" content=".NET工程师 后端开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://www.hongjy.cn/2021/11/13/2021-11-13-%E5%88%9D%E8%AF%86ABPvNext/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>初识ABPvNext | 花生了什么树的博客</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?749761669bb5184278820a5fa5d144a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+    <!--github 挂饰-->
+    <a target="_blank" rel="noopener" href="https://github.com/allenHongjun" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">花生了什么树的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">修身治国齐家平天下</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于我</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.hongjy.cn/2021/11/13/2021-11-13-%E5%88%9D%E8%AF%86ABPvNext/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+      <meta itemprop="name" content="花生了什么树">
+      <meta itemprop="description" content=".NET工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花生了什么树的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          初识ABPvNext
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-13 16:08:20" itemprop="dateCreated datePublished" datetime="2021-11-13T16:08:20+08:00">2021-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-20 18:56:36" itemprop="dateModified" datetime="2022-12-20T18:56:36+08:00">2022-12-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%A1%86%E6%9E%B6/" itemprop="url" rel="index"><span itemprop="name">框架</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%A1%86%E6%9E%B6/abp/" itemprop="url" rel="index"><span itemprop="name">abp</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="初识ABPvNext"><a href="#初识ABPvNext" class="headerlink" title="初识ABPvNext"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xhznl/p/13491480.html">初识ABPvNext</a></h1><p>Tips：本篇已加入<a target="_blank" rel="noopener" href="https://www.cnblogs.com/xhznl/p/13259036.html">系列文章阅读目录</a>，可点击查看更多相关文章。</p>
+<a id="more"></a>
+
+
+
+<p>目录</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xhznl/p/13491480.html#%E5%89%8D%E8%A8%80">前言</a></li>
+<li>开始<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xhznl/p/13491480.html#%E5%AE%A1%E8%AE%A1audit">审计(Audit)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xhznl/p/13491480.html#%E6%9C%AC%E5%9C%B0%E5%8C%96localization">本地化(Localization)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xhznl/p/13491480.html#%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BFevent-bus">事件总线(Event Bus)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xhznl/p/13491480.html#%E5%A4%9A%E7%A7%9F%E6%88%B7multi-tenancy-technology">多租户(multi-tenancy technology)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xhznl/p/13491480.html#ddd%E5%88%86%E5%B1%82">DDD分层</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xhznl/p/13491480.html#%E5%AE%9E%E4%BD%93entity">实体(Entity)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xhznl/p/13491480.html#%E5%80%BC%E5%AF%B9%E8%B1%A1value-object">值对象(Value Object)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xhznl/p/13491480.html#%E8%81%9A%E5%90%88%E6%A0%B9aggregate-root">聚合根(Aggregate Root)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xhznl/p/13491480.html#%E4%BB%93%E5%82%A8repository">仓储(Repository)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xhznl/p/13491480.html#%E5%BA%94%E7%94%A8%E6%9C%8D%E5%8A%A1application-services">应用服务(Application Services)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xhznl/p/13491480.html#%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%AF%B9%E8%B1%A1dto">数据传输对象(DTO)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xhznl/p/13491480.html#%E5%B7%A5%E4%BD%9C%E5%8D%95%E5%85%83unit-of-work">工作单元(Unit Of Work)</a></li>
+</ul>
+</li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xhznl/p/13491480.html#%E6%9C%80%E5%90%8E">最后</a></li>
+</ul>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>ABP vNext（以下简称ABP）的前身是asp.net boilerplate（老版abp），它不是一个简单的版本更新，而是完全基于.NET Core的重写。之前有听说过ABP框架，但是一直没有去详细了解。最近认真学习了一下，准备记录下自己的一些心得，计划分为3部分来进行：</p>
+<ol>
+<li>ABP基础（就是官网上一些基本的功能）</li>
+<li>ABP实战（使用ABP+vue开发一个简单项目）</li>
+<li>ABP模块化（微服务简单介绍）</li>
+</ol>
+<p>首先，这是以一个0基础的视角去写的，所以会比较基础，适合新手。文中如果有不对的地方，大家可以帮我指出来相互学习。。。</p>
+<h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><p>ABP官网：<a target="_blank" rel="noopener" href="https://www.abp.io/">https://www.abp.io/</a></p>
+<p>ABP GitHub：<a target="_blank" rel="noopener" href="https://github.com/abpframework/abp">https://github.com/abpframework/abp</a></p>
+<p>要学习ABP，首先肯定要认真看一下官方的文档，虽然目前官方文档还不完整；然后对哪一部分不理解的，可以适当的阅读一下源码。</p>
+<p>ABP是基于DDD:Domain-Driven Design（领域驱动设计）去开发的，当然框架本身不强制你使用DDD，但是他建议把DDD作为最佳实践。如果了解DDD，并且使用过老版本abp的话，看官方文档可能就比较轻松，反之则会比较吃力。。。首先DDD理论就非常抽象和复杂，要深刻理解它并不容易；其次是ABP内部使用了很多开源组件，比如EF Core，IdentityServer4，Autofac，AutoMapper，Swagger等等，所以也需要对这些组件有所了解。</p>
+<p>本篇简单介绍一下ABP官方文档上一些重要的关键字，先理解这些关键字，才能更好的进一步学习。</p>
+<h2 id="审计-Audit"><a href="#审计-Audit" class="headerlink" title="审计(Audit)"></a>审计(Audit)</h2><p>审计是用于追踪数据变化的过程。平时开发中，你一定经常见到类似创建时间、创建人、修改时间、修改人等属性，这些属性就是用于数据审计。ABP框架提供了一些接口和基类来标准化这些属性，并自动设置它们的值；并且ABP提供了一个可扩展的审计日志系统，自动化的根据约定记录审计日志，并提供配置来控制审计日志的级别。ABP中审计相关基类/接口有：<code>IAuditedObject</code>、<code>AuditedEntity</code>、<code>AuditedAggregateRoot</code>等等。</p>
+<h2 id="本地化-Localization"><a href="#本地化-Localization" class="headerlink" title="本地化(Localization)"></a>本地化(Localization)</h2><p>使应用程序支持多国语言。ABP的本地化系统与ASP.NET Core的本地化兼容。</p>
+<h2 id="事件总线-Event-Bus"><a href="#事件总线-Event-Bus" class="headerlink" title="事件总线(Event Bus)"></a>事件总线(Event Bus)</h2><blockquote>
+<p>事件总线是对观察者（发布-订阅）模式的一种实现。它是一种集中式事件处理机制，允许不同的组件之间进行彼此通信而又不需要相互依赖，达到一种解耦的目的。</p>
+</blockquote>
+<p>如果没有接触过Event Bus，可能不太好理解。一个不太恰当的例子：A需要租房，B需要把房子租出去，A想直接找到B是比较困难的，A也不想去认识B，所以才有房产中介C，C就是Event Bus；B提前跟C说我的房子需要出租，A跟C说我给你钱你帮我租一个房，那么C很容易就帮A找到B完成租房，A甚至不需要知道B是谁，这里A就是事件的发布者，B是事件的订阅者。ABP支持本地Event Bus和分布式Event Bus。</p>
+<h2 id="多租户-multi-tenancy-technology"><a href="#多租户-multi-tenancy-technology" class="headerlink" title="多租户(multi-tenancy technology)"></a>多租户(multi-tenancy technology)</h2><p>多租户是一种软件架构技术，这种架构可以让多个租户共用相同的系统，并且可以确保各租户间数据的隔离性。相信很多人都遇到过类似需求，同一个系统中根据不同客户区分数据；通常我们会在数据库表中增加一个客户Id作为标识，或者根据不同客户读取不同的数据库，这都是多租户数据隔离的实现方式，想自己很好的实现多租户还是很繁琐的。ABP的多租户模块提供了创建多租户应用程序的基本功能，可以很轻松的帮你实现多租户。</p>
+<h2 id="DDD分层"><a href="#DDD分层" class="headerlink" title="DDD分层"></a>DDD分层</h2><ul>
+<li><strong>表示层</strong>: 为用户提供接口，使用应用层实现与用户交互。</li>
+<li><strong>应用层</strong>: 表示层与领域层的中介，编排业务对象执行特定的应用程序任务，使用应用程序逻辑实现用例。</li>
+<li><strong>领域层</strong>: 包含业务对象以及业务规则，是应用程序的核心。</li>
+<li><strong>基础设施层</strong>: 提供通用的技术功能，支持更高的层，主要使用第三方类库。</li>
+</ul>
+<h2 id="实体-Entity"><a href="#实体-Entity" class="headerlink" title="实体(Entity)"></a>实体(Entity)</h2><blockquote>
+<p>一个没有从其属性，而是通过连续性和身份的线索来定义的对象。</p>
+</blockquote>
+<p>官方文档中这句话非常难理解。。。</p>
+<p>简单来说，当一个对象只能由他的标识（Id）来区分，而不是从其他属性来区分时，这种对象被称为实体。比如有很多叫“张三”的男人，你不能通过姓名和性别来区分到底是哪个张三，只能通过Id。实体是可以持续变化的，我们可以对实体进行多次修改，但是无论怎么修改，实体始终拥有它唯一的标识。DDD中的实体通常都是充血模型，充血模型就是实体中不光有属性，还会包含行为（方法），反之DTO，ViewModel就是典型的贫血模型。实体通常映射到关系型数据库的表中，ABP中实体相关的基类/接口有：<code>Entity</code>、<code>IEntity</code>、<code>AuditedEntity</code>等等。</p>
+<h2 id="值对象-Value-Object"><a href="#值对象-Value-Object" class="headerlink" title="值对象(Value Object)"></a>值对象(Value Object)</h2><p>值对象和实体恰好相反，它不需要唯一标识，并且它不可以被改变。值对象通常是用来度量和描述事物，当你只关注某个对象的属性时，该对象便可以是一个值对象。比如“北京”就是“北京”，不存在Id=1或者Id=2的北京的说法。当然，值对象虽然不存在唯一标识，但是不代表它在数据库中就没有Id主键。。。</p>
+<h2 id="聚合根-Aggregate-Root"><a href="#聚合根-Aggregate-Root" class="headerlink" title="聚合根(Aggregate Root)"></a>聚合根(Aggregate Root)</h2><p>聚合是业务逻辑紧密关联的实体和值对象组合而成，聚合是数据修改和持久化的基本单元，聚合后产生的根实体称为聚合根。若一个聚合仅有一个实体，那这个实体就是聚合根。聚合根被视为一个单元，你不能单独去修改聚合根中的子实体。例如，某个业务流程中，会操作A、B、C、D四个对象（简单理解为数据库表），那么将ABCD聚合，产生一个聚合根E，对外部来说只需要操作E就可以了，领域内部会处理好ABCD。这样一方面避免了多个对象的混乱，另一方面也保证了数据的完整性，不会出现AB操作成功了，CD操作失败了，导致数据库产生脏数据。</p>
+<p>聚合根引用聚合根：通过ID。</p>
+<p>聚合根引用实体：通过对象（导航属性）。</p>
+<p>聚合根引用值对象：通过对象（导航属性）。</p>
+<h2 id="仓储-Repository"><a href="#仓储-Repository" class="headerlink" title="仓储(Repository)"></a>仓储(Repository)</h2><p>仓储用于操作领域对象（实际就是操作数据库），通常会为每个聚合根或不同的实体创建对应的仓储。ABP也提供了通用的泛型仓储：<code>IRepository&lt;TEntity, TKey&gt;</code>，内置了增删改查基本功能，直接注入就可以使用。</p>
+<h2 id="应用服务-Application-Services"><a href="#应用服务-Application-Services" class="headerlink" title="应用服务(Application Services)"></a>应用服务(Application Services)</h2><p>应用层处于展示层与领域层之间，展示层通常调用应用服务，应用服务调用领域然后返回数据给展示层。展示层也可以直接调用领域。APB中应用服务相关的基类/接口有：<code>IApplicationService</code>、<code>ApplicationService</code>、<code>ICrudAppService</code>、<code>CrudAppService</code>等等。</p>
+<h2 id="数据传输对象-DTO"><a href="#数据传输对象-DTO" class="headerlink" title="数据传输对象(DTO)"></a>数据传输对象(DTO)</h2><p>通常领域对象不适合直接在应用层与展示层之间传递，比如User中的Passwod字段，这时候就需要用到DTO，DTO和ViewModel类似。ABP提供了一些DTO基类/接口：<code>IEntityDto</code>、<code>EntityDto</code>、<code>AuditedEntityDto</code>等等。</p>
+<h2 id="工作单元-Unit-Of-Work"><a href="#工作单元-Unit-Of-Work" class="headerlink" title="工作单元(Unit Of Work)"></a>工作单元(Unit Of Work)</h2><p>UOW模式是为了保证一次业务操作的数据完整性。ABP框架的UOW实现提供了对应用程序中的数据库连接和事务范围的抽象和控制，使用ABP的话通常你不用自己去写数据库事务相关代码。实际上工作单元不一定非要创建数据库事务，比如HTTP GET请求就不会启动事务性UOW，它们仍然启动UOW，但不创建数据库事务。这一切都由ABP框架自动完成。</p>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>目前关于ABP的学习资源比较少，官方的文档也还没写完。。。不过ABP的作者最近开始发布自己的教学视频了，有条件的可以自行搜索一下。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>花生了什么树
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.hongjy.cn/2021/11/13/2021-11-13-%E5%88%9D%E8%AF%86ABPvNext/" title="初识ABPvNext">http://www.hongjy.cn/2021/11/13/2021-11-13-初识ABPvNext/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85linux/" rel="prev" title="虚拟机安装linux">
+      <i class="fa fa-chevron-left"></i> 虚拟机安装linux
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-EF%E5%A4%9A%E5%AF%B9%E5%A4%9A%E6%98%A0%E5%B0%84/" rel="next" title="EF多对多映射">
+      EF多对多映射 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9D%E8%AF%86ABPvNext"><span class="nav-number">1.</span> <span class="nav-text">初识ABPvNext</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="nav-number">3.</span> <span class="nav-text">开始</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1-Audit"><span class="nav-number">3.1.</span> <span class="nav-text">审计(Audit)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E5%8C%96-Localization"><span class="nav-number">3.2.</span> <span class="nav-text">本地化(Localization)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BF-Event-Bus"><span class="nav-number">3.3.</span> <span class="nav-text">事件总线(Event Bus)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E7%A7%9F%E6%88%B7-multi-tenancy-technology"><span class="nav-number">3.4.</span> <span class="nav-text">多租户(multi-tenancy technology)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DDD%E5%88%86%E5%B1%82"><span class="nav-number">3.5.</span> <span class="nav-text">DDD分层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BD%93-Entity"><span class="nav-number">3.6.</span> <span class="nav-text">实体(Entity)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%80%BC%E5%AF%B9%E8%B1%A1-Value-Object"><span class="nav-number">3.7.</span> <span class="nav-text">值对象(Value Object)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%81%9A%E5%90%88%E6%A0%B9-Aggregate-Root"><span class="nav-number">3.8.</span> <span class="nav-text">聚合根(Aggregate Root)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%93%E5%82%A8-Repository"><span class="nav-number">3.9.</span> <span class="nav-text">仓储(Repository)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E6%9C%8D%E5%8A%A1-Application-Services"><span class="nav-number">3.10.</span> <span class="nav-text">应用服务(Application Services)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%AF%B9%E8%B1%A1-DTO"><span class="nav-number">3.11.</span> <span class="nav-text">数据传输对象(DTO)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E5%8D%95%E5%85%83-Unit-Of-Work"><span class="nav-number">3.12.</span> <span class="nav-text">工作单元(Unit Of Work)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%80%E5%90%8E"><span class="nav-number">4.</span> <span class="nav-text">最后</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="花生了什么树"
+      src="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+  <p class="site-author-name" itemprop="name">花生了什么树</p>
+  <div class="site-description" itemprop="description">.NET工程师</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AllenHongjun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AllenHongjun" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hongjy1991@gmail.com" title="E-Mail → mailto:hongjy1991@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.google.com/" title="Google → https:&#x2F;&#x2F;www.google.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/hongjy1991" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;hongjy1991" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://youtube.com/" title="YouTube → https:&#x2F;&#x2F;youtube.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://leetcode-cn.com/" title="https:&#x2F;&#x2F;leetcode-cn.com&#x2F;" rel="noopener" target="_blank">leetcode</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://lailin.xyz/" title="https:&#x2F;&#x2F;lailin.xyz&#x2F;" rel="noopener" target="_blank">lailin</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ciweigg2.github.io/" title="https:&#x2F;&#x2F;ciweigg2.github.io&#x2F;" rel="noopener" target="_blank">ciweigg2</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.itmuch.com/" title="https:&#x2F;&#x2F;www.itmuch.com&#x2F;" rel="noopener" target="_blank">itmuch</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://tengj.top/" title="http:&#x2F;&#x2F;tengj.top&#x2F;" rel="noopener" target="_blank">tengj</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">浙ICP备18047156号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花生了什么树</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">383k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5:49</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hongjy.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="整理.NET开发 自学的一些资料 .NET知识体系">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dotnet开发常用资料">
+<meta property="og:url" content="http://www.hongjy.cn/2021/11/13/2021-11-13-dotnet%E5%BC%80%E5%8F%91%E5%B8%B8%E7%94%A8%E8%B5%84%E6%96%99/index.html">
+<meta property="og:site_name" content="花生了什么树的博客">
+<meta property="og:description" content="整理.NET开发 自学的一些资料 .NET知识体系">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-11-12T20:08:55.000Z">
+<meta property="article:modified_time" content="2022-12-20T10:56:36.704Z">
+<meta property="article:author" content="花生了什么树">
+<meta property="article:tag" content=".NET工程师 后端开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://www.hongjy.cn/2021/11/13/2021-11-13-dotnet%E5%BC%80%E5%8F%91%E5%B8%B8%E7%94%A8%E8%B5%84%E6%96%99/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>dotnet开发常用资料 | 花生了什么树的博客</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?749761669bb5184278820a5fa5d144a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+    <!--github 挂饰-->
+    <a target="_blank" rel="noopener" href="https://github.com/allenHongjun" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">花生了什么树的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">修身治国齐家平天下</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于我</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.hongjy.cn/2021/11/13/2021-11-13-dotnet%E5%BC%80%E5%8F%91%E5%B8%B8%E7%94%A8%E8%B5%84%E6%96%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+      <meta itemprop="name" content="花生了什么树">
+      <meta itemprop="description" content=".NET工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花生了什么树的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          dotnet开发常用资料
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-13 04:08:55" itemprop="dateCreated datePublished" datetime="2021-11-13T04:08:55+08:00">2021-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-20 18:56:36" itemprop="dateModified" datetime="2022-12-20T18:56:36+08:00">2022-12-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/big-picture/" itemprop="url" rel="index"><span itemprop="name">big-picture</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>整理.NET开发 自学的一些资料 <strong>.NET知识体系</strong></p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h3><blockquote>
+<p>工欲善其事必先利其器</p>
+</blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/vs/preview/vs2022/"><strong>Visual Studio 2022 Preview</strong></a>  集成开发环境</li>
+<li><strong>Postman</strong>：<a target="_blank" rel="noopener" href="https://www.postman.com/">https://www.postman.com/</a>  接口调试</li>
+<li>RedisDesktop：<a target="_blank" rel="noopener" href="https://redisdesktop.com/download">https://redisdesktop.com/download</a>  Redis客户端连接工具</li>
+<li>Robomongo：<a target="_blank" rel="noopener" href="https://robomongo.org/download">https://robomongo.org/download</a>   MongoDb客户端管理工具</li>
+<li><strong>Xmind</strong>: <a target="_blank" rel="noopener" href="https://www.xmind.cn/">https://www.xmind.cn/</a>  思维导图</li>
+<li><strong>Typora</strong>：<a target="_blank" rel="noopener" href="https://typora.io/">https://typora.io/</a>  markdown编辑器</li>
+<li>Putty: <a target="_blank" rel="noopener" href="https://www.putty.org/">https://www.putty.org/</a>  ssh远程</li>
+<li>Rdcman: <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/sysinternals/downloads/rdcman">https://docs.microsoft.com/en-us/sysinternals/downloads/rdcman</a> 远程桌面工具</li>
+<li>Desktop Github:  <a target="_blank" rel="noopener" href="https://desktop.github.com/">https://desktop.github.com/</a>   git桌面客户端</li>
+<li>Navicat：<a target="_blank" rel="noopener" href="http://www.formysql.com/xiazai.html">http://www.formysql.com/xiazai.html</a></li>
+<li>Snipaste：<a target="_blank" rel="noopener" href="https://www.snipaste.com/">https://www.snipaste.com/</a>   截图</li>
+<li>PicPick</li>
+<li>SwitchHosts</li>
+<li>ScreenToGif：<a target="_blank" rel="noopener" href="https://www.screentogif.com/">https://www.screentogif.com</a>  gif制作</li>
+<li>Axure: <a target="_blank" rel="noopener" href="https://www.axure.com/">https://www.axure.com/</a></li>
+<li>apifox: <a target="_blank" rel="noopener" href="https://www.apifox.cn/">https://www.apifox.cn/</a>  API 文档、调试、Mock、测试一体化协作平台</li>
+<li>PowerDesigner：<a target="_blank" rel="noopener" href="http://powerdesigner.de/">http://powerdesigner.de/</a></li>
+<li><strong>SQLPrompt</strong>: <a target="_blank" rel="noopener" href="https://www.red-gate.com/products/sql-development/sql-prompt/trial/">https://www.red-gate.com/products/sql-development/sql-prompt/trial/</a>  sql智能提示</li>
+<li><strong>ProcessOn</strong>：<a target="_blank" rel="noopener" href="https://processon.com/">https://processon.com/</a></li>
+</ul>
+<h3 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h3><blockquote>
+<p>项目运行环境</p>
+</blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/download">.NET5.0</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/sql-server/sql-server-downloads">sql server 2019</a></li>
+<li><a target="_blank" rel="noopener" href="https://redis.io/download">redis 6.2</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/rabbitmq/rabbitmq-server/tags">rabbit mq 3.9.1</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.mongodb.com/try/download/enterprise">mongo-db 5.0.1</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.elastic.co/cn/downloads/elasticsearch">Elasticsearch 7.13.4</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.aliyun.com/mirror/">centos 7.6</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/windows/windows-11">windows 11</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.docker.com/products/docker-desktop">docker 3.5</a></li>
+<li><a target="_blank" rel="noopener" href="https://rufus.ie/zh/">rufus 3.14</a>  </li>
+<li><a target="_blank" rel="noopener" href="https://git-scm.com/">git</a></li>
+<li><a target="_blank" rel="noopener" href="https://msdn.itellyou.cn/">https://msdn.itellyou.cn/</a>  msdn工具下载网站</li>
+</ul>
+<h3 id="后端工程师技能树"><a href="#后端工程师技能树" class="headerlink" title="后端工程师技能树"></a>后端工程师技能树</h3><h3 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/keithnull/TeachYourselfCS-CN/blob/master/TeachYourselfCS-CN.md">自学计算机科学</a>  计算机技术知识很是很重要滴。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/dotnet">.NET Platform</a>  .NET 开源的项目集合</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/sql/?view=sql-server-2017#pivot=sqlserver&panel=sqlserver"><strong>Microsoft SQL 文档:</strong></a> 了解如何使用 SQL Server 和 Azure SQL 管理你的本地和云端数据库需求。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/aspnet/core/?view=aspnetcore-5.0"><strong>ASP.NET 文档:</strong></a>  了解如何使用 ASP.NET Core 创建快速、安全、跨平台和基于云的 Web 应用和服务。 浏览教程、示例代码、基础知识、API 参考和更多内容。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://webjike.com/web.html#row-15">前端网站导航</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/dotnet/"><strong>.NET 文档:</strong></a> 了解如何使用 .NET 在任何使用 C#、F# 和 Visual Basic 的平台上创建应用程序。 浏览 API 引用、代码示例、教程以及其他内容。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java">advanced-java</a>  互联网 Java 工程师进阶知识完全扫盲：涵盖高并发、分布式、高可用、微服务、海量数据处理等领域知识 。后端技术本身就是相通的。这个高赞的进阶知识点项目值得推荐。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/jasonhua95/awesome-dotnet-core"><strong>awesome-dotnet-core:</strong>  </a>  .NET Core库、工具、框架和软件的中文收录大全。 内容包括：库、工具、框架、模板引擎、身份认证、数据库、ORM框架、图片处理、文本处理、机器学习、日志、代码分析、教程等。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://bbs.csdn.net/forums/DotNET">CSDN .NET论坛</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/tagged/c%23">StackOverFlow</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/">Github:</a>  全球最大的同性交友社区</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Wikipedia:%E9%A6%96%E9%A1%B5">中卫维基百科:</a>  百科全书</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://dotnet-china.com/#">.NET社区联盟</a></p>
+</li>
+</ul>
+<h3 id="书籍"><a href="#书籍" class="headerlink" title="书籍"></a>书籍</h3><blockquote>
+<p>偷懒直接复制了dot net core里面的内容。以后再分享我喜欢的书吧。</p>
+</blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://manning.com/books/dotnet-core-in-action">.NET Core in Action</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.amazon.com/ASP-NET-Core-Application-Development-application/dp/1509304061">ASP.NET Core Application Development: Building an application in four sprints (Developer Reference)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.manning.com/books/asp-net-core-in-action">ASP.NET Core in Action</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.amazon.com/ASP-NET-Core-1-0-High-Performance/dp/1785881892">ASP.NET Core 1.0 High Performance</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.amazon.com/Building-Microservices-ASP-NET-Core-Cross-Platform/dp/1491961732">Building Microservices with ASP.NET Core: Develop, Test, and Deploy Cross-Platform Services in the Cloud</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.amazon.com/NET-Core-1-0-Cross-Platform-Development/dp/1785285696">C# 6 and .NET Core 1.0: Modern Cross-Platform Development</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.amazon.com/C-Depth-Jon-Skeet/dp/1617294535">C# in Depth 4</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.manning.com/books/dependency-injection-in-dot-net-second-edition">Dependency Injection in .NET Core, 2nd edition</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.amazon.com/Essential-7-0-Addison-Wesley-Microsoft-Technology/dp/1509303588">Essencial C# 7.0</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.manning.com/books/exploring-dot-net-core">Exploring .NET Core with Microservices, ASP.NET Core, and Entity Framework Core - free eBook sampler</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.amazon.com/Microservices-NET-Core-framework-middleware/dp/1617293377">Microservices in .NET Core: with C#, the Nancy framework, and OWIN middleware</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.amazon.com/Professional-NET-Core-Christian-Nagel/dp/111909660X">Professional C# 6 and .NET Core 1.0</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.recaffeinate.co/book">The little ASP.NET Core</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>花生了什么树
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.hongjy.cn/2021/11/13/2021-11-13-dotnet%E5%BC%80%E5%8F%91%E5%B8%B8%E7%94%A8%E8%B5%84%E6%96%99/" title="dotnet开发常用资料">http://www.hongjy.cn/2021/11/13/2021-11-13-dotnet开发常用资料/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-%E5%B8%B8%E7%94%A8%E7%9A%84linux%E5%91%BD%E4%BB%A4/" rel="prev" title="常用的linux命令">
+      <i class="fa fa-chevron-left"></i> 常用的linux命令
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-sqlserver%E7%9F%A5%E8%AF%86%E7%82%B9%E6%8B%BE%E9%81%97/" rel="next" title="sqlserver知识点拾遗">
+      sqlserver知识点拾遗 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7"><span class="nav-number">1.</span> <span class="nav-text">开发工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="nav-number">2.</span> <span class="nav-text">开发环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8E%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%8A%80%E8%83%BD%E6%A0%91"><span class="nav-number">3.</span> <span class="nav-text">后端工程师技能树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B5%84%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%A6%E7%B1%8D"><span class="nav-number">5.</span> <span class="nav-text">书籍</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="花生了什么树"
+      src="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+  <p class="site-author-name" itemprop="name">花生了什么树</p>
+  <div class="site-description" itemprop="description">.NET工程师</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AllenHongjun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AllenHongjun" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hongjy1991@gmail.com" title="E-Mail → mailto:hongjy1991@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.google.com/" title="Google → https:&#x2F;&#x2F;www.google.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/hongjy1991" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;hongjy1991" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://youtube.com/" title="YouTube → https:&#x2F;&#x2F;youtube.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://leetcode-cn.com/" title="https:&#x2F;&#x2F;leetcode-cn.com&#x2F;" rel="noopener" target="_blank">leetcode</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://lailin.xyz/" title="https:&#x2F;&#x2F;lailin.xyz&#x2F;" rel="noopener" target="_blank">lailin</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ciweigg2.github.io/" title="https:&#x2F;&#x2F;ciweigg2.github.io&#x2F;" rel="noopener" target="_blank">ciweigg2</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.itmuch.com/" title="https:&#x2F;&#x2F;www.itmuch.com&#x2F;" rel="noopener" target="_blank">itmuch</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://tengj.top/" title="http:&#x2F;&#x2F;tengj.top&#x2F;" rel="noopener" target="_blank">tengj</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">浙ICP备18047156号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花生了什么树</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">383k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5:49</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hongjy.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="开篇：最近在看Roy Osherove的《单元测试的艺术》一书，颇有收获。因此，将其记录下来，并分为四个部分分享成文，与各位Share。本篇作为入门，介绍了单元测试的基础知识，例如：如何使用一个测试框架，基本的自动化测试属性等等，还有对应的三种测试类型。相信你可以对编写单元测试从一无所知到及格水平，这也是原书作者的目标。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NET单元测试的艺术-nunit">
+<meta property="og:url" content="http://www.hongjy.cn/2021/11/13/2021-11-13-NET%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%9A%84%E8%89%BA%E6%9C%AF/index.html">
+<meta property="og:site_name" content="花生了什么树的博客">
+<meta property="og:description" content="开篇：最近在看Roy Osherove的《单元测试的艺术》一书，颇有收获。因此，将其记录下来，并分为四个部分分享成文，与各位Share。本篇作为入门，介绍了单元测试的基础知识，例如：如何使用一个测试框架，基本的自动化测试属性等等，还有对应的三种测试类型。相信你可以对编写单元测试从一无所知到及格水平，这也是原书作者的目标。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blogimg.hongjy.cn/381412-20160427000815048-1809458915.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/381412-20160427001938142-1688215773.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/381412-20160427002722345-115411213.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/381412-20160428001258283-1124221592.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/381412-20160428001345095-1453299421.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/381412-20160428003304814-1962400302.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/381412-20160428003820908-1009770008.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/381412-20160428004400830-1366190143.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/381412-20160428004725486-1296481096.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/381412-20160428004830064-1790451133.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/381412-20160428005457064-818833458.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/381412-20160428221241595-961890312.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/381412-20160428231628877-1355320652.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/381412-20160428232214080-254840853.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/381412-20160428233954377-2028928149.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/381412-20160428220339423-171469134.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/381412-20160420002608320-2141033603.jpg">
+<meta property="article:published_time" content="2021-11-13T08:56:48.000Z">
+<meta property="article:modified_time" content="2022-12-20T10:56:36.491Z">
+<meta property="article:author" content="花生了什么树">
+<meta property="article:tag" content=".NET工程师 后端开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blogimg.hongjy.cn/381412-20160427000815048-1809458915.jpg">
+
+<link rel="canonical" href="http://www.hongjy.cn/2021/11/13/2021-11-13-NET%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%9A%84%E8%89%BA%E6%9C%AF/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>NET单元测试的艺术-nunit | 花生了什么树的博客</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?749761669bb5184278820a5fa5d144a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+    <!--github 挂饰-->
+    <a target="_blank" rel="noopener" href="https://github.com/allenHongjun" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">花生了什么树的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">修身治国齐家平天下</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于我</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.hongjy.cn/2021/11/13/2021-11-13-NET%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%9A%84%E8%89%BA%E6%9C%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+      <meta itemprop="name" content="花生了什么树">
+      <meta itemprop="description" content=".NET工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花生了什么树的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          NET单元测试的艺术-nunit
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-13 16:56:48" itemprop="dateCreated datePublished" datetime="2021-11-13T16:56:48+08:00">2021-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-20 18:56:36" itemprop="dateModified" datetime="2022-12-20T18:56:36+08:00">2022-12-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BB%84%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">组件</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>开篇：</strong>最近在看Roy Osherove的《<strong>单元测试的艺术</strong>》一书，颇有收获。因此，将其记录下来，并分为四个部分分享成文，与各位Share。本篇作为入门，介绍了单元测试的基础知识，例如：如何使用一个测试框架，基本的自动化测试属性等等，还有对应的三种测试类型。相信你可以对编写单元测试从一无所知到及格水平，这也是原书作者的目标。</p>
+<a id="more"></a>
+
+
+
+<h1 id="系列目录："><a href="#系列目录：" class="headerlink" title="系列目录："></a><strong>系列目录：</strong></h1><blockquote>
+<p>1.入门</p>
+<p>2.<a target="_blank" rel="noopener" href="http://www.cnblogs.com/edisonchou/p/5447812.html">核心技术</a></p>
+<p>3.<a target="_blank" rel="noopener" href="http://www.cnblogs.com/edisonchou/p/5467573.html">测试代码</a></p>
+</blockquote>
+<h1 id="一、单元测试基础"><a href="#一、单元测试基础" class="headerlink" title="一、单元测试基础"></a>一、单元测试基础</h1><h2 id="1-1-什么是单元测试"><a href="#1-1-什么是单元测试" class="headerlink" title="1.1 什么是单元测试"></a>1.1 什么是单元测试</h2><p>　　一个单元测试是一段<strong>自动化的代码</strong>，这段代码<strong>调用被测试的工作单元</strong>，之后对这个单元的单个最终结果的某些假设<strong>进行检验</strong>。</p>
+<p>　　单元测试几乎都是用单元测试框架编写的。单元测试容易编写，能够快速运行。单元测试可靠、可读，并且可维护。</p>
+<p>　　只要产品代码不发生变化，单元测试的结果是稳定的。</p>
+<h2 id="1-2-与集成测试的区别"><a href="#1-2-与集成测试的区别" class="headerlink" title="1.2 与集成测试的区别"></a>1.2 与集成测试的区别</h2><p><img src="http://blogimg.hongjy.cn/381412-20160427000815048-1809458915.jpg" alt="img"></p>
+<blockquote>
+<p>集成测试是对一个工作单元进行的测试，这个测试对被测试的工作单元没有完全的控制，并使用该单元的一个或多个真实依赖物，例如时间、网络、数据库、线程或随机数产生器等。</p>
+</blockquote>
+<p>　　总的来说，<strong>集成测试会使用真实依赖物，而单元测试则把被测试单元和其依赖物隔离开，以保证单元测试结果高度稳定</strong>，还可以轻易控制和模拟被测试单元行为的任何方面。                 </p>
+<h1 id="二、测试驱动开发基础"><a href="#二、测试驱动开发基础" class="headerlink" title="二、测试驱动开发基础"></a>二、测试驱动开发基础</h1><h2 id="2-1-传统的单元测试流程"><a href="#2-1-传统的单元测试流程" class="headerlink" title="2.1 传统的单元测试流程"></a>2.1 传统的单元测试流程</h2><p><img src="http://blogimg.hongjy.cn/381412-20160427001938142-1688215773.png" alt="img"></p>
+<h2 id="2-2-测试驱动开发的概要流程"><a href="#2-2-测试驱动开发的概要流程" class="headerlink" title="2.2 测试驱动开发的概要流程"></a>2.2 测试驱动开发的概要流程</h2><p><img src="http://blogimg.hongjy.cn/381412-20160427002722345-115411213.png" alt="img"></p>
+<p>　　如上图所示，TDD和传统开发方式不同，我们首先会编写一个会失败的测试，然后创建产品代码，并确保这个测试通过，接下来就是重构代码或者创建另一个会失败的测试。</p>
+<h1 id="三、第一个单元测试"><a href="#三、第一个单元测试" class="headerlink" title="三、第一个单元测试"></a>三、第一个单元测试</h1><h2 id="3-1-NUnit-单元测试框架"><a href="#3-1-NUnit-单元测试框架" class="headerlink" title="3.1 NUnit 单元测试框架"></a>3.1 NUnit 单元测试框架</h2><p>　　NUnit 是从流行的Java单元测试框架JUnit直接移植过来的，之后NUnit在设计和可用性上做了极大地改进，和JUnit有了很大的区别，给日新月异的测试框架生态系统注入了新的活力。</p>
+<p>　　作为一名.NET程序员，如何在VS中安装NUnit并能够在VS中直接运行测试呢？</p>
+<p>　　Step1.在NuGet中找到NUnit并安装</p>
+<p><img src="http://blogimg.hongjy.cn/381412-20160428001258283-1124221592.jpg" alt="img"></p>
+<p>　　Step2.在NuGet中找到NUnit Test Adapter并安装</p>
+<p><img src="http://blogimg.hongjy.cn/381412-20160428001345095-1453299421.jpg" alt="img"></p>
+<h2 id="3-2-LogAn-项目介绍"><a href="#3-2-LogAn-项目介绍" class="headerlink" title="3.2 LogAn 项目介绍"></a>3.2 LogAn 项目介绍</h2><p>　　<strong>LogAn （Log And Notificaition）</strong></p>
+<p>　　场景：公司有很多内部产品，用于在客户场地监控公司的应用程序。所有这些监控产品都会写日志文件，日志文件存放在一个特定的目录中。日志文件的格式是你们公司自己制定的，无法用现有的第三方软件进行解析。你的任务是：实现一个产品，对这些日志文件进行分析，在其中搜索特定的情况和事件，这个产品就是LogAn。找到特定的情况和事件后，这个产品应该通知相关的人员。</p>
+<p>　　在本次的单元测试实践中，我们会一步一步编写测试来验证LogAn的解析、事件识别以及通知功能。首先，我们需要了解使用NUnit来编写单元测试。</p>
+<h2 id="3-3-编写第一个测试"><a href="#3-3-编写第一个测试" class="headerlink" title="3.3 编写第一个测试"></a>3.3 编写第一个测试</h2><p>　　（1）我们的测试从以下这个LogAnalyzer类开始，这个类暂时只有一个方法IsValidLogFileName：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LogAnalyzer</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">bool</span> <span class="title">IsValidLogFileName</span>(<span class="params"><span class="keyword">string</span> fileName</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">if</span> (fileName.EndsWith(<span class="string">&quot;.SLF&quot;</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>　　这个方法检查文件扩展名，据此判断一个文件是不是有效的日志文件。</p>
+<p>　　这里在if中故意去掉了一个!运算符，因此这个方法就包含了一个Bug-当文件名以.SLF结尾时会返回false，而不是返回true。这样，我们就能看到测试失败时在测试运行期中显示什么内容。</p>
+<p>　　（2）新建一个类库项目，命名为Manulife.LogAn.UnitTests（被测试项目项目名为Manulife.LogAn.Lib）。添加一个类，取名为LogAnalyzerTests.cs。</p>
+<p>　　（3）在LogAnalyzerTests类中新增一个测试方法，取名为IsValidFileName_BadExtension_ReturnsFalse()。</p>
+<p>　　首先，我们要明确如何编写测试代码，一般来说，一个单元测试通常包含三个行为：</p>
+<p><img src="http://blogimg.hongjy.cn/381412-20160428003304814-1962400302.png" alt="img"></p>
+<p>　　因此，根据以上三个行为，我们可以编写出以下的测试方法：（其中断言部分使用了NUnit框架提供的Assert类）</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">TestFixture</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LogAnalyzerTests</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Test</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">IsValidFileName_BadExtension_ReturnsFalse</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        LogAnalyzer analyzer = <span class="keyword">new</span> LogAnalyzer();</span><br><span class="line">        <span class="keyword">bool</span> result = analyzer.IsValidLogFileName(<span class="string">&quot;filewithbadextension.foo&quot;</span>);</span><br><span class="line">        Assert.AreEqual(<span class="literal">false</span>, result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>　　其中，属性[TestFixture]和[Test]是NUnit的特有属性，NUnit用属性机制来识别和加载测试。这些属性就像一本书里的书签，帮助测试框架识别记载程序集里面的重要部分，以及哪些部分是需要调用的测试。</p>
+<blockquote>
+<p>1.[TestFixture]加载一个类上，标识这个类是一个包含自动化NUnit测试的类；</p>
+<p>2.[Test]加在一个方法上，标识这个方法是一个需要调用的自动化测试；</p>
+</blockquote>
+<p>　　另外，再说一下测试方法名称的规范，一般包含三个部分：[UnitOfWorkName]<em>[ScenarioUnderTest]</em>[ExpectedBehavior]</p>
+<blockquote>
+<p>1.UnitOfWorkName　　被测试的方法、一组方法或者一组类</p>
+<p>2.Scenario　　测试进行的假设条件，例如“登入失败”，“无效用户”或“密码正确”等</p>
+<p>3.ExpectedBehavior　　在测试场景指定的条件下，你对被测试方法行为的预期　　</p>
+</blockquote>
+<h2 id="3-4-运行第一个测试"><a href="#3-4-运行第一个测试" class="headerlink" title="3.4 运行第一个测试"></a>3.4 运行第一个测试</h2><p>　　（1）编写好测试代码之后，点击”测试”-&gt;”运行”-&gt;”所有测试”</p>
+<p>　　（2）然后，点击”测试”-&gt;”窗口”-&gt;”测试窗口管理器”，你会看到以下场景</p>
+<p><img src="http://blogimg.hongjy.cn/381412-20160428003820908-1009770008.jpg" alt="img"></p>
+<p>　　从上图可以看出，我们得测试方法并没有通过，我们期望（Expected）的结果是False，而实际（Actual）的结果却是True。</p>
+<h2 id="3-5-继续添加测试方法"><a href="#3-5-继续添加测试方法" class="headerlink" title="3.5 继续添加测试方法"></a>3.5 继续添加测试方法</h2><p>　　（1）通常在进行单元测试时我们会考虑到代码覆盖率，点击”测试”-&gt;”分析代码覆盖率”-&gt;”所有测试”，你可以看到以下结果：<strong>80%</strong></p>
+<p><img src="http://blogimg.hongjy.cn/381412-20160428004400830-1366190143.jpg" alt="img"></p>
+<p>　　（2）这时，我们需要想出完善的测试策略来覆盖所有的情况，因此我们添加一些测试方法来提高我们的代码覆盖率。这里我们添加两个方法，一个测试大写文件扩展名，一个测试小写文件扩展名：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Test</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">IsValidFileName_GoodExtensionLowercase_ReturnsTrue</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LogAnalyzer analyzer = <span class="keyword">new</span> LogAnalyzer();</span><br><span class="line">    <span class="keyword">bool</span> result = analyzer.IsValidLogFileName(<span class="string">&quot;filewithgoodextension.slf&quot;</span>);</span><br><span class="line">    Assert.AreEqual(<span class="literal">true</span>, result);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="meta">Test</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">IsValidFileName_GoodExtensionUppercase_ReturnsTrue</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LogAnalyzer analyzer = <span class="keyword">new</span> LogAnalyzer();</span><br><span class="line">    <span class="keyword">bool</span> result = analyzer.IsValidLogFileName(<span class="string">&quot;filewithgoodextension.SLF&quot;</span>);</span><br><span class="line">    Assert.AreEqual(<span class="literal">true</span>, result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>　　这时测试结果如下图所示：</p>
+<p><img src="http://blogimg.hongjy.cn/381412-20160428004725486-1296481096.jpg" alt="img"></p>
+<p>　　这时再来看看代码覆盖率：<strong>100%</strong></p>
+<p><img src="http://blogimg.hongjy.cn/381412-20160428004830064-1790451133.jpg" alt="img"></p>
+<p>　　（3）为了让所有的测试都能通过，这时我们需要修改源代码，改用大小写不敏感的字符串匹配：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">bool</span> <span class="title">IsValidLogFileName</span>(<span class="params"><span class="keyword">string</span> fileName</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!fileName.EndsWith(<span class="string">&quot;.SLF&quot;</span>, StringComparison.CurrentCultureIgnoreCase))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>　　这时，我们再来运行一下所有的测试（也可以选择 运行未通过的测试）来看下<strong>由红到绿</strong>的快感。单元测试的理念很简单：只有所有的测试都通过，继续前行的绿灯才会亮起。哪怕只有一个测试失败了，进度条上都会亮起红灯，显示你的系统（或者测试）出现了问题。</p>
+<p><img src="http://blogimg.hongjy.cn/381412-20160428005457064-818833458.jpg" alt="img"></p>
+<h1 id="四、更多的NUnit"><a href="#四、更多的NUnit" class="headerlink" title="四、更多的NUnit"></a>四、更多的NUnit</h1><h2 id="4-1-参数化重构单元测试"><a href="#4-1-参数化重构单元测试" class="headerlink" title="4.1 参数化重构单元测试"></a>4.1 参数化重构单元测试</h2><p>　　NUnit中有个叫做 参数化测试（Parameterized Tests）的功能，我们可以借助[TestCase]标签特性来重构我们的单元测试：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">TestCase(<span class="meta-string">&quot;filewithgoodextension.slf&quot;</span>)</span>]</span><br><span class="line">[<span class="meta">TestCase(<span class="meta-string">&quot;filewithgoodextension.SLF&quot;</span>)</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">IsValidFileName_ValidExtensions_ReturnsTrue</span>(<span class="params"><span class="keyword">string</span> fileName</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LogAnalyzer analyzer = <span class="keyword">new</span> LogAnalyzer();</span><br><span class="line">    <span class="keyword">bool</span> result = analyzer.IsValidLogFileName(fileName);</span><br><span class="line">    Assert.AreEqual(<span class="literal">true</span>, result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>　　可以看到，借助TestCase特性，测试数目没有改变，但是测试代码却变得更易维护，更加易读。</p>
+<p><img src="http://blogimg.hongjy.cn/381412-20160428221241595-961890312.jpg" alt="img"></p>
+<h2 id="4-2-SetUp和TearDown"><a href="#4-2-SetUp和TearDown" class="headerlink" title="4.2 SetUp和TearDown"></a>4.2 SetUp和TearDown</h2><p>　　NUnit还有一些特别的标签特性，可以很方便地控制测试前后的设置和清理状态工作，他们就是[SetUp]和[TearDown]。</p>
+<blockquote>
+<p>1.[SetUp] 这个标签加在一个方法上，NUnit每次在运行测试类里的任何一个测试时都会先运行这个setup方法；</p>
+<p>2.[TearDown] 这个标签标识一个方法应该在测试类里的每个测试运行完成之后执行；</p>
+</blockquote>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">TestFixture</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LogAnalyzerTests</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> LogAnalyzer analyzer = <span class="literal">null</span>;</span><br><span class="line">    [<span class="meta">SetUp</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Setup</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        analyzer = <span class="keyword">new</span> LogAnalyzer();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Test</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">IsValidFileName_ValidFileLowerCased_ReturnsTrue</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">bool</span> result = analyzer.IsValidLogFileName(<span class="string">&quot;whatever.slf&quot;</span>);</span><br><span class="line">        Assert.IsTrue(result, <span class="string">&quot;filename should be valid!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Test</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">IsValidFileName_ValidFileUpperCased_ReturnsTrue</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">bool</span> result = analyzer.IsValidLogFileName(<span class="string">&quot;whatever.SLF&quot;</span>);</span><br><span class="line">        Assert.IsTrue(result, <span class="string">&quot;filename should be valid!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">TearDown</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">TearDown</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        analyzer = <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>　　我们可以把setup和teardown方法想象成测试类中测试的构造函数和析构函数，在每个测试类中只能有一个setup和teardown方法，这两个方法对测试类中的每个方法只执行一次。</p>
+<p>　　不过，使用[Setup]越多，测试代码可读性就越差。原书作者推荐采用工厂方法（Factory Method）初始化被测试的实例。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 工厂方法初始化 LogAnalyzer </span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 既节省编写代码的时间，又使每个测试内的代码更简洁易读</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 同时保证 LogAnalyzer 总是用同样的方式初始化</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> LogAnalyzer <span class="title">MakeAnalyzer</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> LogAnalyzer();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>　　在测试方法中可以直接使用：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Test</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">IsValidFileName_BadExtension_ReturnsFalse</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LogAnalyzer analyzer = MakeAnalyzer();</span><br><span class="line">    <span class="keyword">bool</span> result = analyzer.IsValidLogFileName(<span class="string">&quot;filewithbadextension.foo&quot;</span>);</span><br><span class="line">    Assert.AreEqual(<span class="literal">false</span>, result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-3-检验预期的异常"><a href="#4-3-检验预期的异常" class="headerlink" title="4.3 检验预期的异常"></a>4.3 检验预期的异常</h2><p>　　很多时候，我们的方法中会抛出一些异常，这时如果我们的测试也应该做一些修改。在NUnit中，提供了一个API : Assert.Catch<T>(delegate)</p>
+<p>　　首先，我们修改一下被测试的方法，增加一行判断文件名是否为空的代码：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">bool</span> <span class="title">IsValidLogFileName</span>(<span class="params"><span class="keyword">string</span> fileName</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">string</span>.IsNullOrEmpty(fileName))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentException(<span class="string">&quot;filename has to be provided&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!fileName.EndsWith(<span class="string">&quot;.SLF&quot;</span>, StringComparison.CurrentCultureIgnoreCase))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>　　然后，我们新增一个测试方法，使用Assert.Catch来检测异常是否一致：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Test</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">IsValidFileName_EmptyName_Throws</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LogAnalyzer analyzer = <span class="keyword">new</span> LogAnalyzer();</span><br><span class="line">    <span class="comment">// 使用Assert.Catch</span></span><br><span class="line">    <span class="keyword">var</span> ex = Assert.Catch&lt;Exception&gt;(() =&gt; analyzer.IsValidLogFileName(<span class="keyword">string</span>.Empty));</span><br><span class="line">    <span class="comment">// 使用Assert.Catch返回的Exception对象</span></span><br><span class="line">    StringAssert.Contains(<span class="string">&quot;filename has to be provided&quot;</span>, ex.Message);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="http://blogimg.hongjy.cn/381412-20160428231628877-1355320652.jpg" alt="img"></p>
+<h2 id="4-4-忽略测试"><a href="#4-4-忽略测试" class="headerlink" title="4.4 忽略测试"></a>4.4 忽略测试</h2><p>　　有时候测试代码有问题，但是我们又需要把代码签入到主代码树中。在这种罕见的情况下（虽然确实非常少），可以给那些测试代码自身有问题的测试加一个[Ignore]标签特性。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Test</span>]</span><br><span class="line">[<span class="meta">Ignore(<span class="meta-string">&quot;there is a problem with this test!&quot;</span>)</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">IsValidFileName_ValidFile_ReturnsTrue</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>　　可以看到，这个测试确实被忽略了：</p>
+<p><img src="http://blogimg.hongjy.cn/381412-20160428232214080-254840853.jpg" alt="img"></p>
+<h2 id="4-5-设置测试的类别"><a href="#4-5-设置测试的类别" class="headerlink" title="4.5 设置测试的类别"></a>4.5 设置测试的类别</h2><p>　　我们可以把测试按照指定的测试类别运行，使用[Category]标签特性就可以实现这个功能：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Test</span>]</span><br><span class="line">[<span class="meta">Category(<span class="meta-string">&quot;Fast Tests&quot;</span>)</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">IsValidFileName_BadExtension_ReturnsFalse</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LogAnalyzer analyzer = <span class="keyword">new</span> LogAnalyzer();</span><br><span class="line">    <span class="keyword">bool</span> result = analyzer.IsValidLogFileName(<span class="string">&quot;filewithbadextension.foo&quot;</span>);</span><br><span class="line">    Assert.AreEqual(<span class="literal">false</span>, result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-6-测试系统状态的改变"><a href="#4-6-测试系统状态的改变" class="headerlink" title="4.6 测试系统状态的改变"></a>4.6 测试系统状态的改变</h2><p>　　此前我们得测试都有返回值，而很多要测试的方法都没有返回值，而只是改变对象中的某些状态，我们又该如何测试呢？</p>
+<p>　　首先，我们修改IsValidLogFileName方法，增加一个状态属性：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LogAnalyzer</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">bool</span> WasLastFileNameValid &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">bool</span> <span class="title">IsValidLogFileName</span>(<span class="params"><span class="keyword">string</span> fileName</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="comment">// 改变系统状态</span></span><br><span class="line">        WasLastFileNameValid = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">string</span>.IsNullOrEmpty(fileName))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentException(<span class="string">&quot;filename has to be provided&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!fileName.EndsWith(<span class="string">&quot;.SLF&quot;</span>, StringComparison.CurrentCultureIgnoreCase))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 改变系统状态</span></span><br><span class="line">        WasLastFileNameValid = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>　　其次，我们编写一个测试，对系统状态进行断言：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">TestCase(<span class="meta-string">&quot;badfile.foo&quot;</span>, false)</span>]</span><br><span class="line">[<span class="meta">TestCase(<span class="meta-string">&quot;goodfile.slf&quot;</span>, true)</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">IsValidFileName_WhenCalled_ChangesWasLastFileNameValid</span>(<span class="params"><span class="keyword">string</span> fileName, <span class="keyword">bool</span> expected</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LogAnalyzer analyzer = <span class="keyword">new</span> LogAnalyzer();</span><br><span class="line">    analyzer.IsValidLogFileName(fileName);</span><br><span class="line">    Assert.AreEqual(expected, analyzer.WasLastFileNameValid);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="http://blogimg.hongjy.cn/381412-20160428233954377-2028928149.jpg" alt="img"></p>
+<h1 id="五、小结"><a href="#五、小结" class="headerlink" title="五、小结"></a>五、小结</h1><p>　　这一篇作为入门，带领大家领略了一下单元测试的概念，如何编写单元测试，如何在VS中应用NUnit进行单元测试。相信大家以前都用过MSTest，而我们这里却使用了NUnit。所以，下面我们来总结一下MSTest与NUnit在特性标签上的一些区别：</p>
+<table>
+<thead>
+<tr>
+<th><strong>MS Test Attribute</strong></th>
+<th><strong>NUnit Attribute</strong></th>
+<th><strong>用途</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>[TestClass]</td>
+<td>[TestFixture]</td>
+<td>定义一个测试类，里面可以包含很多测试函数和初始化、销毁函数（以下所有标签和其他断言）。</td>
+</tr>
+<tr>
+<td>[TestMethod]</td>
+<td>[Test]</td>
+<td>定义一个独立的测试函数。</td>
+</tr>
+<tr>
+<td>[ClassInitialize]</td>
+<td>[TestFixtureSetUp]</td>
+<td>定义一个测试类初始化函数，每当运行测试类中的一个或多个测试函数时，这个函数将会在测试函数被调用前被调用一次（在第一个测试函数运行前会被调用）。</td>
+</tr>
+<tr>
+<td>[ClassCleanup]</td>
+<td>[TestFixtureTearDown]</td>
+<td>定义一个测试类销毁函数，每当测试类中的选中的测试函数全部运行结束后运行（在最后一个测试函数运行结束后运行）。</td>
+</tr>
+<tr>
+<td>[TestInitialize]</td>
+<td>[SetUp]</td>
+<td>定义测试函数初始化函数，每个测试函数运行前都会被调用一次。</td>
+</tr>
+<tr>
+<td>[TestCleanup]</td>
+<td>[TearDown]</td>
+<td>定义测试函数销毁函数，每个测试函数执行完后都会被调用一次。</td>
+</tr>
+<tr>
+<td>[AssemblyInitialize]</td>
+<td>–</td>
+<td>定义测试Assembly初始化函数，每当这个Assembly中的有测试函数被运行前，会被调用一次（在Assembly中第一个测试函数运行前会被调用）。</td>
+</tr>
+<tr>
+<td>[AssemblyCleanup]</td>
+<td>–</td>
+<td>定义测试Assembly销毁函数，当Assembly中所有测试函数运行结束后，运行一次。（在Assembly中所有测试函数运行结束后被调用）</td>
+</tr>
+<tr>
+<td>[DescriptionAttribute]</td>
+<td>[Category]</td>
+<td>定义标识分组。</td>
+</tr>
+</tbody></table>
+<p> 　目前为止，我们的单元测试都还很简单也还比较顺利。但是，如果我们要测试的方法依赖于一个外部资源，如文件系统、数据库、Web服务或者其他难以控制的东西，那又该如何编写测试呢？为了解决这些问题，我们需要创建<strong>测试存根</strong>、<strong>伪对象</strong>及<strong>模拟对象</strong>，下一篇核心技术将会介绍这些内容，让我们跟随Roy Osherove的《单元测试的艺术》一起去探寻吧。</p>
+<p><img src="http://blogimg.hongjy.cn/381412-20160428220339423-171469134.jpg" alt="img"></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>   <img src="http://blogimg.hongjy.cn/381412-20160420002608320-2141033603.jpg" alt="The Art of Unit Testing"></p>
+<p>　　（1）Roy Osherove 著，金迎 译，《单元测试的艺术（第2版）》</p>
+<p>　　（2）Aileer，《<a target="_blank" rel="noopener" href="http://www.cnblogs.com/kangqq/articles/4738746.html">对比MS Test与NUnit Test框架</a>》</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/edisonchou/p/5437205.html">转载 - NET单元测试的艺术-1.入门</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>花生了什么树
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.hongjy.cn/2021/11/13/2021-11-13-NET%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%9A%84%E8%89%BA%E6%9C%AF/" title="NET单元测试的艺术-nunit">http://www.hongjy.cn/2021/11/13/2021-11-13-NET单元测试的艺术/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-Quartz-Net%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" rel="prev" title="Quartz.Net使用教程">
+      <i class="fa fa-chevron-left"></i> Quartz.Net使用教程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-Log4net%E4%BD%BF%E7%94%A8%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/" rel="next" title="Log4net使用详细说明">
+      Log4net使用详细说明 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B3%BB%E5%88%97%E7%9B%AE%E5%BD%95%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">系列目录：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80"><span class="nav-number">2.</span> <span class="nav-text">一、单元测试基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 什么是单元测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E4%B8%8E%E9%9B%86%E6%88%90%E6%B5%8B%E8%AF%95%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.2.</span> <span class="nav-text">1.2 与集成测试的区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%B5%8B%E8%AF%95%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91%E5%9F%BA%E7%A1%80"><span class="nav-number">3.</span> <span class="nav-text">二、测试驱动开发基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E4%BC%A0%E7%BB%9F%E7%9A%84%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%B5%81%E7%A8%8B"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 传统的单元测试流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E6%B5%8B%E8%AF%95%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91%E7%9A%84%E6%A6%82%E8%A6%81%E6%B5%81%E7%A8%8B"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 测试驱动开发的概要流程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="nav-number">4.</span> <span class="nav-text">三、第一个单元测试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-NUnit-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 NUnit 单元测试框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-LogAn-%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 LogAn 项目介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E7%BC%96%E5%86%99%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%B5%8B%E8%AF%95"><span class="nav-number">4.3.</span> <span class="nav-text">3.3 编写第一个测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E8%BF%90%E8%A1%8C%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%B5%8B%E8%AF%95"><span class="nav-number">4.4.</span> <span class="nav-text">3.4 运行第一个测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-%E7%BB%A7%E7%BB%AD%E6%B7%BB%E5%8A%A0%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95"><span class="nav-number">4.5.</span> <span class="nav-text">3.5 继续添加测试方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E6%9B%B4%E5%A4%9A%E7%9A%84NUnit"><span class="nav-number">5.</span> <span class="nav-text">四、更多的NUnit</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E5%8F%82%E6%95%B0%E5%8C%96%E9%87%8D%E6%9E%84%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="nav-number">5.1.</span> <span class="nav-text">4.1 参数化重构单元测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-SetUp%E5%92%8CTearDown"><span class="nav-number">5.2.</span> <span class="nav-text">4.2 SetUp和TearDown</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-%E6%A3%80%E9%AA%8C%E9%A2%84%E6%9C%9F%E7%9A%84%E5%BC%82%E5%B8%B8"><span class="nav-number">5.3.</span> <span class="nav-text">4.3 检验预期的异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-%E5%BF%BD%E7%95%A5%E6%B5%8B%E8%AF%95"><span class="nav-number">5.4.</span> <span class="nav-text">4.4 忽略测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-%E8%AE%BE%E7%BD%AE%E6%B5%8B%E8%AF%95%E7%9A%84%E7%B1%BB%E5%88%AB"><span class="nav-number">5.5.</span> <span class="nav-text">4.5 设置测试的类别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-6-%E6%B5%8B%E8%AF%95%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81%E7%9A%84%E6%94%B9%E5%8F%98"><span class="nav-number">5.6.</span> <span class="nav-text">4.6 测试系统状态的改变</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%B0%8F%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">五、小结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="花生了什么树"
+      src="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+  <p class="site-author-name" itemprop="name">花生了什么树</p>
+  <div class="site-description" itemprop="description">.NET工程师</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AllenHongjun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AllenHongjun" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hongjy1991@gmail.com" title="E-Mail → mailto:hongjy1991@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.google.com/" title="Google → https:&#x2F;&#x2F;www.google.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/hongjy1991" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;hongjy1991" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://youtube.com/" title="YouTube → https:&#x2F;&#x2F;youtube.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://leetcode-cn.com/" title="https:&#x2F;&#x2F;leetcode-cn.com&#x2F;" rel="noopener" target="_blank">leetcode</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://lailin.xyz/" title="https:&#x2F;&#x2F;lailin.xyz&#x2F;" rel="noopener" target="_blank">lailin</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ciweigg2.github.io/" title="https:&#x2F;&#x2F;ciweigg2.github.io&#x2F;" rel="noopener" target="_blank">ciweigg2</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.itmuch.com/" title="https:&#x2F;&#x2F;www.itmuch.com&#x2F;" rel="noopener" target="_blank">itmuch</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://tengj.top/" title="http:&#x2F;&#x2F;tengj.top&#x2F;" rel="noopener" target="_blank">tengj</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">浙ICP备18047156号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花生了什么树</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">383k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5:49</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

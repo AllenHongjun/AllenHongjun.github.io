@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hongjy.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="最近开始使用putty，在网络上看到一份很不错的教程，共享一下：putty使用方法，中文教程序言">
+<meta property="og:type" content="article">
+<meta property="og:title" content="putty使用教程">
+<meta property="og:url" content="http://www.hongjy.cn/2021/11/13/2021-11-13-putty%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="花生了什么树的博客">
+<meta property="og:description" content="最近开始使用putty，在网络上看到一份很不错的教程，共享一下：putty使用方法，中文教程序言">
+<meta property="og:locale">
+<meta property="og:image" content="http://blogimg.hongjy.cn/05233656-f32f8a4dd91b4d238c6ec7598e4ce4f1.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/05233810-f79a18779a7a48b5b8fd05ae82ef891b.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/05234157-d4169cd8acaa46d99803fc5eaee30f0b.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/05234503-34057c36ad194738b1422a1778c43511.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/05234556-a6dbb0fc645a44b3890765d8898f1f55.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/05234704-e4ef3a2be3fa49d5bb2b39d584d120ea.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/05234823-056a6a8edacf4c38911ae2dca966ecad.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/05234916-c786bf0c7f4f4f0ca1d7cc0a8610aa40.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/05235046-8849b6e6930840db8fb47c4baf18d13b.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/05235137-cf74ea392ad847f28224778bd5131adf.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/05235413-80e3e7a9a4e74429b67c82f2e5924c8a.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/05235559-3838419941b1463d9f90f1ed6e78ba40.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/05235646-e092f18867b745e3b9047acc80b4628c.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/05235744-8481da9816294baa82c95d7b50d9c2f2.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/05235859-b09b661db5a9486592c655f2d467c6c5.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/06000033-e211ed027bba46a589f938782570cc15.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/06000427-f266f921745e4a6392883e7c68060983.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/06000700-dc7811fc6de14b979492aafa0668cd95.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/06000616-f0594c1918b1430aa6b4f3dbc686ebe4.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/06000133-ee2399a1437e470caa1d2230b6bfa1d4.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/06000940-2ca0158ef05c44ecb21402cf66436a73.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/06001041-b5f35748962b434e8615434562a997f8.png">
+<meta property="article:published_time" content="2021-11-13T02:23:55.000Z">
+<meta property="article:modified_time" content="2022-12-20T10:56:36.756Z">
+<meta property="article:author" content="花生了什么树">
+<meta property="article:tag" content=".NET工程师 后端开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blogimg.hongjy.cn/05233656-f32f8a4dd91b4d238c6ec7598e4ce4f1.png">
+
+<link rel="canonical" href="http://www.hongjy.cn/2021/11/13/2021-11-13-putty%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>putty使用教程 | 花生了什么树的博客</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?749761669bb5184278820a5fa5d144a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+    <!--github 挂饰-->
+    <a target="_blank" rel="noopener" href="https://github.com/allenHongjun" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">花生了什么树的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">修身治国齐家平天下</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于我</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.hongjy.cn/2021/11/13/2021-11-13-putty%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+      <meta itemprop="name" content="花生了什么树">
+      <meta itemprop="description" content=".NET工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花生了什么树的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          putty使用教程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-13 10:23:55" itemprop="dateCreated datePublished" datetime="2021-11-13T10:23:55+08:00">2021-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-20 18:56:36" itemprop="dateModified" datetime="2022-12-20T18:56:36+08:00">2022-12-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开发工具</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最近开始使用putty，在网络上看到一份很不错的教程，共享一下：putty使用方法，中文教程序言</p>
+<a id="more"></a>
+
+<p>大致内容罗列如下：</p>
+<ul>
+<li>最简单的使用，登录 SSH 主机</li>
+<li>中文乱码的处理</li>
+<li>PuTTY 常用配置的说明<ul>
+<li>复制、粘贴</li>
+<li>保存会话</li>
+<li>注销</li>
+<li>自动登录用户名</li>
+<li>自动设置环境变量</li>
+<li>设置代理服务器</li>
+<li>自动执行命令</li>
+<li>备份、删除 PuTTY 的设置</li>
+</ul>
+</li>
+<li>PuTTY 的 X11 转发</li>
+<li>如何用 PuTTY 建立 SSH 隧道</li>
+<li>如何用 PuTTY 建立反向的 SSH 隧道，像个特洛伊木马一样突破防火墙</li>
+<li>把 PuTTY 作为一个安全的代理服务器<ul>
+<li>安全的上网不被嗅探</li>
+<li>避免 MSN 等聊天工具被监听</li>
+</ul>
+</li>
+<li>怎样用 PSCP、PSFTP 安全的传输文件<ul>
+<li>功能强大的 SFTP 客户端 WinSCP</li>
+</ul>
+</li>
+<li>用 PuTTYgen 生成密钥，登录 SSH 主机不再需要口令</li>
+<li>Pagent 代理密钥，每次开机只需要输入一次密钥口令</li>
+<li>Plink 简单而又迅速的执行 SSH 主机上的程序</li>
+<li>常见问题</li>
+</ul>
+<p>除了上面的这些，还夹杂了一些 PuTTY 使用上的技巧、服务器配置的一些安全建议。说起来这是一些有关 PuTTY 的使用教程，其实也就是 SSH 的参考教程，绝大多数的内容在其他系统或软件上也都是一样的。不同的是参数、配置、命令行之类的，只要会了一个，其他也就触类旁通了。</p>
+<p>一些基本知识</p>
+<p>如果你已经知道 SSH、Telnet、Rlogin 这是什么，就跳过这一部分，看下面的吧。</p>
+<p>(以后补充，暂时空下)</p>
+<p><strong>简介</strong></p>
+<p>PuTTY 的官方网站：<a target="_blank" rel="noopener" href="http://www.chiark.greenend.org.uk/~sgtatham/putty/%EF%BC%8C%E6%88%AA%E6%AD%A2%E5%88%B0">http://www.chiark.greenend.org.uk/~sgtatham/putty/，截止到</a> 2007年6月，发布的最高稳定版本是 0.6。<br>PuTTY 是一个跨平台的远程登录工具，包含了一组程序，包括：</p>
+<ul>
+<li>PuTTY (Telnet 和 SSH 客户端)</li>
+<li>PSCP (SCP 客户端, 命令行下通过 SSH 拷贝文件，类似于 Unix/Linux 下的 scp 命令)</li>
+<li>PSFTP (SFTP 的命令行客户端，类似于 FTP 的文件传输，只不过使用的是 SSH 的 22 端口，而非 FTP 的 21 端口，类似于 Unix/Linux 下的 sftp 命令)</li>
+<li>PuTTYtel (仅仅是一个 Telnet 客户端)</li>
+<li>Plink (命令行工具，执行远程服务器上的命令)</li>
+<li>Pageant (PuTTY、PSCP、Plink 的 SSH 认证代理，用这个可以不用每次都输入口令了)</li>
+<li>PuTTYgen (用来生成 RSA 和 DSA 密钥的工具).</li>
+</ul>
+<p>虽然包含了这么多，但平时经常见到只是用 PuTTY 登录服务器，完全没有发挥出 PuTTY 的强大功能。 PuTTY 作为一个组件也存在于很多的软件中，比如 FileZilla、WinSCP 在后面的文字中，如非特别说明，默认的登录的协议是 SSH。毕竟用 PuTTY 主要就是登录 SSH 主机，用 Telnet、RLogin 没法体现出 PuTTY 的强大功能。</p>
+<p><strong>安装</strong></p>
+<p>下载页面在这里：<a target="_blank" rel="noopener" href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html</a> PuTTY 需要安装么？需要么？需要么？真的需要么？不需要。PuTTY 是一个准绿色软件，说它绿色是因为直接就能使用，完全没有任何的安装程序。准绿色是指 PuTTY 的所有配置都保存到了注册表，如果不记得备份注册表中的相关内容，下次重装机器所有配置就没了，而且配置也不方便用闪存盘随身携带。但是 PuTTY 的配置删除还是蛮方便的，运行时指定个参数 -cleanup 就可以清除 PuTTY 的所有配置信息。</p>
+<p>第一印象，开始登录一台远程主机</p>
+<p>运行 PuTTY 就可以看到下面这个界面</p>
+<p><img src="http://blogimg.hongjy.cn/05233656-f32f8a4dd91b4d238c6ec7598e4ce4f1.png" alt="img"></p>
+<p>在这里输入服务器的 IP<br>或主机名，选择好登录协议，还有协议的端口，如果希望把这次的输入保存起来，以后就不需要再重新输入了，就在第4步输入好会话保存的名称，比如：mail-server，或者干脆就是主机的地址，点击保存就可以了。</p>
+<p><img src="http://blogimg.hongjy.cn/05233810-f79a18779a7a48b5b8fd05ae82ef891b.png" alt="img"></p>
+<p>最后点下面的 Open 按钮，输入正确的用户名和口令，就可以登录服务器了。首次登录一台主机时</p>
+<p>第一次登录时，会看到这个对话框</p>
+<p><img src="http://blogimg.hongjy.cn/05234157-d4169cd8acaa46d99803fc5eaee30f0b.png" alt="img"></p>
+<p>这是要告诉你登录的主机密钥指纹，点 Yes 就保存起来，以后就不会再弹出这个窗口，然后就正常登录。点 No 不保存，下次还是要提示你，然后也可以正常登录。如果一台主机我们只是临时登录一下，当然就是点 No 了。Cancel 就是取消，也就是取消了这次登录。 如果你曾经登录过这台主机，但是又弹出来这个对话框，可能有以下几种情形：</p>
+<ul>
+<li>主机重新安装了操作系统</li>
+<li>这台主机可能有多个IP，这次用的是另外一个 IP</li>
+<li>有其他不怀好意的主机来冒充，诱骗我们登录，窃取隐秘信息</li>
+</ul>
+<p>前两个情形很常见，一般点 Yes 就行了。后面这个嘛……唔……唔……，点 No/Cancel，再去询问相关的主机管理人员。</p>
+<p>又看到了中文乱码</p>
+<p>成功登录主机后，输入命令，这……这……显示，又是乱码。唉，中文乱码是一个老生常谈的问题，提起来就头大。原因嘛，不外乎字符集、终端编码之类的，还是可以解决的。</p>
+<p><img src="http://blogimg.hongjy.cn/05234503-34057c36ad194738b1422a1778c43511.png" alt="img"></p>
+<p>PuTTY 的默认字体和字符集并不适合中文显示， 在窗口标题上点击右键，选择 Change Settings…</p>
+<p><img src="http://blogimg.hongjy.cn/05234556-a6dbb0fc645a44b3890765d8898f1f55.png" alt="img"></p>
+<p>在打开的配置窗口左边选择 Appearance，在右边点 Font settings 里面的 Change<br>按钮，选择好中文字体，比如：宋体、新宋体之类的</p>
+<p><img src="http://blogimg.hongjy.cn/05234704-e4ef3a2be3fa49d5bb2b39d584d120ea.png" alt="img"></p>
+<p>字体选择好了，还要确定字符集。<br>选择配置窗口左边的 Translation，在右边的 Received data assumed to be in<br>which character set 下拉列表中选择最后一个“Use font encoding”，最后点下面的 Apply 按钮就生效了。</p>
+<p><img src="http://blogimg.hongjy.cn/05234823-056a6a8edacf4c38911ae2dca966ecad.png" alt="img"></p>
+<p>重新执行命令 ls -l，就可以正常看到中文了</p>
+<p><img src="http://blogimg.hongjy.cn/05234916-c786bf0c7f4f4f0ca1d7cc0a8610aa40.png" alt="img"></p>
+<p>怎么还是乱码？</p>
+<p>如果还是乱码的话，就执行以下命令，看看系统的字符集 echo LANGLANGLANGUAGE</p>
+<p><img src="http://blogimg.hongjy.cn/05235046-8849b6e6930840db8fb47c4baf18d13b.png" alt="img"></p>
+<p>哦，原来系统的字符集是 UTF-8 呀。重新返回上面选择字符集的那一步， 选择配置窗口左边的 Translation，在右边的 Received data<br>assumed to be in which character set 下拉列表中选择“UTF-8”</p>
+<p><img src="http://blogimg.hongjy.cn/05235137-cf74ea392ad847f28224778bd5131adf.png" alt="img"></p>
+<p>这下99%的情形下，汉字是不会有乱码了。最后，总之一下 PuTTY 中乱码的解决办法：<br>先看看系统的字符集，如果是 UTF-8<br>的，那就简单了，选择好中文字体，然后编码选择 UTF-8 就行了。<br>如果编码是 GB2312、GBK、GB18030，当然也包括 BIG5这些，在<br>PuTTY 的编码选择中看不到这些编码，那就选择最后一个“Use font<br>encoding”，绝大部分情况下这样就没啥问题了，反正我是没碰到有什么例外的情况。<br>现在的 Linux 如果默认语言选择为中文，默认的编码就是<br>UTF-8 了。以前安装 Redhat AS 3 时，语言选择为中文，默认的编码是 zh_CN.gb2312, zh_CN.gb18030，好像从 AS 3<br>update 6 开始，包括现在的 AS4、AS5，中文的默认编码都成了 zh_CN.utf8。至于 Debian、Ubuntu 等等这些上面，好像一直都是<br>UTF-8。<br>至于是使用 UTF-8呢，还是用 GB2312、GBK 或者 GB18030呢？我个人还是倾向于<br>UTF-8。毕竟我们使用的大多数软件都是国外的，处理中文编码多多少少有些问题，PuTTY 自然也不例外。<br>下面的这个图上，我把终端编码修改为<br>zh_CN.utf8，然后也按照前面的所说的方法把 PuTTY 的字符集修改为 UTF-8。然后在终端中输入汉字“柴锋”，按左方向键，可以看到汉字显示很正常。</p>
+<p><img src="http://blogimg.hongjy.cn/05235413-80e3e7a9a4e74429b67c82f2e5924c8a.png" alt="img"></p>
+<p>我重新把终端的编码修改为 zh_CN.gb2312，同样的，把 PuTTY 的字符集修改为最后一个“Use font<br>encoding”。还是在终端上输入汉字“柴锋”，按下左方向键以后，会看到汉字乱码了。</p>
+<p><img src="http://blogimg.hongjy.cn/05235559-3838419941b1463d9f90f1ed6e78ba40.png" alt="img"></p>
+<p>至于用哪个编码，主要还是看领导的决定了，我们的领导就喜欢 GBK，连 GB18030 都不行。以前在用 Debian 的时候，好像默认都不支持 GBK<br>编码。这几年公司的开发在汉字编码问题上出过几次麻烦，还不就是在 ISO8859-1,<br>GB2312/GBK/GB18030和UTF-8上折腾来折腾去。<br>给大家看一张 emacs 的截图，看看上面的这么多语言的文字共同显示，这个会是用<br>GB2312/GBK/GB18030 的编码么？</p>
+<p><img src="http://blogimg.hongjy.cn/05235646-e092f18867b745e3b9047acc80b4628c.png" alt="img"></p>
+<p>用 UTF-8 也不是为了要在一个屏幕上显示好几种不认识的文字，也不一定非要是跟国际接轨弄个外包给老外开发程序做个其他语言的界面让老外用，起码不要在那么多编码里折腾了，顶多两个 ISO8859-1 和 UTF-8。发发牢骚，下面继续……在 PuTTY 里面怎样选中，复制和粘贴？</p>
+<p>在 PuTTY 的窗口里面复制、粘贴可不能用 Windows 里的这些 Ctrl C, Ctrl Ins, Ctrl V 这些快捷键，Ctrl C 在控制台上可是终止当前的命令执行。 PuTTY 的选择、复制、粘贴这些操作都是通过鼠标来完成的。 在 Window-〉Selection 这里可以设置复制和粘贴的方式。</p>
+<p><img src="http://blogimg.hongjy.cn/05235744-8481da9816294baa82c95d7b50d9c2f2.png" alt="img"></p>
+<p>默认的 Action of mouse buttons （鼠标按键的功能）的选项是<br>Compromise，这种方式下选中有两种方式，一是直接用鼠标左键拖拉选中就可以了，二是用鼠标中键单击选中区域的开头，用滚动条拖拉到期望选中区域的末尾，再用鼠标中键单击，就可以选中了。<br>选中以后，单击鼠标左键就把选中部分复制到剪贴板了。粘贴也很简单，单击鼠标右键。<br>Action<br>of mouse buttons 的第一个选项是 Windows （Windows<br>方式的），鼠标中键的操作跟前面提到的一样。右键不是粘贴了，而是打开了右键菜单。</p>
+<p><img src="http://blogimg.hongjy.cn/05235859-b09b661db5a9486592c655f2d467c6c5.png" alt="img"></p>
+<p>其实这个右键菜单在标题栏上点击，也都可以看得到。</p>
+<p><img src="http://blogimg.hongjy.cn/06000033-e211ed027bba46a589f938782570cc15.png" alt="img"></p>
+<p>第三个选项是 xterm （xterm 方式），这个跟默认的 Compromise 方式相反的，中键和右键的操作调换了一下，就不多说了。<br>下面那个<br>Shift overrides application’s use of mouse 是和 Shift 键有关的。有些 Rogue Like 的程序，比如<br>mc、links、Lynx、VIM 等等，都支持鼠标操作，想在用鼠标在上面选择或粘贴就不行了。这个选项默认是选中的，在支持鼠标操作的 Rogue Like<br>界面下，按住 Shift 键，就可以像前面的那样用鼠标来选择、复制、粘贴了。<br>看下面的这个图片，用 Links 打开了 Google 的首页，用鼠标去选中<br>顶部中间的 Google，我们会发现，弹出了保存的对话框。</p>
+<p><img src="http://blogimg.hongjy.cn/06000427-f266f921745e4a6392883e7c68060983.png" alt="img"></p>
+<p>在 Control use of mouse 里面还有个 Default selection mode （默认的选择模式），默认是<br>Normal，就像文字处理工具里这样的选择</p>
+<p><img src="http://blogimg.hongjy.cn/06000700-dc7811fc6de14b979492aafa0668cd95.png" alt="img"></p>
+<p>按住 Shift 键重新操作一次，哈哈，这次选中了。</p>
+<p><img src="http://blogimg.hongjy.cn/06000616-f0594c1918b1430aa6b4f3dbc686ebe4.png" alt="img"></p>
+<p>在 Control use of mouse 里面还有个 Default selection mode （默认的选择模式），默认是<br>Normal，就像文字处理工具里这样的选择</p>
+<p><img src="http://blogimg.hongjy.cn/06000133-ee2399a1437e470caa1d2230b6bfa1d4.png" alt="img"></p>
+<p>另外一个是 Rectangular block（块选择方式），至于用哪种方式就看自己的选择了。</p>
+<p><strong>实时保存会话</strong></p>
+<p>这次更改配置参数了，关闭窗口后，下次使用还是要重新选择的，麻烦。 还是回到上面修改配置的哪个地方，选择左边的 Session，在右边选择要覆盖的会话名称，或者重新输入一个新的名称，点击 Save 按钮保存。</p>
+<p><img src="http://blogimg.hongjy.cn/06000940-2ca0158ef05c44ecb21402cf66436a73.png" alt="img"></p>
+<p>成功登录主机后，也能正常看到中文了。这样，我们就可以完成大部分的工作。最后要关闭窗口了，该怎么办呢？我见过很多人，包括我们公司负责专职维护的同事，都是直接点击窗口上的关闭按钮，完全没有理会弹出警告窗口，直接点击了<br>Yes。</p>
+<p><img src="http://blogimg.hongjy.cn/06001041-b5f35748962b434e8615434562a997f8.png" alt="img"></p>
+<p>这样做是不对的，首先这不是正确的注销方式，应该输入命令 exit 来正常注销；其次直接关闭窗口后，你的登录其实还在服务器上，如果一连多次的这样强制关闭窗口，用命令 w 或者 who 命令查看时，可以看到很多的用户还在系统上登录，占用了系统的资源。最重要的是，你的这次登录可能只是为了启动一下 WebLogic 或者其他什么应用服务器，直接关闭窗口后，可能会导致你的业务在随后的几分钟内也被终止，这应该不是你所希望看到的吧。 如果上述的理由是每次要输入 exit 然后回车，比较麻烦。你可以用快捷键 Ctrl d 来注销登录，一般情况下，快捷键一按窗口都直接关闭了，还省了两次鼠标点击。 在前面说道保存会话时，大家或许也注意到，下面有个 Close window on exit 有三个选项：</p>
+<ul>
+<li>Always （不管怎样，窗口总是要关闭的）</li>
+<li>Never （无论是否有程序还在运行，都不要关闭窗口）</li>
+<li>Only on clear exit （这个是默认选中的，只有在本次登录中运行的程序都正常终止或者在后台运行，窗口才关闭）</li>
+</ul>
+<p>有的程序在执行时，虽然在命令最后面加上 “&amp;”就能放到后台运行。但是正常注销登录后，窗口没有被自动关闭，还能看到程序的输出，这时强制关闭窗口还是可以的。为了避免这种情形，可以使用 nohup 命令。 用法嘛就是： nohup 命令 命令参数，这样就可以了。</p>
+<p>窗口保存的输出有点少，前面的都看不到了</p>
+<p>执行了一个命令，输出了好多东西，但是默认的配置下，PuTTY只保存了最后200行的内容，满足不了我们的需求</p>
+<p>转载: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/yuwentao/archive/2013/01/06/2846953.html">putty使用教程(总结)</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>花生了什么树
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.hongjy.cn/2021/11/13/2021-11-13-putty%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" title="putty使用教程">http://www.hongjy.cn/2021/11/13/2021-11-13-putty使用教程/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-rabbit-mq%E5%85%A5%E9%97%A8/" rel="prev" title="RabbitMQ入门">
+      <i class="fa fa-chevron-left"></i> RabbitMQ入门
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-markdown%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/" rel="next" title="markdown入门教程">
+      markdown入门教程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="花生了什么树"
+      src="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+  <p class="site-author-name" itemprop="name">花生了什么树</p>
+  <div class="site-description" itemprop="description">.NET工程师</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AllenHongjun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AllenHongjun" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hongjy1991@gmail.com" title="E-Mail → mailto:hongjy1991@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.google.com/" title="Google → https:&#x2F;&#x2F;www.google.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/hongjy1991" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;hongjy1991" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://youtube.com/" title="YouTube → https:&#x2F;&#x2F;youtube.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://leetcode-cn.com/" title="https:&#x2F;&#x2F;leetcode-cn.com&#x2F;" rel="noopener" target="_blank">leetcode</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://lailin.xyz/" title="https:&#x2F;&#x2F;lailin.xyz&#x2F;" rel="noopener" target="_blank">lailin</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ciweigg2.github.io/" title="https:&#x2F;&#x2F;ciweigg2.github.io&#x2F;" rel="noopener" target="_blank">ciweigg2</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.itmuch.com/" title="https:&#x2F;&#x2F;www.itmuch.com&#x2F;" rel="noopener" target="_blank">itmuch</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://tengj.top/" title="http:&#x2F;&#x2F;tengj.top&#x2F;" rel="noopener" target="_blank">tengj</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">浙ICP备18047156号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花生了什么树</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">383k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5:49</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
