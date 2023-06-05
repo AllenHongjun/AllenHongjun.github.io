@@ -15,8 +15,12 @@ tags:
 
 <!--more-->
 ### 常用命令
+
+第一步需要先安装hexo-cli 工具
+- npm install -g hexo-cli  # -g为全局安装
+
 - hexo init 博客名   #新建一个博客
-- hexo page 文章名   #新建一片文章
+- hexo new 文章名   #新建一片文章
 - hexo g             #生成博客
 - hexo d            #发布到github page
 - hexo server -p 5000 #在指定的端口本地浏览

@@ -141,7 +141,7 @@ menu_settings:
 
 sidebar:
   # Sidebar Position.
-  position: left
+  position: right
   # position: right
 
   # Manual define the sidebar width. If commented, will be default for:
@@ -154,7 +154,7 @@ sidebar:
   #  - always  expand for all pages automatically.
   #  - hide    expand only when click on the sidebar toggle icon.
   #  - remove  totally remove sidebar including sidebar toggle.
-  display: post
+  display: always
 
   # Sidebar padding in pixels.
   padding: 18
@@ -207,6 +207,10 @@ links_settings:
 links:
 
   leetcode: https://leetcode-cn.com/
+  lailin: https://lailin.xyz/
+  ciweigg2: https://ciweigg2.github.io/
+  itmuch: https://www.itmuch.com/
+  tengj: http://tengj.top/
   # hongjy: http://www.hongjy.cn
 
 # Table of Contents in the Sidebar

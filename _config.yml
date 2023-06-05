@@ -4,7 +4,7 @@
 
 # Site
 title: 花生了什么树的博客
-subtitle: '处事不可不决断 存心不可不宽厚'
+subtitle: '修身治国齐家平天下'
 description: '.NET工程师'
 keywords: .NET工程师 后端开发
 author: 花生了什么树
@@ -13,9 +13,9 @@ timezone: 'Asia/Shanghai'
 # 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://example.com/child' and root as '/child/'
-url: http://www.hongjy.cn/blog
+url: http://www.hongjy.cn
 # 为了在网站/blog/目录发布 网站根目录做了设置
-root: /blog/
+root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:

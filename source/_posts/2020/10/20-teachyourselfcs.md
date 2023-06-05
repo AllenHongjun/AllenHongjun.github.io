@@ -3,9 +3,8 @@ title: Teach Yourself CS
 # permalink: teachyourselfcs
 date: 2020-10-20 06:28:49
 tags:
-top: true
 categories:
-- 计算机基础
+- 计算机科学
 ---
 
 # 自学计算机科学
