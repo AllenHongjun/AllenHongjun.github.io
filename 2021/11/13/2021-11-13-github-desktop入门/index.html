@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hongjy.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一、安装1、安装git Windows 客户端—GitHub Desktop具有git功能的Windows客户端软件有很多，如：git for windows（以前的msysGit）、TortoiseGit、GitHub Desktop（以前的GitHub for Windows）等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="github-desktop入门">
+<meta property="og:url" content="http://www.hongjy.cn/2021/11/13/2021-11-13-github-desktop%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="花生了什么树的博客">
+<meta property="og:description" content="一、安装1、安装git Windows 客户端—GitHub Desktop具有git功能的Windows客户端软件有很多，如：git for windows（以前的msysGit）、TortoiseGit、GitHub Desktop（以前的GitHub for Windows）等">
+<meta property="og:locale">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200717082140576-88009228.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608174322281-679323125.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608174323177-1354318900.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608174323809-1400868879.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200717082141722-1707474486.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608174325662-1120081363.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608174326362-391806199.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608174327345-1007978937.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185638160-657575635.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185638922-642947896.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185639699-1702969346.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200717082142804-11836394.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200717082143880-75644803.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185641952-521110581.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200717082145572-1542203650.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185643336-507917979.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185643866-460948358.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185644488-675090379.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185645215-1199282483.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185645844-725954118.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185646434-243185816.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185646966-347067490.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185647773-1803736514.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185648552-1764604252.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185649260-1621513352.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185649787-546110333.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185650567-1110852581.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185651150-547446075.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185651735-608679826.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185652401-1894773497.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185653052-1613596722-163681763727340.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185653781-1118953810.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200608185654445-1796470058.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200717082845879-723858992.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200717082846924-2039614529.png">
+<meta property="og:image" content="http://blogimg.hongjy.cn/24244-20200717082847632-92681574.png">
+<meta property="og:image" content="http://www.hongjy.cn/2021/11/13/2021-11-13-github-desktop%E5%85%A5%E9%97%A8/20181230180445570.png#pic_center">
+<meta property="article:published_time" content="2021-11-13T15:23:35.000Z">
+<meta property="article:modified_time" content="2023-10-21T09:04:45.381Z">
+<meta property="article:author" content="花生了什么树">
+<meta property="article:tag" content=".NET工程师 后端开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blogimg.hongjy.cn/24244-20200717082140576-88009228.png">
+
+<link rel="canonical" href="http://www.hongjy.cn/2021/11/13/2021-11-13-github-desktop%E5%85%A5%E9%97%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>github-desktop入门 | 花生了什么树的博客</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?749761669bb5184278820a5fa5d144a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+    <!--github 挂饰-->
+    <a target="_blank" rel="noopener" href="https://github.com/allenHongjun" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">花生了什么树的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">修身治国齐家平天下</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于我</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.hongjy.cn/2021/11/13/2021-11-13-github-desktop%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+      <meta itemprop="name" content="花生了什么树">
+      <meta itemprop="description" content=".NET工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花生了什么树的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          github-desktop入门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-13 23:23:35" itemprop="dateCreated datePublished" datetime="2021-11-13T23:23:35+08:00">2021-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-10-21 17:04:45" itemprop="dateModified" datetime="2023-10-21T17:04:45+08:00">2023-10-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开发工具</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h2><h3 id="1、安装git-Windows-客户端—GitHub-Desktop"><a href="#1、安装git-Windows-客户端—GitHub-Desktop" class="headerlink" title="1、安装git Windows 客户端—GitHub Desktop"></a>1、安装git Windows 客户端—GitHub Desktop</h3><p>具有git功能的Windows客户端软件有很多，如：git for windows（以前的msysGit）、TortoiseGit、GitHub Desktop（以前的GitHub for Windows）等</p>
+<span id="more"></span>
+
+<ul>
+<li>**git for windows<br>**git 原产于 Linux，要在 Windows 上运行，需要移植。git for windows就是一个这样的移植项目。它移植的不仅仅是一个程序，而是在 Windows 上模拟出了一个 Linux 环境。它有两种运行方式：命令行方式（专家使用）、图形界面方式（菜鸟使用）。<br>git for windows 的<a target="_blank" rel="noopener" href="https://git-for-windows.github.io/">下载网址<br>git for windows是一个开源项目，</a><a target="_blank" rel="noopener" href="https://github.com/msysgit/msysgit">下载源代码</a></li>
+<li>**TortoiseGit<br>**TortoiseGit只是一个图形界面程序，它内部调用的还是git for windows。所以，使用TortoiseGit之前需要安装git for windows。<br>TortoiseGit最大的优势在于与TortoiseSVN的操作比较相同，熟悉SVN的用户可快速上手。</li>
+<li><strong>GitHub Desktop<br>这是</strong><a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=https://desktop.github.com"><strong>Github</strong></a><strong>的官方git软件。</strong>GitHub Desktop 跟TortoiseGit一样，内部也会调用git for windows。它的操作是这三款软件中最简单的，安装之后无需配置就可使用，非常适合菜鸟。<br>GitHub Desktop的<a target="_blank" rel="noopener" href="https://desktop.github.com/">下载网址</a>。下载下来的文件GitHubSetup.exe是一个在线安装程序，有可能无法正常安装。<br>可下载离线安装包，<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1Hkewm">下载网址</a>。下载GitHub_3_0_5_2.zip，解压后运行GitHub.application即可安装。<br>注意：如果离线安装程序无法运行，就需要先安装.NET Framework 4.5。可先运行在线安装程序GitHubSetup.exe，安装.NET Framework 4.5。然后再运行离线安装程序。<br>[<img src="http://blogimg.hongjy.cn/24244-20200717082140576-88009228.png" alt="image">]</li>
+</ul>
+<h3 id="2、注册GitHub账户"><a href="#2、注册GitHub账户" class="headerlink" title="2、注册GitHub账户"></a>2、注册GitHub账户</h3><p>要上传开源代码至GitHub.com，需要在该网站上注册一个账户。请浏览<a target="_blank" rel="noopener" href="https://github.com/">GitHub网站</a>，单击”Sign up”按钮注册账户。</p>
+<h2 id="二、操作介绍"><a href="#二、操作介绍" class="headerlink" title="二、操作介绍"></a>二、操作介绍</h2><p>如果你打开这个软件后，如下所示。</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608174322281-679323125.png" alt="image">]</p>
+<h3 id="1、创建一个本地仓库"><a href="#1、创建一个本地仓库" class="headerlink" title="1、创建一个本地仓库"></a>1、创建一个本地仓库</h3><p>好了现在我们直接在我的github上面克隆一个仓库并且在桌面打开，这个仓库已经初始化好了，所以不需要任何命令</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608174323177-1354318900.png" alt="image">]</p>
+<p>选择本地仓库地址</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608174323809-1400868879.png" alt="image">]</p>
+<p>Github Desktop果然是亲儿子， 在网站下载会自动克隆到Github Desktop中，</p>
+<p>界面介绍：左边的是可以切换添加进来的仓库，再也不需要cd来cd去了，白色框内是改变提醒，下面是提交修改。所以整个工作流程是有修改直接commit就行了。</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200717082141722-1707474486.png" alt="image">]</p>
+<p>那如果没有自动导入怎么办内，假如你的learngit文件夹在桌面上，可以添加本地仓库，这是一样的</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608174325662-1120081363.png" alt="image">]</p>
+<h3 id="2、布本地仓库到GitHub"><a href="#2、布本地仓库到GitHub" class="headerlink" title="2、布本地仓库到GitHub"></a>2、布本地仓库到GitHub</h3><p>[<img src="http://blogimg.hongjy.cn/24244-20200608174326362-391806199.png" alt="image">]</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608174327345-1007978937.png" alt="image">]</p>
+<p>按照提示登录GitHub账号，可以使用浏览器校验或直接输入账号密码。</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185638160-657575635.png" alt="image">]</p>
+<p>发布成功。</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185638922-642947896.png" alt="image">]</p>
+<h3 id="3、提交改变"><a href="#3、提交改变" class="headerlink" title="3、提交改变"></a>3、提交改变</h3><p>好了咱们已经有了本地仓库了，那么现在当然是什么改变都没有，也不需要提交什么。</p>
+<p>在本地仓库中新增learn2.txt文件，并在其中添加一行learning git is easy.看看有什么变化吧！</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185639699-1702969346.png" alt="image">]</p>
+<p>看到了吧，已经显示了新添加了改变，那现在就可以在summary写上简短的改变描述，比如我写的是add learn git is easy之后点击commit to master就可以了。</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200717082142804-11836394.png" alt="image">]</p>
+<p>看到了吧，现在显示本地没有改变，但是上面push origin显示了1，代表的是我们与远程的github不同步，本地有一个更新，就是我们新加的文件，但是github并没有更新，推送远程分支我之后会讲。</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200717082143880-75644803.png" alt="image">]</p>
+<h3 id="4、送到远程仓库"><a href="#4、送到远程仓库" class="headerlink" title="4、送到远程仓库"></a>4、送到远程仓库</h3><p>登陆后就可以推送啦， 点击push origin就可以啦～</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185641952-521110581.png" alt="image">]</p>
+<p>你可以登陆github查看learngit仓库，看看其中的变化</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200717082145572-1542203650.png" alt="image">]</p>
+<p>是不是和我们在github desktop里看到的一样呢？</p>
+<h3 id="5、更新本地仓库"><a href="#5、更新本地仓库" class="headerlink" title="5、更新本地仓库"></a>5、更新本地仓库</h3><p>比如说现在远程仓库已经被更新了，有可能是你的同事提交了他的一部分，但是在你的本地仓库并没有更新，现在怎么办呢？ 很简单，一键fetch</p>
+<p>把easy改成了difficult</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185643336-507917979.png" alt="image">]</p>
+<p>这时候点击fetch origin</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185643866-460948358.png" alt="image">]</p>
+<p>可以看到下面的pull origin</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185644488-675090379.png" alt="image">]</p>
+<p>好啦～点击pull origin就可以把远程的difficult更新到本地了~ 看看里面的history就知道干了些什么了。</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185645215-1199282483.png" alt="image">]</p>
+<h3 id="6、版本回退"><a href="#6、版本回退" class="headerlink" title="6、版本回退"></a>6、版本回退</h3><p>有很多时候我们在当前这一步骤做了一些不可挽回的错误，比如说删除了重要的文件以后再也找不到了，这时候使用版本回退可以回退到任何一个commit过的状态。 现在看看咱们的文件夹都有哪些文件？</p>
+<p>比如说我们不小心删除了learn2.txt，这个文件非常重要，怎么样回复到之前存在的状态呢？</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185645844-725954118.png" alt="image">]</p>
+<p>打开history你会发现有很多commit后的历史记录,其中有我们之前的update learn2.txt。所以右键它会显示revet this commit</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185646434-243185816.png" alt="image">]</p>
+<p>好了，现在看看你的文件夹吧 :&gt; 是不是回来了呢？</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185646966-347067490.png" alt="image">]</p>
+<h3 id="7、创建分支"><a href="#7、创建分支" class="headerlink" title="7、创建分支"></a>7、创建分支</h3><p>什么是分支呢？就像本篇文章刚开始提到的分支是用来创建新功能但是你又不希望破话现在的成果，害怕会对现在的进度造成影响，所以是一种试验性的功能。</p>
+<p>那怎么创建呢？ 这也是很简单的，打开首页的current branch会看到default branch是master，这是所有git仓库的默认主分支，都叫master，origin是你github的分支，关联的是服务器端。[<img src="http://blogimg.hongjy.cn/24244-20200608185647773-1803736514.png" alt="image">]</p>
+<p>我们尝试创建一个新的分支，点击new，创建一个名为create_learn3的分支</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185648552-1764604252.png" alt="image">]</p>
+<p>如果你现在仔细观察的话会发现原来的master分支变成了create_learn3，这说明我们当前处于create_learn3的分支里</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185649260-1621513352.png" alt="image">]</p>
+<p>当然了我们会在这个分支里创建一个learn3.txt的文件</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185649787-546110333.png" alt="image">]</p>
+<p>好了你看到我创建了一个learn3的文件，接下来就是提交我们的改变，让git记住当前分支的状态</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185650567-1110852581.png" alt="image">]<br>现在如果我们切换回master分支</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185651150-547446075.png" alt="image">]</p>
+<p>然后查看文件夹，你会发现神奇的事</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185651735-608679826.png" alt="image"></p>
+<p>竟然没有我们刚刚创建的create_learn3.txt，这是因为我们在create_learn3分支里提交了改变，<strong>现在比master分支早一个commit</strong>. 你现在知道分支的作用了吧！</p>
+<p>它不会改变我们主分支，如果你在其他分支创建commit，它只会改变其他分支的状态，而对于master状态不会做出任何改变！</p>
+<h3 id="8、合并分支"><a href="#8、合并分支" class="headerlink" title="8、合并分支"></a>8、合并分支</h3><p>现在你也许想创建learn3.txt是一个不错的试验，我想把它合并到我原来的master分支，那怎么做呢？ 首先打开branch选项，点击merge into curren branch(当前处于master分支,永远都是把其他分支merge到当前！)</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185652401-1894773497.png" alt="image"></p>
+<p>然后选择一个分支，就是我们的create_learn3，点击merge into master</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185653052-1613596722-163681763727340.png" alt="image"></p>
+<p>你会发现多了一个commit，他是从我们create_learn3分支继承过来的\</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185653781-1118953810.png" alt="image">]</p>
+<p>最后再看看我们的文件夹</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200608185654445-1796470058.png" alt="image">]</p>
+<p>真的多了learn3.txt呢！</p>
+<h2 id="三、GitHub-Desktop-码云"><a href="#三、GitHub-Desktop-码云" class="headerlink" title="三、GitHub Desktop + 码云"></a>三、GitHub Desktop + 码云</h2><h3 id="1-操作"><a href="#1-操作" class="headerlink" title="1. 操作"></a>1. 操作</h3><p>注册码云账号并在码云中创建一个项目（如不想让别人看就创建私有项目）。</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200717082845879-723858992.png" alt="image">]</p>
+<p>克隆项目到本地： <em>File =&gt; Clone repository =&gt; URL</em></p>
+<p><em>在下图【1】位置输入https格式的项目地址，下图【2】位置选择本地要存放的位置，点击 \</em>Clone* ，然后会需要输入码云的账号密码。<br>其实这里不仅仅是可以操作码云，应该是有https格式的项目地址的都可以。*</p>
+<p><em>[<img src="http://blogimg.hongjy.cn/24244-20200717082846924-2039614529.png" alt="image">]</em></p>
+<p><em>GitHub Desktop</em> 默认用的是 <em>GitHub</em> 账号登录，这里提示则需要输入登录码云的账号。</p>
+<p>[<img src="http://blogimg.hongjy.cn/24244-20200717082847632-92681574.png" alt="image">]</p>
+<p>找到项目克隆下来的地址，项目导入IDE，可以愉快的进行一波操作了！</p>
+<h2 id="四、解决-GitHub-Desktop-拒绝新建仓库问题"><a href="#四、解决-GitHub-Desktop-拒绝新建仓库问题" class="headerlink" title="四、解决 GitHub Desktop 拒绝新建仓库问题"></a>四、解决 GitHub Desktop 拒绝新建仓库问题</h2><p>原文：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_34850743/article/details/85398592">https://blog.csdn.net/weixin_34850743/article/details/85398592</a></p>
+<hr>
+<p><strong>issue：</strong> 使用GitHub Desktop进行”Create a new repository”操作时提示”This directory appears to be a Git repository. Would you like to add this repository instead?”</p>
+
+
+<p><strong>解决方案：</strong> 我遇到了两种可能导致这种问题的情况：</p>
+<ul>
+<li><p>1.这个项目本身已经是Git仓库，比如在这个项目使用git命令行执行过git init命令，这种情况下，直接点击蓝色字”add this repository”点击”add repository”即可</p>
+
+</li>
+<li><p>2.这个项目上一层文件夹已经是Git仓库，很显然我并不想要把上一个文件夹作为仓库引入GitHub Desktop，因为我的上一层文件夹是eclipse的workspace，包含很多项目，但是我只想用git管理concurrent这个项目。这个时候的解决方案是： <img src="/2021/11/13/2021-11-13-github-desktop%E5%85%A5%E9%97%A8/20181230180445570.png#pic_center" class="" title="问题截图3"></p>
+</li>
+<li><ul>
+<li>2.1.如果上一层文件夹这个Git仓库对你没有用，把上一层文件夹的Git仓库移除即可，操作很简单，找到默认隐藏的文件夹.git，直接删除它就行。</li>
+<li>2.2.如果上一层文件夹这个Git仓库你不能移除，就只能把这个项目换个位置了。</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>花生了什么树
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.hongjy.cn/2021/11/13/2021-11-13-github-desktop%E5%85%A5%E9%97%A8/" title="github-desktop入门">http://www.hongjy.cn/2021/11/13/2021-11-13-github-desktop入门/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-npm%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="prev" title="npm常用命令">
+      <i class="fa fa-chevron-left"></i> npm常用命令
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-linqpad%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" rel="next" title="linqpad使用教程">
+      linqpad使用教程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">一、安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E5%AE%89%E8%A3%85git-Windows-%E5%AE%A2%E6%88%B7%E7%AB%AF%E2%80%94GitHub-Desktop"><span class="nav-number">1.1.</span> <span class="nav-text">1、安装git Windows 客户端—GitHub Desktop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E6%B3%A8%E5%86%8CGitHub%E8%B4%A6%E6%88%B7"><span class="nav-number">1.2.</span> <span class="nav-text">2、注册GitHub账户</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%93%8D%E4%BD%9C%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">二、操作介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93"><span class="nav-number">2.1.</span> <span class="nav-text">1、创建一个本地仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%B8%83%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%88%B0GitHub"><span class="nav-number">2.2.</span> <span class="nav-text">2、布本地仓库到GitHub</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E6%8F%90%E4%BA%A4%E6%94%B9%E5%8F%98"><span class="nav-number">2.3.</span> <span class="nav-text">3、提交改变</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81%E9%80%81%E5%88%B0%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="nav-number">2.4.</span> <span class="nav-text">4、送到远程仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5%E3%80%81%E6%9B%B4%E6%96%B0%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93"><span class="nav-number">2.5.</span> <span class="nav-text">5、更新本地仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6%E3%80%81%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%80"><span class="nav-number">2.6.</span> <span class="nav-text">6、版本回退</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7%E3%80%81%E5%88%9B%E5%BB%BA%E5%88%86%E6%94%AF"><span class="nav-number">2.7.</span> <span class="nav-text">7、创建分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8%E3%80%81%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF"><span class="nav-number">2.8.</span> <span class="nav-text">8、合并分支</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81GitHub-Desktop-%E7%A0%81%E4%BA%91"><span class="nav-number">3.</span> <span class="nav-text">三、GitHub Desktop + 码云</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%93%8D%E4%BD%9C"><span class="nav-number">3.1.</span> <span class="nav-text">1. 操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E8%A7%A3%E5%86%B3-GitHub-Desktop-%E6%8B%92%E7%BB%9D%E6%96%B0%E5%BB%BA%E4%BB%93%E5%BA%93%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">四、解决 GitHub Desktop 拒绝新建仓库问题</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="花生了什么树"
+      src="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+  <p class="site-author-name" itemprop="name">花生了什么树</p>
+  <div class="site-description" itemprop="description">.NET工程师</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AllenHongjun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AllenHongjun" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hongjy1991@gmail.com" title="E-Mail → mailto:hongjy1991@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.google.com/" title="Google → https:&#x2F;&#x2F;www.google.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/hongjy1991" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;hongjy1991" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://youtube.com/" title="YouTube → https:&#x2F;&#x2F;youtube.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://leetcode-cn.com/" title="https:&#x2F;&#x2F;leetcode-cn.com&#x2F;" rel="noopener" target="_blank">leetcode</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://lailin.xyz/" title="https:&#x2F;&#x2F;lailin.xyz&#x2F;" rel="noopener" target="_blank">lailin</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ciweigg2.github.io/" title="https:&#x2F;&#x2F;ciweigg2.github.io&#x2F;" rel="noopener" target="_blank">ciweigg2</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.itmuch.com/" title="https:&#x2F;&#x2F;www.itmuch.com&#x2F;" rel="noopener" target="_blank">itmuch</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://tengj.top/" title="http:&#x2F;&#x2F;tengj.top&#x2F;" rel="noopener" target="_blank">tengj</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">浙ICP备18047156号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花生了什么树</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">383k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5:49</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

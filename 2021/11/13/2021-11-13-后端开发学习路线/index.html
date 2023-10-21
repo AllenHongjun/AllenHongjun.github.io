@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hongjy.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="后端技术学习的内容还是很多的，不可能一蹴而就，我们说后端学习不要局限在语言层面，不必纠结是 PHP\JAVA\C++\Go 只要你把后端技术体系结构掌握住，语言只是一个后端开发的工具。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="后端开发学习路线">
+<meta property="og:url" content="http://www.hongjy.cn/2021/11/13/2021-11-13-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/index.html">
+<meta property="og:site_name" content="花生了什么树的博客">
+<meta property="og:description" content="后端技术学习的内容还是很多的，不可能一蹴而就，我们说后端学习不要局限在语言层面，不必纠结是 PHP\JAVA\C++\Go 只要你把后端技术体系结构掌握住，语言只是一个后端开发的工具。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-9d0c24399bdf2290e81b391cf488382f_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-2044db7d3ea54d4ffca47d5156fee04f_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-a1575938774cf2b868651f761788d411_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-696e4bef711ce3c125d5e885cd26469c_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-1f4501045c33082f75a0cbd5f7167509_180x120.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-6a43fff369e7868746033ab3044d42eb_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-e0b2d9066fb91513ac44ca35545c1b55_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-d9bf1550f33960f0a7d658b289d0616d_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-af8c40a7fb5b69f33211dcd624675a91_180x120.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-0fc6cc262e2445f0c09531b3dc495890_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-3a095f829785c2d0ad7d0ce4b5f99b88_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-b7256aaf935616b9b32e8b40ec788496_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-7748cb987f28200436bce41c1d136190_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-dd99de9be2ec74916719883f125f49a6_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-a075ad9c5de7f22f2b009dd20d530e70_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-a63b79ab9177bd5decf219a7ded66a86_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-908602bcd34a15b78f6e512403e14ca4_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-d1da53adf1d909a6e33291638beb08d1_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-f0204713947f055b62ccaaad842244d2_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-295d8c87490e976a7b24be45acfae028_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-32f36d1654ba969ffa2a74e02bfa8bcf_720w.jpg">
+<meta property="og:image" content="http://blogimg.hongjy.cn/v2-2f94f0e56166165a35dd9ced247cb21e_720w.jpg">
+<meta property="article:published_time" content="2021-11-13T15:59:12.000Z">
+<meta property="article:modified_time" content="2023-10-21T09:04:45.573Z">
+<meta property="article:author" content="花生了什么树">
+<meta property="article:tag" content=".NET工程师 后端开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blogimg.hongjy.cn/v2-9d0c24399bdf2290e81b391cf488382f_720w.jpg">
+
+<link rel="canonical" href="http://www.hongjy.cn/2021/11/13/2021-11-13-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>后端开发学习路线 | 花生了什么树的博客</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?749761669bb5184278820a5fa5d144a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+    <!--github 挂饰-->
+    <a target="_blank" rel="noopener" href="https://github.com/allenHongjun" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">花生了什么树的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">修身治国齐家平天下</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于我</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.hongjy.cn/2021/11/13/2021-11-13-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+      <meta itemprop="name" content="花生了什么树">
+      <meta itemprop="description" content=".NET工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花生了什么树的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          后端开发学习路线
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-13 23:59:12" itemprop="dateCreated datePublished" datetime="2021-11-13T23:59:12+08:00">2021-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-10-21 17:04:45" itemprop="dateModified" datetime="2023-10-21T17:04:45+08:00">2023-10-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/big-picture/" itemprop="url" rel="index"><span itemprop="name">big-picture</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>12k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>后端技术学习的内容还是很多的，不可能一蹴而就，我们说后端学习<strong>不要局限在语言层面</strong>，不必纠结是 PHP\JAVA\C++\Go 只要你把后端技术体系结构掌握住，语言只是一个后端开发的工具。</p>
+<span id="more"></span>
+
+
+
+<h2 id="学习内容"><a href="#学习内容" class="headerlink" title="学习内容"></a>学习内容</h2><p><strong>如果是初学者，可能就想直接问我：从哪里开始学习</strong>？</p>
+<p>那我就不卖关子，如果你不知道从哪开始学，对于学习路线各个节点，我就按个人的学习经验并结合认识的大厂高 P 给的建议，给你把以上技术路线学习优先级做个排序，你照着学就行，排序规则：</p>
+<blockquote>
+<p>星级越高，排名越靠前，重要程度越高，优先安排时间学习。</p>
+</blockquote>
+<p>计算机基础 5星</p>
+<p>Linux 5 星</p>
+<p>数据库 5 星</p>
+<p>设计模式 5 星</p>
+<p>工具 5 星</p>
+<p>中间件 4 星</p>
+<p>分布式 4 星</p>
+<p>高并发、高可用、高性能 4 星</p>
+<p>搜索引擎 4 星</p>
+<p>测试 3 星</p>
+<p>监控与统计 3 星</p>
+<p>虚拟化 3 星</p>
+<p>安全 3 星</p>
+<p>大数据 3 星</p>
+<h2 id="我下面要写的内容，是针对以上各个知识点展开，教你怎么去学、学什么。"><a href="#我下面要写的内容，是针对以上各个知识点展开，教你怎么去学、学什么。" class="headerlink" title="我下面要写的内容，是针对以上各个知识点展开，教你怎么去学、学什么。"></a>我下面要写的内容，是针对以上各个知识点展开，教你怎么去学、学什么。</h2><p><strong>学习方向和路线很重要</strong>，比起具体的技术细节，<strong>可复制的经验、清晰的学习路线，是大部分人更加需要的东西</strong>。</p>
+<p><strong>朝着正确的方向努力，否则只会离目标越来越远</strong>，不是吗？</p>
+<p>只顾着写各种技术，不告诉大家这个知识点在后端技术图谱的什么位置，有点盲人摸象不知全貌的感觉，很多在我看来大家都懂的内容，其实只是我以为，信息差是客观存在的，抹平信息差是分享的价值所在。</p>
+<p>所以我花了半个月时间，整理了一张后端技术学习路线思维导图，来和你聊聊：</p>
+<blockquote>
+<p>要成为一个符合 BAT、TMD 大厂要求的后端技术工程师，到底需要学哪些技术？<br>后端技术学习路线是怎样的？</p>
+</blockquote>
+<h2 id="学习路线"><a href="#学习路线" class="headerlink" title="学习路线"></a>学习路线</h2><p>话不多说，直接上刚画完的<strong>后端技术学习路线</strong>思维导图框架：</p>
+<p><img src="http://blogimg.hongjy.cn/v2-9d0c24399bdf2290e81b391cf488382f_720w.jpg" alt="img"></p>
+<p><strong>图中的每一个节点都可以点开，我都做了细分，在后面章节逐个展开介绍</strong>。</p>
+<h2 id="计算机基础"><a href="#计算机基础" class="headerlink" title="计算机基础"></a>计算机基础</h2><p>不管是后端开发还是前端开发，说到底我们所有的软件开发都是在计算上编写程序，虽然对于大部分人来说，真正开始写代码的时候很少会让你去解决计算机底层的问题，不接触不代表不重要，计算机基础是最重要的。</p>
+<p>后端开发工作中经常用到 Java、C++、Python、Golang 这些语言称为高级编程语言，称为高级是它们接近我们日常交流的自然语言，离计算机底层远，<strong>但所有的高级语言最终都会转化成汇编-&gt;计算机指令-&gt;控制流操控计算机硬件</strong>，所以学习计算机构成和工作原理、操作系统这些基础知识，能够加深我们队高级语言的理解。</p>
+<p>那我们一直说的计算机基础到时是什么？计算机科学技术 CS（Computer Science）作为一门专业课程，就和其他工科课程一样有自己的理论体系，如果你是计算机专业的同学不用我来教该学什么，计算机专业大学四年学校教的那些就是基础，别小看你在学校学的那些看起来没啥用的课程。<strong>我这有一份中中科大的计算机技术本科主要课程结构安排</strong>。</p>
+<p><img src="http://blogimg.hongjy.cn/v2-2044db7d3ea54d4ffca47d5156fee04f_720w.jpg" alt="img"></p>
+<p>一流大学的计算机专业要学什么可以对照着看下，从学科数学理论基础、计算机体系结构、软件工程方法等等维度展开。</p>
+<p>那如果你不是计算机相关专业的想转行，也不要被吓到了，毕竟这是人家四年时间的学习内容，本科的培养目标不仅仅是培养出一个软件工程师，本科学习还是面向硕士博士的基础培养，注意是计算机科学专业，名字里有个词叫「科学」，我这篇文章要说的 BAT 公司后台软件开发，可以认为是「工学」方向，更多的是服务于工程开发。</p>
+<p>如果只是面向后台开发和工作面试，或者你是非计算机专业想转行，社畜没有太多时间去学习大学那些理论课程，那帮我把计算机基础的范围缩小到下面这 4 门专业课：<strong>计算机组成原理、计算机网路、操作系统、数据结构</strong>。</p>
+<p><img src="http://blogimg.hongjy.cn/v2-a1575938774cf2b868651f761788d411_720w.jpg" alt="img"></p>
+<h3 id="计算机组成原理"><a href="#计算机组成原理" class="headerlink" title="计算机组成原理"></a>计算机组成原理</h3><p>这门课程让你了解计算机的组成和工作原理，要学习的内容包括：</p>
+<ul>
+<li>数据在计算机中的表示和运算（柠檬说：计算机不识数，只认得高低电平，所以数据在计算机内部都用二进制的0和1表示）</li>
+<li>存储系统（柠檬说：数据和程序指令都要存储下来，学习计算机的存储层次，内存、外存、高速缓存、虚拟存储技术）</li>
+<li>指令系统（柠檬说：写的代码最终都要被翻译成计算机指令，指令格式和寻址方式有多种，控制器来控制指令执行）</li>
+<li>中央处理器（也就是 CPU 计算机的大脑，主要构成是运算器和控制器）</li>
+<li>总线（柠檬说：计算机的血管动脉，连接计算机各功能组件，用来传输数据、地址信号、控制信号）</li>
+<li>输入输出系统（柠檬说：Input/Output 也叫 IO 系统，连接和管理各种外部设备比如键盘、显示器等等）</li>
+</ul>
+<h3 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h3><p>世界上第一台通用计算机「ENIAC」于 1946 被发明出来，如其名字一样仅仅是用于计算，在后来计算机越来越多，如果没有网络每台计算机都将成为一个孤岛，也不会有现在互联网的繁荣，「计算机网络」这门课程的学习路线非常清晰，就是围绕着如何让地理位置上不同的计算机连接起来，并高效可靠的交换数据信息，实现人在家中做，天下事尽知。</p>
+<p>计算机网络有分层次，根据各层属性和特点，分为：</p>
+<ul>
+<li>物理层</li>
+<li>数据链路层</li>
+<li>网络层</li>
+<li>传输层</li>
+<li>应用层</li>
+</ul>
+<p>这个层次划分从上到下就是一个网络数据包的接收路径，反之就是发送路径。既然要交换信息肯定得商量一套通用的协议，就像我们和老外交流，要么他们学中文要么我们学英文，反正得统一出一个标准语言出来，这在计算机网络中称之为「通信协议」。如上述的网络分层，每层都有各自适配的协议，所以计算机网络的学习基本就是围绕着分层协议的学习。</p>
+<h3 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h3><p>操作系统也是一种软件。你熟悉的微软Windos操作系统，后台开发熟悉的各种发行版的 Linux 系统，都是通过软件的形式安装在计算机上。</p>
+<p>只不过这个软件和我们平常接触的应用程序软件不同，它比较特殊，因为它向下和计算机硬件（就是我们在计算机组成原理中学习的那些硬件）打交道，向上给其他应用程序和用户提供通用的交互的接口，说白了操作系统就是个中介和管家的角色。它帮我们做了下面这些事情：</p>
+<ul>
+<li>进程管理（柠檬说：你写的程序运行起来才能干活，运行起来的程序称为进程，进程是资源的最小单位）</li>
+<li>内存管理（柠檬说：计算机内存又贵又少，动不动又要来个高并发，内存管理大有学问）</li>
+<li>文件管理（柠檬说：计算机中的资料和信息需要通过文件系统来保存、管理）</li>
+<li>输入输出管理（柠檬说：各种外部设备如何接入计算机和接入之后又如何管理）</li>
+</ul>
+<p><strong>关于计算机基础，如果感觉啃大厚书吃力的话，我也整理了国内一流大学的公开课资源，可以视频+读书，效率更高！</strong></p>
+<p>[计算机专业有哪些不错的公开课资源？168 赞同 · 6 评论回答</p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/38335108/answer/1636173535"><img src="http://blogimg.hongjy.cn/v2-696e4bef711ce3c125d5e885cd26469c_720w.jpg" alt="img"></a></p>
+<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><p>数据结构大家最熟悉，即使毫无计算机基础或是想转行计算机，第一个遇到的就是数据结构，因为面试刷的算法题本质上就是对各种数据结构的运用。所以单纯对面试功利的角度来说，数据结构也是必须要掌握的计算机基础，数据结构要学到：</p>
+<ul>
+<li>线性表（链表、数组、循环链表）</li>
+<li>栈和队列</li>
+<li>树和各种二叉树（二叉排序树、平衡二叉树、哈夫曼树、B树、B+树、Trie树）</li>
+</ul>
+<p><a href="https://link.zhihu.com/?target=https://mp.weixin.qq.com/s/3u6I8XSmp_M8wIw__tDrLQ">图解：数据结构中的6种「树」，柠檬问你心中有数吗？</a></p>
+<ul>
+<li>图（图的存储结构、BFS、DFS、最短路径、最小生成树、拓扑排序、关键路径）</li>
+<li>查找算法（二分查找、B树查找、HASH表、KMP字符串模式匹配）</li>
+<li>排序算法（插入排序、冒泡排序、归并排序、基数排序、堆排序）</li>
+<li>贪心算法</li>
+<li>位运算</li>
+<li>分治算法</li>
+<li>动态规划</li>
+</ul>
+<p>好了，计算机基础四大专业课已经大概过了一遍，当然这是我给没有计算机基础同学的实用主义建议，等你学完这四门课程也只能够说入门计算机了，不过这已经比很多人厉害了。如果想真正的了解计算机这门学科，可以等学完了这 4 门基础课程之后，再花写时间挑一些上面培养方案中的课程去学习，做一个知识体系完备的计算机软件后端开发工程师。</p>
+<p>刷题算法可以参考这篇，我当初在准备各大公司技术笔试的时候刷了大量的算法题，其中就有参考这<strong>本谷歌大神的LeetCode刷题笔记</strong>，<strong>帮我整理了解题思路，归纳了出刷题方法</strong>，非常不出错：</p>
+<p>[程序员柠檬：看完这份谷歌大神的LeetCode算法笔记，大厂笔试再也没怕过！251 赞同 · 8 评论文章</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/336587820"><img src="http://blogimg.hongjy.cn/v2-1f4501045c33082f75a0cbd5f7167509_180x120.jpg" alt="img"></a></p>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><p>在后台开发领域，你所能接触到的后端服务不敢说 100%，至少也有 90% 以上是运行在 Linux 系统之上，因为它开源、便利、功能强大，需要学习以下技术点：</p>
+<p><img src="http://blogimg.hongjy.cn/v2-6a43fff369e7868746033ab3044d42eb_720w.jpg" alt="img"></p>
+<h3 id="Linux系统使用"><a href="#Linux系统使用" class="headerlink" title="Linux系统使用"></a>Linux系统使用</h3><p>所以如果你想走后端开发这条路线，我建议你趁早使用 Linux ，越早越好。可以是在个人 PC 上装 Linux 虚拟机，或者装个双系统，我在大学就是这么玩的，那时候云服务器还没现在这么普及，现在我觉得买个 Linux 云服务器最方便，如果是学生还有教育优惠也不贵。</p>
+<p>有了Linux系统之后干嘛呢？把它作为你的常用系统，经常登录进去对照着「鸟哥的 Linux 私房菜」从头到尾操作一遍，ok，Linux的基础操作你就掌握了。</p>
+<h3 id="Linux-高级编程"><a href="#Linux-高级编程" class="headerlink" title="Linux 高级编程"></a>Linux 高级编程</h3><p>Linux「高级编程」的意思是比上面的 Linux 基础操作更深入一个层次。</p>
+<p>学会了 Linux 的使用还不算是一个真正的开发人员，使用系统是成为开发者最基本要求，会操作Linux 就像使用 Windows 系统一样，只不过是学习成本的问题，如果这个世界没有 Window 系统，你女朋友花点时间也能掌握 Linux 系统基本操作。</p>
+<p>要想进阶成为后端开发人员，就要懂得如何使用 Linux 系统提供的各种系统API（系统调用接口）进行编程开发，程序员用你写的代码来控制系统，普通用户只会用鼠标操纵。这个阶段需要学习：</p>
+<ul>
+<li>Unix 系统实现 Linux、基本系统数据类型</li>
+<li>文件操作函数: <code>open</code> 、<code>read``close``write``dup``fcntl``ioctl``stat``chmod``access``chdir</code> …</li>
+<li>系统编程接口的基本特性和高级特性</li>
+<li>Linux进程环境、如何创建进程、线程，程序的存储空间分配、环境变量</li>
+<li>进程组、会话以及任务控制、进程优先级和调度</li>
+<li>动态库和静态库</li>
+<li>进程间通信：管道和FIFO、消息队列、信号量、共享内存、内存映射</li>
+<li>套接字和网络编程</li>
+</ul>
+<p>总之，这一阶段需要学习的是在 Linux 环境下的高级编程技巧，通过对这些内容的学习也能让你更深入的理解 Linux 系统是如何工作和运行的，并且真正的踏入 Linux 系统编程大门。</p>
+<p>关于这部分内容还可参考：</p>
+<p><a href="https://link.zhihu.com/?target=https://mp.weixin.qq.com/s/CLfyUvoQf1Tp6mx-l3dwEg">别再说你不懂Linux内存管理了，10张图给你安排的明明白白！mp.weixin.qq.com/s/CLfyUvoQf1Tp6mx-l3dwEg</a></p>
+<p><a href="https://link.zhihu.com/?target=https://mp.weixin.qq.com/s/8j6Zrzc8iaLLHa7XOJaU1w">Linux内存管理（下篇）：10张图解再谈物理内存和虚拟内存mp.weixin.qq.com/s/8j6Zrzc8iaLLHa7XOJaU1w</a></p>
+<h3 id="网络编程"><a href="#网络编程" class="headerlink" title="网络编程"></a>网络编程</h3><p>网络编程是通过网络套接字 socket 方式实现的通信，所以也属于进程间通信 IPC（Inter-Process Communication）。</p>
+<p>由于现在的后台服务基于服务端/客户端模型，两者之间基于网络通信，你在家用手机点个外卖的服务请求，也是通过网络通信发给某团的后台服务器，所以后台服务开发，说到底还是网络编程，以及建立在网络编程数据之上的应用层开发。</p>
+<p>网络编程学什么：</p>
+<ul>
+<li>什么是socket套接字</li>
+<li>套接字选项</li>
+<li>TCP/UDP 套接字编程</li>
+<li>Unix domain 协议和编程</li>
+<li>原始套接字编程</li>
+<li>IO多路复用：select 、poll、epoll、kqueue</li>
+<li>序列化技术</li>
+<li>零拷贝技术</li>
+<li>开源网络库：muduo、libevent</li>
+</ul>
+<p>学完以上内容你大概可以写一个类似QQ一样的网络聊天小工具。</p>
+<p>不在在工作中，都有成熟的网络框架或网络通信库，大公司比如鹅厂大部分是自研网络通信框架，小公司用开源项目，这让很多后台开发人员不必关心底层的网络通信细节，除了部分基础架构的开发同学，大部分后台开发同学工作都是在做业务系统的开发。</p>
+<p>但了解底层网络编程原理，是后台开发人员的核心能力，这点对于 C/C++ 后台开发程序员尤为重要。它能拔高你看问题的高度，不了解底层原理，就像是在黑盒编程一样，出了问题无从下手排查。</p>
+<p><strong>学完了以上内容，基本是具备了从事后台开发的基础能力，也能开发出一个简单的后台服务器了。</strong></p>
+<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><p>除非是单纯的转发路由类后台服务，一般来说后台开发的web服务器后台程序，后台服务程序说白了就是个死循环：</p>
+<blockquote>
+<p>接收客户端数据包 -&gt; 处理数据包 -&gt; 业务逻辑处理 -&gt; 保存必要的数据 -&gt; 回复响应数据给客户端</p>
+</blockquote>
+<p>这其中会伴随对各种数据的处理，比如电商系统会处理订单数据、用户数据，游戏后台会处理角色数据和装备数据等等，有数据就会涉及到存储系统，数据一般都存储到数据库。</p>
+<p><img src="http://blogimg.hongjy.cn/v2-e0b2d9066fb91513ac44ca35545c1b55_720w.jpg" alt="img"></p>
+<p>主要学习 2 大类数据库：</p>
+<p><strong>关系型数据库</strong>是指采用了关系模型来组织数据的数据库，简单理解就是二维表格模型。</p>
+<p><strong>非关系型数据库</strong>一般指的是 <code>key-value</code> 形式存储数据的 NoSQL 数据库，数据和键值是简单的映射关系。</p>
+<h3 id="关系型数据库"><a href="#关系型数据库" class="headerlink" title="关系型数据库"></a>关系型数据库</h3><ul>
+<li><a href="https://link.zhihu.com/?target=https://mp.weixin.qq.com/s?__biz=MzkwOTE2OTY1Nw==&mid=2247486864&idx=1&sn=d509ef3c3d06e9f1149fa136a44d777f&chksm=c13f8b06f6480210fcbd2142e63ec1e8d15984f24a54b504f9c701a3c31bfc3be43fc86ae4ce&token=2073211753&lang=zh_CN%23rd">MySQL 数据库架构</a></li>
+<li><a href="https://link.zhihu.com/?target=https://mp.weixin.qq.com/s?__biz=MzkwOTE2OTY1Nw==&mid=2247487268&idx=1&sn=6c97cbcd5ad12695ed2ffd64a16fb6fd&chksm=c13f89b2f64800a48e7bbc39ee7f450a01ece6fc3d4aeaa27fad6ed8ce6a54381f44d1b83a77&token=2073211753&lang=zh_CN%23rd">MySQL索引使用和优化</a></li>
+<li>innoDB存储引擎</li>
+<li>查询性能优化</li>
+<li>聚集索引、非聚集索引</li>
+<li><a href="https://link.zhihu.com/?target=https://mp.weixin.qq.com/s?__biz=MzkwOTE2OTY1Nw==&mid=2247486900&idx=1&sn=ef7c98dc6c5ff787387410e0fc0eb3c4&chksm=c13f8b22f6480234c1593c3d256758ab275c1864fc4c1c22fbe9970fb60814f41bf8046c016b&token=2073211753&lang=zh_CN%23rd">事务隔离，ACID，MVCC</a></li>
+<li>锁机制，乐观锁、悲观锁、读锁、写锁、意向锁</li>
+<li>日志</li>
+<li>数据备份与恢复</li>
+</ul>
+<p><a href="https://link.zhihu.com/?target=https://mp.weixin.qq.com/s/59W_sA6Q74RoQfYbBp0oAg">掌握了这30道MySQL基础面试题，我成了面霸mp.weixin.qq.com/s/59W_sA6Q74RoQfYbBp0oAg</a></p>
+<h3 id="非关系型数据库"><a href="#非关系型数据库" class="headerlink" title="非关系型数据库"></a>非关系型数据库</h3><ul>
+<li>redis 基本操作和使用</li>
+<li>redis 设计与实现原理</li>
+<li>MongoDB</li>
+<li>levelDB</li>
+<li>memcache</li>
+<li>HBase</li>
+<li>CKV+ 腾讯自研</li>
+</ul>
+<p>后台开发服务还需要学会解决<strong>三高问题</strong>：高并发、高可用、高性能。</p>
+<h2 id="高并发"><a href="#高并发" class="headerlink" title="高并发"></a>高并发</h2><p><img src="http://blogimg.hongjy.cn/v2-d9bf1550f33960f0a7d658b289d0616d_720w.jpg" alt="img"></p>
+<p>利用到目前为止学习的内容，我们的开发的后台服务器应付一些小并发场景绰绰有余，但是随着互联网应用业务量的上涨，对后台服务端的请求数剧增，高并发需求随之而来，高并发指的就是高 TPS 和高 QPS</p>
+<ul>
+<li>TPS (Transactions Per Second)每秒事务数</li>
+<li>QPS（Query Per Second）每秒查询数等。</li>
+</ul>
+<p>对于高并发服务必须改变传统的单进程模型，才能处理的过来如此海量的请求。</p>
+<h3 id="多进程"><a href="#多进程" class="headerlink" title="多进程"></a>多进程</h3><p>对于高并发的服务请求，由于后台服务一般都是 IO 密集型应用，IO 密集型应用就是大部分 CPU 时间用在网络 IO 上，相对的是 CPU 密集型应用大部分时间花在数据计算上。</p>
+<p>大多数的后台服务程序都是 IO 密集型的应用，网络 IO 的时候 CPU 等待白白浪费时间， 这就告诉我们 CPU 的潜力还没有完全发挥，所以当一个进程的处理能力达到上限，我们可以多创建几个进程，这就是多进程模型。</p>
+<h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><p>多线程与多进程类似，实际在Linux系统中线程是由轻量级的进程 LWP（Light-weight process）实现，多线程方式实现的后台服务相对于多进程更加轻量，因为多线程是在同一个进程内部实现。</p>
+<p>不过多线程也会带来新的问题，比如全局数据竞争和同步问题，引入线程锁还要防止死锁的发生。</p>
+<h3 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h3><p>那什么是协程呢？协程 <code>Coroutines</code> 是一种比线程更加轻量级的微线程。类比一个进程可以拥有多个线程，一个线程也可以拥有多个协程，因此协程又称微线程和纤程。可以粗略的把协程理解成子程序调用，每个子程序都可以在一个单独的协程内执行。</p>
+<p><a href="https://link.zhihu.com/?target=https://mp.weixin.qq.com/s/OONWukmGEjb5CvY438hZjg">面试官：换人！他连进程线程协程这几个特点都说不出mp.weixin.qq.com/s/OONWukmGEjb5CvY438hZjg<img src="http://blogimg.hongjy.cn/v2-af8c40a7fb5b69f33211dcd624675a91_180x120.jpg" alt="img"></a></p>
+<h3 id="异步回调"><a href="#异步回调" class="headerlink" title="异步回调"></a>异步回调</h3><p>所谓异步回调就是，服务端发起 IO 请求的线程不等网络 IO 线程操作完成，就继续执行随后的代码，一般请求线程需要先注册一个回调函数，当IO 完成之后网络IO线程通过调用之前注册的回调函数来通知发起 IO 请求的线程，这样发起请求的线程就不会阻塞住等待结果，提高了服务处理性能。</p>
+<p>关于这一小节内容可参考柠檬哥之前的文章 <a href="https://link.zhihu.com/?target=https://mp.weixin.qq.com/s?__biz=MzkwOTE2OTY1Nw==&mid=2247486873&idx=1&sn=fd4a973fa1680d69636d87abeb9798e3&chksm=c13f8b0ff6480219c0056ee5b931bcb3a99c8e7c961b1278d69eea1e2a587ae488bcbb5e25e8&token=2073211753&lang=zh_CN%23rd">图解：高并发服务框架-进程线程协程</a></p>
+<h2 id="高性能"><a href="#高性能" class="headerlink" title="高性能"></a>高性能</h2><p><img src="http://blogimg.hongjy.cn/v2-0fc6cc262e2445f0c09531b3dc495890_720w.jpg" alt="img"></p>
+<p>按以上服务模型可以提高服务本身处理能力，高性能后台服务往往还会利用多种技术、从多个维度优化提高性能。比如采用CDN（Content Delivery Network）内容分发网络，存储和分发使用户就近获取内容，缩短响应时间；采用池化技术，避免频繁的资源分配与回收；采用服务集群，横向扩展服务能力；采用缓存技术，热点数据加入缓存，减少数据库访问。</p>
+<ul>
+<li>CND 内容分发技术</li>
+<li>池化技术：数据库连接池，线程池</li>
+<li>集群化</li>
+<li>缓存技术</li>
+</ul>
+<h2 id="高可用"><a href="#高可用" class="headerlink" title="高可用"></a>高可用</h2><p><img src="http://blogimg.hongjy.cn/v2-3a095f829785c2d0ad7d0ce4b5f99b88_720w.jpg" alt="img"></p>
+<p>高可用即保证服务的稳定性，不出现重大问题或宕机，常见的解决高可用思路是冗余和负载均衡。冗余的意思就是多部署几台服务器，当其中一台挂掉另外一台能顶上。通过负载均衡技术实现对流量的动态调配，不至于出现大量流量冲击某台机器出现请求不均匀，软件负载均衡技术可以通过DNS、Nginx、LVS等技术实现。这里主要学习的技术有：</p>
+<ul>
+<li>负载均衡技术，软硬件负载均衡</li>
+<li>限流隔离降级技术</li>
+<li>应用层容灾，资源隔离熔断</li>
+<li>异地多活</li>
+</ul>
+<h2 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h2><p><img src="http://blogimg.hongjy.cn/v2-b7256aaf935616b9b32e8b40ec788496_720w.jpg" alt="img"></p>
+<p>设计模式代表着软件开发的一种最佳实践。已经经历了很长一段时间的发展，它们提供了软件开发过程中面临的一般问题的最佳解决方案。学习这些模式有助于经验不足的开发人员通过一种简单快捷的方式来学习软件设计，<strong>当设计大规模软件时遵循必要的设计模式能让写出的代码更加健壮和可扩展</strong>。</p>
+<p>设计模式 6 大原则：</p>
+<ul>
+<li>开闭原则：对扩展开放，对修改关闭，多使用抽象类和接口。</li>
+<li>里氏替换原则：基类可以被子类替换，使用抽象类继承,不使用具体类继承。</li>
+<li>依赖倒转原则：要依赖于抽象，不要依赖于具体，针对接口编程,不针对实现编程。</li>
+<li>接口隔离原则：使用多个隔离的接口，比使用单个接口好，建立最小的接口。</li>
+<li>迪米特法则：一个软件实体应当尽可能少地与其他实体发生相互作用，通过中间类建立联系。</li>
+<li>合成复用原则：尽量使用合成/聚合，而不是使用继承。</li>
+</ul>
+<p>常见设计模式分类</p>
+<ul>
+<li>工厂模式</li>
+<li>单例模式</li>
+<li>建造者模式</li>
+<li>适配器模式</li>
+<li>桥接模式</li>
+<li>过滤器模式</li>
+<li>装饰器模式</li>
+<li>外观模式</li>
+<li>享元模式</li>
+<li>代理模式</li>
+<li>责任链模式</li>
+<li>解释器模式</li>
+<li>迭代器模式</li>
+<li>观察者模式</li>
+<li>…</li>
+</ul>
+<h2 id="分布式"><a href="#分布式" class="headerlink" title="分布式"></a>分布式</h2><p><img src="http://blogimg.hongjy.cn/v2-7748cb987f28200436bce41c1d136190_720w.jpg" alt="img"></p>
+<p>为什么会出现分布式？随着业务的体量不断增长，单个节点的处理能力无法满足日益增长的计算、存储任务的时候，且硬件的提升（加内存、加磁盘、使用更好的CPU）高昂到得不偿失的时候，应用程序也不能进一步优化的时候，我们才需要考虑分布式系统。</p>
+<blockquote>
+<p>分布式系统是由一组通过网络进行通信、为了完成共同的任务而协调工作的计算机节点组成的系统。分布式系统的出现是为了用廉价的、普通的机器完成单个计算机无法完成的计算、存储任务。其目的是利用更多的机器，处理更多的数据。</p>
+</blockquote>
+<p>分布式系统要解决的问题本身就是和单机系统一样的，而由于分布式系统多节点、通过网络通信的拓扑结构，会引入很多单机系统没有的问题，为了解决这些问题又会引入更多的机制、协议。这里需要学习的内容包括：</p>
+<ul>
+<li>分布式一致性算法：PAXOS、Raft、Zab</li>
+<li>分布式事务：2PC、3PC、TCC</li>
+<li>分布式唯一 ID 生成：雪花算法、UUID、淘宝 TDDL SEQUENCE方案、美团 Leaf</li>
+<li>一致性HASH算法</li>
+<li>扩展性设计，设计可扩展的软件架构</li>
+<li>分布式文件系统：HDFS、FastDFS</li>
+<li>微服务架构设计，服务注册、服务发现、服务路由</li>
+</ul>
+<h2 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h2><p><img src="http://blogimg.hongjy.cn/v2-dd99de9be2ec74916719883f125f49a6_720w.jpg" alt="img"></p>
+<p>本质上后台服务在网络上运行，需要和各种网络环境交互，在正常情况下能够工作，但互联网中有很多针对后台服务的恶意攻击，因此网络安全也是后台开发工程师需要学习的内容。这里主要包括：</p>
+<ul>
+<li>web安全：CSRF、SQL注入、XSS</li>
+<li>DDos防范</li>
+<li>加解密算法：对称加密、哈希算法、非对称加密</li>
+<li>网络隔离：内外网分离、跳板机</li>
+<li>授权认证算法：OAuth2.0、OIDC、2FA、单点登录SSO</li>
+</ul>
+<h2 id="监控与统计"><a href="#监控与统计" class="headerlink" title="监控与统计"></a>监控与统计</h2><p><img src="http://blogimg.hongjy.cn/v2-a075ad9c5de7f22f2b009dd20d530e70_720w.jpg" alt="img"></p>
+<p>后台服务运行我们如何了解其运行状态和健康度？如果只是开发小玩具监控和统计大可不必，只需记录本地日志即可，对于成熟的大型后台服务系统，监控、统计、追踪必不可少，<strong>无监控，不运营</strong>。</p>
+<p>开源的监控软件有：Prometheus、Zabbix、Open-Falcon。</p>
+<p>追踪系统也非常重要，特别是目前微服务化，一次服务请求需要经历多个不同的微服务处理，给分布式追踪带来新的挑战，主要包含以下三个方面：</p>
+<ul>
+<li>通过收集日志（Logging），记录程序的调试信息或错误信息，对系统和各个服务的运行状态进行监控</li>
+<li>通过收集量度（Metrics），比如累加量，对系统和各个服务的性能进行监控</li>
+<li>通过分布式追踪（Tracing ），追踪服务请求是如何在各个分布的组件中进行处理的细节</li>
+</ul>
+<p>业界也有一些成熟的开源软件用于监控与追踪：<strong>SkyWalking、Pinpoint、Zipkin、CAT大众点评开源</strong>。不过大公司一般都有自研的一套监控与追踪系统，比如腾讯内部就有多套自研监控与调用链追踪系统。</p>
+<h2 id="搜索引擎"><a href="#搜索引擎" class="headerlink" title="搜索引擎"></a>搜索引擎</h2><p><img src="http://blogimg.hongjy.cn/v2-a63b79ab9177bd5decf219a7ded66a86_720w.jpg" alt="img"></p>
+<p>我们讨论的是全文搜索引擎，什么是全文搜索引擎？</p>
+<blockquote>
+<p>全文搜索引擎是目前广泛应用的主流搜索引擎。它的工作原理是计算机索引程序通过扫描文章中的每一个词，对每一个词建立一个索引，指明该词在文章中出现的次数和位置，当用户查询时，检索程序就根据事先建立的索引进行查找，并将查找的结果反馈给用户的检索方式。这个过程类似于通过字典中的检索字表查字的过程。</p>
+</blockquote>
+<p><strong>数据分为结构化数据与非结构化数据</strong></p>
+<p>像数据库表这种的数据是结构化数据；而对于像HTML、XML、文档这样不定长度且无固定格式的数据我们称之为非结构化数据。非结构化数据也称为全文数据，对非结构化数据的搜索可以用全文检索的方式，</p>
+<p>目前两大主流的全文搜索引擎「Solr」和「Elasticsearch」都是基于 Lucene 建立。搜索引擎需要学习的内容：</p>
+<ul>
+<li>搜索引擎原理，搜索引擎利用<strong>倒排索引</strong>技术来实现对全文数据的高效检索。</li>
+<li>Lucene，Apache Lucene 是一个开源的全文搜索引擎工具包。</li>
+<li>Elasticsearch 原理与使用</li>
+<li>Solr 原理与使用</li>
+</ul>
+<h2 id="大数据"><a href="#大数据" class="headerlink" title="大数据"></a>大数据</h2><p><img src="http://blogimg.hongjy.cn/v2-908602bcd34a15b78f6e512403e14ca4_720w.jpg" alt="img"></p>
+<p>大数据，又称为巨量资料，指的是在传统数据处理应用软件不足以处理的大或复杂的数据集的术语。随着后台服务用户数增加和数据的积累，产生海量有待挖掘价值的数据，分析利用这些数据可以反馈线上决策，优化运营策略，产生数据价值。</p>
+<p>海量数据也可以定义为来自各种来源的大量非结构化或结构化数据。</p>
+<p>在软件开发领域的大数据概念自 20 世纪 90 年代的数据仓库开始，对于大数据的处理也导致各种海量数据的统计和处理技术发展。</p>
+<p>主要包含以下的技术点需要学习：数据存储、离线分析、流式计算。</p>
+<ul>
+<li>大数据存储：Hadoop 框架，HDFS、HBase、YARN 架构、Apache Kudu</li>
+<li>离线分析：Hive、MapReduce、Spark</li>
+<li>流式计算：Flink、Storm、Kafka Stream、Spark Streaming</li>
+</ul>
+<h2 id="虚拟化"><a href="#虚拟化" class="headerlink" title="虚拟化"></a>虚拟化</h2><p><img src="http://blogimg.hongjy.cn/v2-d1da53adf1d909a6e33291638beb08d1_720w.jpg" alt="img"></p>
+<p>虚拟化，是指通过虚拟化技术将一台计算机虚拟为多台逻辑计算机。</p>
+<h3 id="虚拟化的好处"><a href="#虚拟化的好处" class="headerlink" title="虚拟化的好处"></a>虚拟化的好处</h3><ul>
+<li>灵活性：在同一硬件上同时运行多个操作系统</li>
+<li>敏捷性：移动操作系统的方式与将文件或图片从一台物理服务器移动到另一台物理服务器的方式相同。</li>
+<li>容错：当物理服务器出现故障时，管理软件会自动将实例迁移到可用服务器，甚至无感知物理硬件故障。</li>
+<li>降低成本：您不再需要过多的物理服务器，操作和维护所需的费用也随之减少。</li>
+</ul>
+<p>常见的虚拟化技术：KVM、Xen、OpenVZ、Docker</p>
+<p>虽然对于大多数后台服务程序来说， 很多服务都是部署在 Docker 容器里，但 Docker 共用了底层系统的 kernel，所有容器共用一部分的运行库，因此隔离性相比 KVM 之类的虚拟化技术差一点，KVM 与 Docker 有各自的使用场景，未来很长一段时间是共存状态。</p>
+<p>OpenStack 管理 VM（Virtual Machine）虚拟机的工具；Kubernetes 简称 K8s ，是管理 container 容器的工具。</p>
+<h2 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h2><p><img src="http://blogimg.hongjy.cn/v2-f0204713947f055b62ccaaad842244d2_720w.jpg" alt="img"></p>
+<p>在后端开发中你可能经常听说到「中间件」这个词，那什么是中间件？看下Wiki上的定义：</p>
+<blockquote>
+<p>中间件技术创建在对应用软件部分常用功能的抽象上，<strong>将常用且重要的过程调用、分布式组件、消息队列、事务、安全、链接器、商业流程、网络并发、HTTP 服务器、Web Service</strong> 等功能集于一身或者分别在不同品牌的不同产品中分别完成。<br>中国科学院软件所研究员仲萃豪把中间件定义为「平台＋通信」。这个定义限定了只有用于分布式系统中的此类软件才能被称为中间件，同时此定义也把中间件与实际应用的应用软件区分开来。</p>
+</blockquote>
+<p>大白话来说，<strong>中间件就是把分布式系统中一些通用功能的抽象出来提供服务的一类软件统称</strong>。它屏蔽掉了底层操作系统的复杂性，向上提供一个统一的开发环境，降低了软件系统开发的复杂度，由于中间件是介于操作系统和应用软件之间，为应用软件提供服务功能的软件，<strong>由于介于两种软件之间，所以称为中间件</strong>。</p>
+<p>常见的的开源中间件有下面几种，组合起来就能搭建一个完整的分布式后台服务系统：</p>
+<ul>
+<li>web server 中间件，Nginx、OpenResty、Tomcat…</li>
+<li>缓存中间件，服务端缓存包括 Redis、Memcached…</li>
+<li>消息队列中间件，Kafka、RabbitMQ、ActiveMQ…</li>
+<li>RPC框架，Tars、Dubbo、gRPC、Thrift</li>
+<li>数据库中间件，Sharding jdbc</li>
+<li>日志系统中间件，ELK B指的是一套解决方案，是 Elasticsearch、Logstash 、 Kibana、Beats 是这 4 种软件产品的首字母缩写。</li>
+<li>配置中心中间件，Apollo、zookeeper统一配置管理</li>
+<li>API网关，开源项目有 Tyk、kong、zuul、orange…</li>
+</ul>
+<p><a href="https://link.zhihu.com/?target=https://mp.weixin.qq.com/s/avX_QOftWNHNfY3bqBzS9Q">面试都在问的微服务，一文带你彻底搞懂！mp.weixin.qq.com/s/avX_QOftWNHNfY3bqBzS9Q</a></p>
+<h2 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h2><p><img src="http://blogimg.hongjy.cn/v2-295d8c87490e976a7b24be45acfae028_720w.jpg" alt="img"></p>
+<p>大型软件项目的代码量巨大，如何有效组织和管理源码和版本，于是产生了版本控制系统。版本控制系统就是我们常说的SVN 或 Git，用来追踪、维护源码、文件以及配置文件等等的改动，并且提供控制这些改动控制权的程序。</p>
+<p>常见的版本控制系统分为两大类：集中式版本控制和分布式版本控制。作为后端开发工程师，版本控制系统的使用也是必须掌握的基础技能，<strong>不过这些系统一般都是边使用边熟悉，刚开始熟悉一些常用操作就好</strong>。</p>
+<ul>
+<li>常见的有集中式版本控制系统，代表是SVN；</li>
+<li>分布式版本控制系统，代表是Git</li>
+</ul>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p><img src="http://blogimg.hongjy.cn/v2-32f36d1654ba969ffa2a74e02bfa8bcf_720w.jpg" alt="img"></p>
+<p>一些和后端开发或者说软件开发相关的工具推荐，主要是编辑器和 IDE。</p>
+<h3 id="编辑器"><a href="#编辑器" class="headerlink" title="编辑器"></a>编辑器</h3><p>在 Linux 下开发肯定离不开 Vim 或者 Emacs，这两个都是常用的编辑器，已经形成了两大爱好者阵营。特别是 Vim 编辑器，学习成本有点高，配合上各种插件和配置，有些 Vim 爱好者已经把它当成 IDE 来用了，一旦掌握可以大幅提升工作效率，值得你去学习。</p>
+<p>当然除了 Vim 如果是文字编辑工作，比如写 README 文档或者写技术博客，那么强烈推荐学习下 Markdown 语法，这是一种种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档，注重内容本身不用过多的调整排版。Markdown 编辑器推荐 Typora 、有道云笔记 Markdown 编辑器、VSCode Markdown插件。</p>
+<h3 id="IDE"><a href="#IDE" class="headerlink" title="IDE"></a>IDE</h3><p>编辑器作为小工程还可以胜任，不过后端开发工作中，一般都是大型的软件工程项目，所以不大可能用编辑器来管理，这时候就需要学习使用专业的集成开发工具。</p>
+<p>集成开发环境（IDE，Integrated Development Environment ）是用于提供程序开发环境的应用程序，一般包括代码编辑器、编译器、调试器和图形用户界面等工具。</p>
+<p>磨刀不误砍柴工，挑一把趁手的兵器再去编程世界遨游。各语言 IDE 五花八门，推荐 JetBrains 系列和 VS Code ，JetBrains 产品包括各语言开发的一系列的 IDE，特别是Java 的Intellij IDEA 口碑非常不错，部分对应的产品系列如下。</p>
+<ul>
+<li>CLion - 跨平台的C/C++ IDE 开发工具，支持C++11 、C++14、libc++以及Boost。</li>
+<li>GoLand - Go语言的集成开发环境。</li>
+<li>IntelliJ IDEA - 2001年发布。一套智能的 Java 集成开发环境，特别专注与强调程序师的开发撰写效率提升。</li>
+<li>PhpStorm - PHP IDE开发工具。</li>
+<li>PyCharm - 一款结合了Django框架的Python IDE开发工具。</li>
+<li>AppCode - Swift 和 Objective-C IDE开发工具。</li>
+</ul>
+<p>Visual Studio Code（简称VS Code）是一个由微软开发，同时支持Windows 、 Linux和macOS等操作系统的免费代码编辑器，它支持测试，并内置了Git 版本控制功能，同时也具有开发环境功能，例如代码补全（类似于 IntelliSense）、代码片段和代码重构等。该编辑器支持用户个性化配置，例如改变主题颜色、键盘快捷方式等各种属性和参数，同时还在编辑器中内置了扩展程序管理的功能。</p>
+<p>在2019年的 Stack Overflow 组织的开发者调研中，VS Code被认为是最受开发者欢迎的开发环境。</p>
+<p><a href="https://link.zhihu.com/?target=https://mp.weixin.qq.com/s/AR9BbYG4t8nKvhWihaEgvg">手把手教你配置VS Code远程开发工具，工作效率提升N倍mp.weixin.qq.com/s/AR9BbYG4t8nKvhWihaEgvg</a></p>
+<p><a href="https://link.zhihu.com/?target=https://mp.weixin.qq.com/s/UdO_7UlSQZiJGzmbi0xGTA">干货：用好VSCode这13款插件和8个快捷键，工作效率提升10倍mp.weixin.qq.com/s/UdO_7UlSQZiJGzmbi0xGTA</a></p>
+<p><a href="https://link.zhihu.com/?target=https://mp.weixin.qq.com/s/TO_vC7rEgEsAmXNNNQRF0g">我发现VSCode有个bug，微软工程师凌晨这样回复…mp.weixin.qq.com/s/TO_vC7rEgEsAmXNNNQRF0g</a></p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p><img src="http://blogimg.hongjy.cn/v2-2f94f0e56166165a35dd9ced247cb21e_720w.jpg" alt="img"></p>
+<p>软件工程师不仅要写代码，还要做测试，软件测试和软件开发是相伴相生，测试能让保证我们写出代码更加健壮和可维护。</p>
+<p><strong>TDD是测试驱动开发</strong>（Test-Driven Development）的英文简称，是敏捷开发中的一项核心实践和技术，也是一种设计方法论。TDD的原理是在开发功能代码之前，先编写单元测试用例代码，根据测试代码确定需要编写什么产品代码。需要掌握和了解以下测试技术和方法。</p>
+<ul>
+<li>单元测试</li>
+<li>压力测试</li>
+<li>全链路测试</li>
+<li>A/B 测试，灰度发布，蓝绿部署</li>
+</ul>
+<h2 id="语言的困惑"><a href="#语言的困惑" class="headerlink" title="语言的困惑"></a>语言的困惑</h2><p>细心的读者应该发现了，<strong>到目前为止本文讨论的后端技术学习路线内容，并没有提及特定编程语言</strong>，不提及并不是说不重要，语言是很多技术的前置知识。打个比方来说，编程语言是砖瓦，高大上的项目都是一砖一瓦堆砌而成。</p>
+<p>其实你在学习上述技术点的过程中，会自然而然的接触到各种编程语言的中间件或是开源项目，<strong>不管用什么语言做后端服务开发，都是没有问题的，并且都不有很多优秀的开源框架可以借鉴学习，关键是要有清晰的学习路线</strong>，主流的后端开发语言包括 Java、C++、PHP、Python、Go ，那学哪个呢？</p>
+<p><strong>如果你是在校的学生</strong>，时间充足，我建议可以都可以尝试下，不试过怎么知道不合适？然后结合自己偏爱和未来打算从事的岗位方向选择一门语言深入学习；</p>
+<p><strong>如果你是职场社畜</strong>，那就要适应团队，产品业务需要用什么语言开发那就学哪个。万变不离其宗，后端技术的知识都是相通的，不要被特定语言所束缚，这些通用的后端技术掌握后，剩下的就只是编程语言学习，很快啊，很快的。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>说来惭愧有些我画在导图上的技术我也只是懂点皮毛，但整个后端技术栈的学习路线和方向是没问题的，我都画出来了，大家参考着学习和查漏补缺，在技术上我也需要继续精进学习，咱们共勉。</p>
+<p><strong>学习路线和高清路线大图我会放在我的 Github 项目上</strong>，这篇文章只是个开始，也不是最终版，<strong>我会持续在 Github 更新和完善本文内容</strong>，我这个项目的地址是：</p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/24952874/answer/1602200603">转载-后端开发学习路线</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>花生了什么树
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.hongjy.cn/2021/11/13/2021-11-13-%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/" title="后端开发学习路线">http://www.hongjy.cn/2021/11/13/2021-11-13-后端开发学习路线/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-Postman%E4%BD%BF%E7%94%A8%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/" rel="prev" title="Postman使用完全指南">
+      <i class="fa fa-chevron-left"></i> Postman使用完全指南
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/14/2021-11-14-ASP-NETCore%E5%BC%80%E5%8F%91%E8%80%85%E6%8C%87%E5%8D%97/" rel="next" title="ASP.NETCore开发者指南">
+      ASP.NETCore开发者指南 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E5%86%85%E5%AE%B9"><span class="nav-number">1.</span> <span class="nav-text">学习内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E4%B8%8B%E9%9D%A2%E8%A6%81%E5%86%99%E7%9A%84%E5%86%85%E5%AE%B9%EF%BC%8C%E6%98%AF%E9%92%88%E5%AF%B9%E4%BB%A5%E4%B8%8A%E5%90%84%E4%B8%AA%E7%9F%A5%E8%AF%86%E7%82%B9%E5%B1%95%E5%BC%80%EF%BC%8C%E6%95%99%E4%BD%A0%E6%80%8E%E4%B9%88%E5%8E%BB%E5%AD%A6%E3%80%81%E5%AD%A6%E4%BB%80%E4%B9%88%E3%80%82"><span class="nav-number">2.</span> <span class="nav-text">我下面要写的内容，是针对以上各个知识点展开，教你怎么去学、学什么。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF"><span class="nav-number">3.</span> <span class="nav-text">学习路线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80"><span class="nav-number">4.</span> <span class="nav-text">计算机基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86"><span class="nav-number">4.1.</span> <span class="nav-text">计算机组成原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C"><span class="nav-number">4.2.</span> <span class="nav-text">计算机网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="nav-number">4.3.</span> <span class="nav-text">操作系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">4.4.</span> <span class="nav-text">数据结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux"><span class="nav-number">5.</span> <span class="nav-text">Linux</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux%E7%B3%BB%E7%BB%9F%E4%BD%BF%E7%94%A8"><span class="nav-number">5.1.</span> <span class="nav-text">Linux系统使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B"><span class="nav-number">5.2.</span> <span class="nav-text">Linux 高级编程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B"><span class="nav-number">5.3.</span> <span class="nav-text">网络编程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">6.</span> <span class="nav-text">数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">6.1.</span> <span class="nav-text">关系型数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">6.2.</span> <span class="nav-text">非关系型数据库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E5%B9%B6%E5%8F%91"><span class="nav-number">7.</span> <span class="nav-text">高并发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B"><span class="nav-number">7.1.</span> <span class="nav-text">多进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">7.2.</span> <span class="nav-text">多线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B"><span class="nav-number">7.3.</span> <span class="nav-text">协程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E5%9B%9E%E8%B0%83"><span class="nav-number">7.4.</span> <span class="nav-text">异步回调</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E6%80%A7%E8%83%BD"><span class="nav-number">8.</span> <span class="nav-text">高性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E5%8F%AF%E7%94%A8"><span class="nav-number">9.</span> <span class="nav-text">高可用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">10.</span> <span class="nav-text">设计模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F"><span class="nav-number">11.</span> <span class="nav-text">分布式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E5%85%A8"><span class="nav-number">12.</span> <span class="nav-text">安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%91%E6%8E%A7%E4%B8%8E%E7%BB%9F%E8%AE%A1"><span class="nav-number">13.</span> <span class="nav-text">监控与统计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E"><span class="nav-number">14.</span> <span class="nav-text">搜索引擎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E6%95%B0%E6%8D%AE"><span class="nav-number">15.</span> <span class="nav-text">大数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%8C%96"><span class="nav-number">16.</span> <span class="nav-text">虚拟化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%8C%96%E7%9A%84%E5%A5%BD%E5%A4%84"><span class="nav-number">16.1.</span> <span class="nav-text">虚拟化的好处</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="nav-number">17.</span> <span class="nav-text">中间件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6"><span class="nav-number">18.</span> <span class="nav-text">版本控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7"><span class="nav-number">19.</span> <span class="nav-text">工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%BE%91%E5%99%A8"><span class="nav-number">19.1.</span> <span class="nav-text">编辑器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IDE"><span class="nav-number">19.2.</span> <span class="nav-text">IDE</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">20.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E8%A8%80%E7%9A%84%E5%9B%B0%E6%83%91"><span class="nav-number">21.</span> <span class="nav-text">语言的困惑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-number">22.</span> <span class="nav-text">结语</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="花生了什么树"
+      src="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+  <p class="site-author-name" itemprop="name">花生了什么树</p>
+  <div class="site-description" itemprop="description">.NET工程师</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AllenHongjun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AllenHongjun" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hongjy1991@gmail.com" title="E-Mail → mailto:hongjy1991@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.google.com/" title="Google → https:&#x2F;&#x2F;www.google.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/hongjy1991" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;hongjy1991" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://youtube.com/" title="YouTube → https:&#x2F;&#x2F;youtube.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://leetcode-cn.com/" title="https:&#x2F;&#x2F;leetcode-cn.com&#x2F;" rel="noopener" target="_blank">leetcode</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://lailin.xyz/" title="https:&#x2F;&#x2F;lailin.xyz&#x2F;" rel="noopener" target="_blank">lailin</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ciweigg2.github.io/" title="https:&#x2F;&#x2F;ciweigg2.github.io&#x2F;" rel="noopener" target="_blank">ciweigg2</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.itmuch.com/" title="https:&#x2F;&#x2F;www.itmuch.com&#x2F;" rel="noopener" target="_blank">itmuch</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://tengj.top/" title="http:&#x2F;&#x2F;tengj.top&#x2F;" rel="noopener" target="_blank">tengj</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">浙ICP备18047156号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花生了什么树</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">383k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5:49</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hongjy.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="sqlserver查看实例级别的信息，使用SERVERPROPERTY函数  1select SERVERPROPERTY (&amp;#x27;propertyname&amp;#x27;)   查看实例级别的某个参数XX的配置  1select * from sys.configurations where name&#x3D;&amp;#x27;XX&amp;#x27;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL Server 常用近百条SQL语句（收藏版）">
+<meta property="og:url" content="http://www.hongjy.cn/2021/11/13/2021-11-13-sqlserver%E5%B8%B8%E7%94%A8sql%E8%AF%AD%E5%8F%A5/index.html">
+<meta property="og:site_name" content="花生了什么树的博客">
+<meta property="og:description" content="sqlserver查看实例级别的信息，使用SERVERPROPERTY函数  1select SERVERPROPERTY (&amp;#x27;propertyname&amp;#x27;)   查看实例级别的某个参数XX的配置  1select * from sys.configurations where name&#x3D;&amp;#x27;XX&amp;#x27;">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-11-13T01:13:17.000Z">
+<meta property="article:modified_time" content="2023-10-21T09:04:45.463Z">
+<meta property="article:author" content="花生了什么树">
+<meta property="article:tag" content=".NET工程师 后端开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://www.hongjy.cn/2021/11/13/2021-11-13-sqlserver%E5%B8%B8%E7%94%A8sql%E8%AF%AD%E5%8F%A5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>SQL Server 常用近百条SQL语句（收藏版） | 花生了什么树的博客</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?749761669bb5184278820a5fa5d144a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+    <!--github 挂饰-->
+    <a target="_blank" rel="noopener" href="https://github.com/allenHongjun" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">花生了什么树的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">修身治国齐家平天下</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于我</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.hongjy.cn/2021/11/13/2021-11-13-sqlserver%E5%B8%B8%E7%94%A8sql%E8%AF%AD%E5%8F%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+      <meta itemprop="name" content="花生了什么树">
+      <meta itemprop="description" content=".NET工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花生了什么树的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SQL Server 常用近百条SQL语句（收藏版）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-13 09:13:17" itemprop="dateCreated datePublished" datetime="2021-11-13T09:13:17+08:00">2021-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-10-21 17:04:45" itemprop="dateModified" datetime="2023-10-21T17:04:45+08:00">2023-10-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/sqlserver/" itemprop="url" rel="index"><span itemprop="name">sqlserver</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>25k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>23 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol>
+<li>sqlserver查看实例级别的信息，使用SERVERPROPERTY函数</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> SERVERPROPERTY (<span class="string">&#x27;propertyname&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>查看实例级别的某个参数XX的配置</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> sys.configurations <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">&#x27;XX&#x27;</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+
+<ol start="3">
+<li>更改实例级别的某个参数XX的值</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sp_configure &#x27;XX&#x27;,&#x27;0&#x27; </span><br><span class="line">RECONFIGURE <span class="keyword">WITH</span> OVERRIDE</span><br></pre></td></tr></table></figure>
+
+<p>sp_configure显示或更改当前服务器的全局配置设置。  RECONFIGURE表示<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/sqlserver?from=10680">SQL Server</a>不用重新启动就立即生效 。</p>
+<p>使用sp_configure更改设置时，请使用RECONFIGURE语句使更改立即生效，否则更改将在SQL Server重新启动后生效。RECONFIGURE后面加WITH OVERRIDE表示不管这个值是不是符合要求都会生效，比如recovery interval的范围值是10–60对应sys.configurations.minimum是10、sys.configurations.maximum是60，如果sp_configure ‘recovery interval’, 75设置为75，超过了这个10–60规范，但是要让75生效，则必须加上WITH OVERRIDE。</p>
+<ol start="4">
+<li>sqlserver没有系统表可以查询所有<a target="_blank" rel="noopener" href="https://cloud.tencent.com/solution/database?from=10680">数据库</a>下面对象，以下只能在当前数据库下面查</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> sys.all_objects <span class="comment">--查询当前数据库的所有架构范围的对象</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> sys.sysobjects <span class="comment">--查询当前数据库的所有对象</span></span><br><span class="line"><span class="comment">--sys.all_objects、sys.sysobjects 这种的视图，在每个数据库的系统视图下面都有</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> sys.databases <span class="comment">--在当前数据库下可以查询到所有数据库信息，包含是否on状态</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> sys.sysdatabases <span class="comment">--在当前数据库下可以查询到所有数据库信息，不包含是否on状态，这个系统视图会在后续的版本中删除</span></span><br><span class="line"><span class="comment">--sys.databases、sys.sysdatabases这种的视图，在每个数据库的系统视图下面都有</span></span><br><span class="line">sys.processes <span class="comment">--没有这个视图</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> sys.sysprocesses <span class="comment">--在当前数据库下可以查询所有正在SQL Server 实例上运行的进程的相关信息，也就是所有数据库上的线程，这个系统视图会在后续的版本中删除</span></span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>全局系统视图、单个数据库系统视图</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sys.database_files <span class="comment">--每个存储在数据库本身中的数据库文件在表中占用一行。这是一个基于每个数据库的视图。</span></span><br><span class="line">sys.master_files <span class="comment">--master 数据库中的每个文件对应一行。这是一个系统范围视图。</span></span><br><span class="line"><span class="comment">--sys.database_files、sys.master_files这种的视图，在每个数据库的系统视图下面都有</span></span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>一些只存在msdb的系统表，而非系统视图</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dbo.backupset</span><br><span class="line">dbo.log_shipping_secondary</span><br><span class="line">dbo.restorehistory</span><br><span class="line">dbo.sysjobs</span><br><span class="line">dbo.sysjobhistory</span><br><span class="line"><span class="comment">--这些系统表只存在msdb数据库，使用的时候必须加上msdb前缀</span></span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li><p>sp_lock、sp_who、sp_who2、sp_helptext等一些系统存储过程存在于每个数据库中</p>
+</li>
+<li><p>报告有关锁的信息，会显示实例里面的所有数据库的锁信息、堵塞信息</p>
+</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sp_lock</span><br></pre></td></tr></table></figure>
+
+<p>\9. 提供有关当前用户、 会话和进程的实例中的信息，可以看到会话的状态running、SUSPENDED、sleeping、rollback，sp_who2通过CPUTime、DiskIO可以判断对应的transaction是否很大 </p>
+<blockquote>
+<p>sp_who  sp_who2  sp_who2 active (可选参数LoginName, 或active代表活动会话数) </p>
+<p>CPUTime (进程占用的总CPU时间)  DiskIO (进程对磁盘读的总次数)  LastBatch (客户最后一次调用存储过程或者执行查询的时间)  ProgramName (用来初始化连接的应用程序名称，或者主机名)</p>
+</blockquote>
+<ol start="10">
+<li>查看某个存储过程的内容</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sp_helptext pro_name</span><br></pre></td></tr></table></figure>
+
+<p>11.显示某个线程号发送到sqlserver数据库的最后一个语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DBCC INPUTBUFFER</span><br></pre></td></tr></table></figure>
+
+<p>12.假设查询到249被锁给堵塞了，查询被堵塞的SQL语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DBCC INPUTBUFFER (249)</span><br></pre></td></tr></table></figure>
+
+<ol start="13">
+<li>查看某个数据库中是否存在活动事务，有活动事务就一定会写日志</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DBCC OPENTRAN (dbname)</span><br></pre></td></tr></table></figure>
+
+<ol start="14">
+<li>监视日志空间</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DBCC SQLPERF (LOGSPACE)</span><br></pre></td></tr></table></figure>
+
+<ol start="15">
+<li>查找无法重用日志中的空间的原因(日志无法截断导致日志文件越来越大，但是可用空间很小，无法收缩)</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">name</span>,log_reuse_wait_desc <span class="keyword">from</span> sys.databases</span><br></pre></td></tr></table></figure>
+
+<ol start="16">
+<li>查看虚拟日志文件信息</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DBCC LOGINFO</span><br></pre></td></tr></table></figure>
+
+<p>结果有多少行，代表有多少虚拟日志文件，活动的虚拟日志文件的状态(status)为2</p>
+<ol start="17">
+<li>修复msdb数据库，比如ssms页面sql server agent丢失或看不了job view history等功能，说明msdb坏了，需要修复</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dbcc checkdb (msdb);</span><br></pre></td></tr></table></figure>
+
+<ol start="18">
+<li>在您当前连接到的 SQL Server 数据库中生成一个手动检查点</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CHECKPOINT [ checkpoint_duration ]</span><br><span class="line"><span class="comment">--checkpoint_duration表示以秒为单位指定手动检查点完成所需的时间，一般不使用这个参数，让数据库自己控制</span></span><br></pre></td></tr></table></figure>
+
+<ol start="19">
+<li>查看数据库各种设置</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">name</span>,State,user_access,is_read_only,recovery_model <span class="keyword">from</span> sys.databases</span><br></pre></td></tr></table></figure>
+
+<ol start="20">
+<li>查看某个数据库中是否存在会话</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> DB_NAME(dbid),* <span class="keyword">from</span> sys.sysprocesses <span class="keyword">where</span> dbid=db_id(<span class="string">&#x27;dbname&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<ol start="21">
+<li>查询当前阻塞的所有请求</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> sys.sysprocesses <span class="keyword">where</span> blocked&gt;<span class="number">0</span></span><br><span class="line">或</span><br><span class="line"><span class="keyword">SELECT</span> t1.resource_type,db_name(t1.resource_database_id),t1.resource_associated_entity_id,t1.request_mode,</span><br><span class="line">t1.request_session_id,t2.blocking_session_id,t2.wait_duration_ms</span><br><span class="line"><span class="keyword">FROM</span> sys.dm_tran_locks <span class="keyword">as</span> t1</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> sys.dm_os_waiting_tasks <span class="keyword">as</span> t2</span><br><span class="line"><span class="keyword">ON</span> t1.lock_owner_address = t2.resource_address;</span><br><span class="line">或</span><br><span class="line"><span class="keyword">select</span> A.SPID <span class="keyword">as</span> 被阻塞进程,a.CMD <span class="keyword">AS</span> 正在执行的操作,b.spid <span class="keyword">AS</span> 阻塞进程号,b.cmd <span class="keyword">AS</span> 阻塞进程正在执行的操作</span><br><span class="line"><span class="keyword">from</span> master..sysprocesses a,master..sysprocesses b</span><br><span class="line"><span class="keyword">where</span> a.blocked&lt;&gt;<span class="number">0</span> <span class="keyword">and</span> a.blocked= b.spid</span><br><span class="line">或</span><br><span class="line"><span class="keyword">SELECT</span> session_Id,spid,ecid,DB_NAME (sp.dbid),nt_username,er.status,wait_type,</span><br><span class="line">[Individual <span class="keyword">Query</span>] =<span class="keyword">SUBSTRING</span> (qt.text,er.statement_start_offset / <span class="number">2</span>,</span><br><span class="line">( <span class="keyword">CASE</span></span><br><span class="line"><span class="keyword">WHEN</span> er.statement_end_offset = <span class="number">-1</span></span><br><span class="line"><span class="keyword">THEN</span></span><br><span class="line"><span class="keyword">LEN</span> (<span class="keyword">CONVERT</span> (<span class="keyword">NVARCHAR</span> (<span class="keyword">MAX</span>), qt.text)) * <span class="number">2</span></span><br><span class="line"><span class="keyword">ELSE</span></span><br><span class="line">er.statement_end_offset</span><br><span class="line"><span class="keyword">END</span></span><br><span class="line">- er.statement_start_offset)</span><br><span class="line">/ <span class="number">2</span>),</span><br><span class="line">qt.text,program_name,Hostname,nt_domain,start_time</span><br><span class="line"><span class="keyword">FROM</span> sys.dm_exec_requests er</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> sys.sysprocesses sp <span class="keyword">ON</span> er.session_id = sp.spid</span><br><span class="line"><span class="keyword">CROSS</span> <span class="keyword">APPLY</span> sys.dm_exec_sql_text (er.sql_handle) <span class="keyword">AS</span> qt</span><br><span class="line"><span class="keyword">WHERE</span> session_Id &gt; <span class="number">50</span> <span class="comment">/* Ignore system spids.*/</span></span><br><span class="line"><span class="keyword">AND</span> sp.blocked&gt;<span class="number">0</span> <span class="keyword">AND</span> session_Id <span class="keyword">NOT</span> <span class="keyword">IN</span> (@@SPID)</span><br><span class="line">或</span><br><span class="line"><span class="keyword">SELECT</span> session_id ,<span class="keyword">status</span> ,blocking_session_id</span><br><span class="line">,wait_type ,wait_time ,wait_resource</span><br><span class="line">,transaction_id</span><br><span class="line"><span class="keyword">FROM</span> sys.dm_exec_requests</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">status</span> = N<span class="string">&#x27;suspended&#x27;</span>;</span><br><span class="line"><span class="comment">--sys.dm_exec_requests返回SQL Server 中正在执行的每个请求的信息</span></span><br></pre></td></tr></table></figure>
+
+<ol start="22">
+<li>查看哪些表被锁了，以及这些表被哪个进程锁了</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> request_session_id spid,OBJECT_NAME(resource_associated_entity_id) tableName</span><br><span class="line"><span class="keyword">from</span> sys.dm_tran_locks <span class="keyword">where</span> resource_type=<span class="string">&#x27;OBJECT&#x27;</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> request_session_id <span class="keyword">ASC</span></span><br></pre></td></tr></table></figure>
+
+<ol start="23">
+<li>查询某个job是否被堵塞</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> msdb.dbo.sysjobs <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">&#x27;jobname&#x27;</span></span><br><span class="line"><span class="keyword">select</span> a.program_name,a.* <span class="keyword">from</span> master..sysprocesses a <span class="keyword">where</span> a.program_name <span class="keyword">like</span> <span class="string">&#x27;%0D1CE57E8AC5%&#x27;</span></span><br><span class="line"><span class="comment">--把第一个语句查询到的job_id代入第二个语句的program_name</span></span><br></pre></td></tr></table></figure>
+
+<ol start="24">
+<li>检查SQL Agent是否开启</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">IF EXISTS (</span><br><span class="line"><span class="keyword">SELECT</span> TOP <span class="number">1</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">FROM</span> sys.sysprocesses</span><br><span class="line"><span class="keyword">WHERE</span> program_name = <span class="string">&#x27;SQLAgent - Generic Refresher&#x27;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&#x27;Running&#x27;</span></span><br><span class="line"><span class="keyword">ELSE</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&#x27;Not Running&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="25">
+<li>查看活动线程执行的sql语句,并生成批量杀掉的语句</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="string">&#x27;KILL &#x27;</span>+<span class="keyword">CAST</span>(a.spid <span class="keyword">AS</span> <span class="keyword">NVARCHAR</span>(<span class="number">100</span>)) <span class="keyword">AS</span> KillCmd,<span class="keyword">REPLACE</span>(hostname,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27;&#x27;</span>) <span class="keyword">as</span> hostname ,<span class="keyword">replace</span>(program_name,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27;&#x27;</span>) <span class="keyword">as</span> program_name</span><br><span class="line">,<span class="keyword">REPLACE</span>(loginame, <span class="string">&#x27; &#x27;</span>, <span class="string">&#x27;&#x27;</span>) <span class="keyword">AS</span> loginame, db_name(a.dbid) <span class="keyword">AS</span> DBname,spid,blocked,waittime/<span class="number">1000</span> <span class="keyword">as</span> waittime</span><br><span class="line">,a.status,<span class="keyword">Replace</span>(b.text,<span class="string">&#x27;&#x27;&#x27;&#x27;</span>,<span class="string">&#x27;&#x27;&#x27;&#x27;</span>) <span class="keyword">as</span> sqlmessage,cpu</span><br><span class="line"><span class="keyword">from</span> sys.sysprocesses <span class="keyword">as</span> a <span class="keyword">with</span>(nolock)</span><br><span class="line"><span class="keyword">cross</span> <span class="keyword">apply</span> sys.dm_exec_sql_text(sql_handle) <span class="keyword">as</span> b</span><br><span class="line"><span class="keyword">where</span> a.status&lt;&gt;<span class="string">&#x27;sleeping&#x27;</span> <span class="keyword">AND</span> a.spid&lt;&gt;@@SPID</span><br></pre></td></tr></table></figure>
+
+<ol start="26">
+<li>查看备份进度</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> DB_NAME(database_id) <span class="keyword">AS</span> Exec_DB</span><br><span class="line">,percent_complete</span><br><span class="line">,<span class="keyword">CASE</span> <span class="keyword">WHEN</span> estimated_completion_time &lt; <span class="number">36000000</span></span><br><span class="line"><span class="keyword">THEN</span> <span class="string">&#x27;0&#x27;</span> <span class="keyword">ELSE</span> <span class="string">&#x27;&#x27;</span> <span class="keyword">END</span> + <span class="keyword">RTRIM</span>(estimated_completion_time/<span class="number">1000</span>/<span class="number">3600</span>)</span><br><span class="line">+ <span class="string">&#x27;:&#x27;</span> + <span class="keyword">RIGHT</span>(<span class="string">&#x27;0&#x27;</span> + <span class="keyword">RTRIM</span>((estimated_completion_time/<span class="number">1000</span>)%<span class="number">3600</span>/<span class="number">60</span>), <span class="number">2</span>)</span><br><span class="line">+ <span class="string">&#x27;:&#x27;</span> + <span class="keyword">RIGHT</span>(<span class="string">&#x27;0&#x27;</span> + <span class="keyword">RTRIM</span>((estimated_completion_time/<span class="number">1000</span>)%<span class="number">60</span>), <span class="number">2</span>) <span class="keyword">AS</span> [<span class="built_in">Time</span> Remaining]</span><br><span class="line">,b.text <span class="keyword">as</span> tsql</span><br><span class="line">,*</span><br><span class="line"><span class="keyword">FROM</span> SYS.DM_EXEC_REQUESTS</span><br><span class="line"><span class="keyword">cross</span> <span class="keyword">apply</span> sys.dm_exec_sql_text(sql_handle) <span class="keyword">as</span> b</span><br><span class="line"><span class="keyword">WHERE</span> command <span class="keyword">LIKE</span> <span class="string">&#x27;Backup%&#x27;</span> <span class="comment">--and database_id=db_id(&#x27;cardorder&#x27;)</span></span><br><span class="line"><span class="comment">--OR command LIKE &#x27;RESTORE%&#x27;</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="number">2</span> <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+
+<ol start="27">
+<li>查看恢复进度</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> DB_NAME(database_id) <span class="keyword">AS</span> Exec_DB</span><br><span class="line">,percent_complete</span><br><span class="line">,<span class="keyword">CASE</span> <span class="keyword">WHEN</span> estimated_completion_time &lt; <span class="number">36000000</span></span><br><span class="line"><span class="keyword">THEN</span> <span class="string">&#x27;0&#x27;</span> <span class="keyword">ELSE</span> <span class="string">&#x27;&#x27;</span> <span class="keyword">END</span> + <span class="keyword">RTRIM</span>(estimated_completion_time/<span class="number">1000</span>/<span class="number">3600</span>)</span><br><span class="line">+ <span class="string">&#x27;:&#x27;</span> + <span class="keyword">RIGHT</span>(<span class="string">&#x27;0&#x27;</span> + <span class="keyword">RTRIM</span>((estimated_completion_time/<span class="number">1000</span>)%<span class="number">3600</span>/<span class="number">60</span>), <span class="number">2</span>)</span><br><span class="line">+ <span class="string">&#x27;:&#x27;</span> + <span class="keyword">RIGHT</span>(<span class="string">&#x27;0&#x27;</span> + <span class="keyword">RTRIM</span>((estimated_completion_time/<span class="number">1000</span>)%<span class="number">60</span>), <span class="number">2</span>) <span class="keyword">AS</span> [<span class="built_in">Time</span> Remaining]</span><br><span class="line">,b.text <span class="keyword">as</span> tsql</span><br><span class="line">,*</span><br><span class="line"><span class="keyword">FROM</span> SYS.DM_EXEC_REQUESTS</span><br><span class="line"><span class="keyword">cross</span> <span class="keyword">apply</span> sys.dm_exec_sql_text(sql_handle) <span class="keyword">as</span> b</span><br><span class="line"><span class="keyword">WHERE</span> command <span class="keyword">LIKE</span> <span class="string">&#x27;RESTORE%&#x27;</span> <span class="comment">--and database_id=db_id(&#x27;cardorder&#x27;)</span></span><br><span class="line"><span class="comment">--OR command LIKE &#x27;RESTORE%&#x27;</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="number">2</span> <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+
+<ol start="28">
+<li>查看数据库的最近备份信息</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> database_name,<span class="keyword">type</span>,<span class="keyword">MAX</span>(backup_finish_date) <span class="keyword">AS</span> backup_finish_date <span class="keyword">FROM</span> msdb.dbo.backupset <span class="keyword">GROUP</span> <span class="keyword">BY</span> database_name,<span class="keyword">type</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> database_name,<span class="keyword">type</span></span><br><span class="line">备注：D 表示全备份，i 表示差异备份，L 表示日志备份</span><br></pre></td></tr></table></figure>
+
+<ol start="29">
+<li>查看数据库的历史备份记录，并生成restore语句</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line"><span class="keyword">CONVERT</span>(<span class="built_in">CHAR</span>(<span class="number">100</span>),SERVERPROPERTY(<span class="string">&#x27;Servername&#x27;</span>))<span class="keyword">AS</span> <span class="keyword">Server</span>,</span><br><span class="line">bs.database_name,</span><br><span class="line">bs.backup_start_date,</span><br><span class="line">bs.backup_finish_date,</span><br><span class="line">bs.expiration_date,</span><br><span class="line"><span class="keyword">CASE</span> bs.type</span><br><span class="line"><span class="keyword">WHEN</span> <span class="string">&#x27;D&#x27;</span> <span class="keyword">THEN</span> <span class="string">&#x27;Database&#x27;</span></span><br><span class="line"><span class="keyword">WHEN</span> <span class="string">&#x27;L&#x27;</span> <span class="keyword">THEN</span> <span class="string">&#x27;Log&#x27;</span></span><br><span class="line"><span class="keyword">END</span> <span class="keyword">AS</span> backup_type,</span><br><span class="line">bs.backup_size,</span><br><span class="line">bmf.logical_device_name,</span><br><span class="line">bmf.physical_device_name,</span><br><span class="line">bs.name <span class="keyword">AS</span> backupset_name,</span><br><span class="line">bs.description,</span><br><span class="line"><span class="string">&#x27;RESTORE DATABASE [&#x27;</span>+bs.database_name+<span class="string">&#x27;] FROM DISK=N&#x27;&#x27;&#x27;</span></span><br><span class="line">+bmf.physical_device_name+ <span class="string">&#x27;&#x27;&#x27;WITH NORECOVERY;&#x27;</span></span><br><span class="line"><span class="keyword">FROM</span> msdb.dbo.backupmediafamily bmf</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> msdb.dbo.backupset bs</span><br><span class="line"><span class="keyword">ON</span> bmf.media_set_id=bs.media_set_id</span><br><span class="line"><span class="keyword">WHERE</span> bs.backup_start_date&gt;<span class="keyword">DATEADD</span>(<span class="keyword">DAY</span>,<span class="number">-1</span>,<span class="keyword">GETDATE</span>())</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> bs.backup_finish_date</span><br></pre></td></tr></table></figure>
+
+<ol start="30">
+<li>查询XX库从YYYY-MM-DD日期开始的日志备份记录，并生成restore log的语句</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TOP <span class="number">1000</span> </span><br><span class="line">      S.database_name [<span class="keyword">Database</span>], </span><br><span class="line">      <span class="keyword">CASE</span> [S].[<span class="keyword">type</span>] </span><br><span class="line">            <span class="keyword">WHEN</span> <span class="string">&#x27;L&#x27;</span> </span><br><span class="line">            <span class="keyword">THEN</span> N<span class="string">&#x27;RESTORE LOG &#x27;</span> + <span class="keyword">QUOTENAME</span>(S.database_name) + N<span class="string">&#x27; FROM DISK = &#x27;&#x27;&#x27;</span> + F.physical_device_name + N<span class="string">&#x27;&#x27;&#x27; WITH NORECOVERY;&#x27;</span> </span><br><span class="line">      <span class="keyword">END</span> [LogRestore], </span><br><span class="line">      F.physical_device_name, </span><br><span class="line">      S.[<span class="keyword">Type</span>], </span><br><span class="line">      S.backup_start_date, </span><br><span class="line">      S.backup_finish_date </span><br><span class="line"><span class="keyword">FROM</span> msdb.dbo.backupmediafamily F </span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> msdb.dbo.backupset S </span><br><span class="line"><span class="keyword">ON</span> S.media_set_id = F.media_set_id </span><br><span class="line"><span class="keyword">WHERE</span> S.database_name = <span class="string">&#x27;XX&#x27;</span> <span class="keyword">AND</span> </span><br><span class="line">      S.type = <span class="string">&#x27;L&#x27;</span> <span class="keyword">AND</span> S.backup_start_date &gt; <span class="string">&#x27;YYYY-MM-DD&#x27;</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> S.backup_start_date <span class="keyword">ASC</span></span><br></pre></td></tr></table></figure>
+
+<ol start="31">
+<li>查询always on状态是否正常</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> dc.database_name, d.synchronization_health_desc, d.synchronization_state_desc, d.database_state_desc <span class="keyword">from</span> sys.dm_hadr_database_replica_states d <span class="keyword">join</span> sys.availability_databases_cluster dc <span class="keyword">on</span> d.group_database_id=dc.group_database_id <span class="keyword">and</span> d.is_local=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<ol start="32">
+<li>查看mirror镜像信息</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">db_name(database_id),</span><br><span class="line">mirroring_state_desc,</span><br><span class="line">mirroring_role_desc,</span><br><span class="line">mirroring_partner_name,</span><br><span class="line">mirroring_partner_instance</span><br><span class="line"><span class="keyword">FROM</span> sys.database_mirroring</span><br></pre></td></tr></table></figure>
+
+<ol start="33">
+<li>查询SSRS Report Subscriptions相关的job</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">b.name <span class="keyword">AS</span> JobName</span><br><span class="line">, e.name</span><br><span class="line">, e.path</span><br><span class="line">, d.description</span><br><span class="line">, a.SubscriptionID</span><br><span class="line">, laststatus</span><br><span class="line">, eventtype</span><br><span class="line">, LastRunTime</span><br><span class="line">, date_created</span><br><span class="line">, date_modified</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">ReportServer.dbo.ReportSchedule a</span><br><span class="line"><span class="keyword">JOIN</span> msdb.dbo.sysjobs b <span class="keyword">ON</span> <span class="keyword">CONVERT</span>(SYSNAME,a.ScheduleID) = b.name</span><br><span class="line"><span class="keyword">JOIN</span> ReportServer.dbo.ReportSchedule c <span class="keyword">ON</span> b.name = <span class="keyword">CONVERT</span>(SYSNAME,c.ScheduleID)</span><br><span class="line"><span class="keyword">JOIN</span> ReportServer.dbo.Subscriptions d <span class="keyword">ON</span> c.SubscriptionID = d.SubscriptionID</span><br><span class="line"><span class="keyword">JOIN</span> ReportServer.dbo.Catalog e <span class="keyword">ON</span> d.report_oid = e.itemid</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">e.name = <span class="string">&#x27;Report Name Goes Here&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="34">
+<li>查看某个数据库的数据文件信息，就算是mirror从库的数据文件也可以查到，filestream目录也可以查到</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> db_name(database_id),* <span class="keyword">FROM</span> master.sys.master_files <span class="keyword">WHERE</span> database_id =DB_ID(N<span class="string">&#x27;DBA&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ol start="35">
+<li>查看某个数据文件信息</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> b.name,a.type_desc,a.name,a.physical_name,a.size,a.max_size,a.is_percent_growth,a.growth <span class="keyword">from</span> sys.master_files a <span class="keyword">join</span> sys.databases b <span class="keyword">on</span> a.database_id=b.database_id <span class="keyword">and</span> a.physical_name <span class="keyword">like</span> <span class="string">&#x27;%DTSWonda_1%&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="36">
+<li>查询实例的数据文件总大小</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">sum</span>(<span class="keyword">size</span>*<span class="number">8</span>/<span class="number">1024</span>/<span class="number">1024</span>) <span class="keyword">FROM</span> master.sys.master_files</span><br></pre></td></tr></table></figure>
+
+<ol start="37">
+<li>查询某个目录中数据库使用的总大小</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a.size*<span class="number">8</span>/<span class="number">1024</span>/<span class="number">1024</span> ,a.* <span class="keyword">FROM</span> master.sys.master_files a <span class="keyword">WHERE</span> physical_name <span class="keyword">like</span> <span class="string">&#x27;G:\DEFAULT.DATA%&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="38">
+<li>查询某个目录中哪些数据库占用了8G以上容量</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> b.name dbname,a.size*<span class="number">8</span>/<span class="number">1024</span>/<span class="number">1024</span> sum_GB,a.type_desc,a.name datafilename,a.physical_name <span class="keyword">FROM</span> master.sys.master_files a <span class="keyword">join</span> sys.sysdatabases b <span class="keyword">on</span> a.database_id=b.dbid <span class="keyword">and</span> a.physical_name <span class="keyword">like</span> <span class="string">&#x27;G:\DEFAULT.DATA%&#x27;</span> <span class="keyword">and</span> a.size*<span class="number">8</span>/<span class="number">1024</span>/<span class="number">1024</span>&gt;<span class="number">8</span></span><br></pre></td></tr></table></figure>
+
+<ol start="39">
+<li>查询实例上的每个数据库的大小</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">DB_NAME(db.database_id) DatabaseName,</span><br><span class="line">(<span class="keyword">CAST</span>(mfrows.RowSize <span class="keyword">AS</span> <span class="built_in">FLOAT</span>)*<span class="number">8</span>)/<span class="number">1024</span> RowSizeMB,</span><br><span class="line">(<span class="keyword">CAST</span>(mflog.LogSize <span class="keyword">AS</span> <span class="built_in">FLOAT</span>)*<span class="number">8</span>)/<span class="number">1024</span> LogSizeMB,</span><br><span class="line">(<span class="keyword">CAST</span>(mfstream.StreamSize <span class="keyword">AS</span> <span class="built_in">FLOAT</span>)*<span class="number">8</span>)/<span class="number">1024</span> StreamSizeMB,</span><br><span class="line">(<span class="keyword">CAST</span>(mftext.TextIndexSize <span class="keyword">AS</span> <span class="built_in">FLOAT</span>)*<span class="number">8</span>)/<span class="number">1024</span> TextIndexSizeMB</span><br><span class="line"><span class="keyword">FROM</span> sys.databases db</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> (<span class="keyword">SELECT</span> database_id, <span class="keyword">SUM</span>(<span class="keyword">size</span>) RowSize <span class="keyword">FROM</span> sys.master_files <span class="keyword">WHERE</span> <span class="keyword">type</span> = <span class="number">0</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> database_id, <span class="keyword">type</span>) mfrows <span class="keyword">ON</span> mfrows.database_id = db.database_id</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> (<span class="keyword">SELECT</span> database_id, <span class="keyword">SUM</span>(<span class="keyword">size</span>) LogSize <span class="keyword">FROM</span> sys.master_files <span class="keyword">WHERE</span> <span class="keyword">type</span> = <span class="number">1</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> database_id, <span class="keyword">type</span>) mflog <span class="keyword">ON</span> mflog.database_id = db.database_id</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> (<span class="keyword">SELECT</span> database_id, <span class="keyword">SUM</span>(<span class="keyword">size</span>) StreamSize <span class="keyword">FROM</span> sys.master_files <span class="keyword">WHERE</span> <span class="keyword">type</span> = <span class="number">2</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> database_id, <span class="keyword">type</span>) mfstream <span class="keyword">ON</span> mfstream.database_id = db.database_id</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> (<span class="keyword">SELECT</span> database_id, <span class="keyword">SUM</span>(<span class="keyword">size</span>) TextIndexSize <span class="keyword">FROM</span> sys.master_files <span class="keyword">WHERE</span> <span class="keyword">type</span> = <span class="number">4</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> database_id, <span class="keyword">type</span>) mftext <span class="keyword">ON</span> mftext.database_id = db.database_id</span><br></pre></td></tr></table></figure>
+
+<ol start="40">
+<li>查询总耗CPU最多的前3个SQL，且最近5天出现过</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TOP <span class="number">3</span></span><br><span class="line">total_worker_time/<span class="number">1000</span> <span class="keyword">AS</span> [总消耗CPU 时间(ms)],execution_count [运行次数],</span><br><span class="line">qs.total_worker_time/qs.execution_count/<span class="number">1000</span> <span class="keyword">AS</span> [平均消耗CPU 时间(ms)],</span><br><span class="line">last_execution_time <span class="keyword">AS</span> [最后一次执行时间],max_worker_time /<span class="number">1000</span> <span class="keyword">AS</span> [最大执行时间(ms)],</span><br><span class="line"><span class="keyword">SUBSTRING</span>(qt.text,qs.statement_start_offset/<span class="number">2</span>+<span class="number">1</span>,</span><br><span class="line">(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> qs.statement_end_offset = <span class="number">-1</span></span><br><span class="line"><span class="keyword">THEN</span> <span class="keyword">DATALENGTH</span>(qt.text)</span><br><span class="line"><span class="keyword">ELSE</span> qs.statement_end_offset <span class="keyword">END</span> -qs.statement_start_offset)/<span class="number">2</span> + <span class="number">1</span>)</span><br><span class="line"><span class="keyword">AS</span> [使用CPU的语法], qt.text [完整语法],</span><br><span class="line">qt.dbid, dbname=db_name(qt.dbid),</span><br><span class="line">qt.objectid,object_name(qt.objectid,qt.dbid) ObjectName</span><br><span class="line"><span class="keyword">FROM</span> sys.dm_exec_query_stats qs <span class="keyword">WITH</span>(nolock)</span><br><span class="line"><span class="keyword">CROSS</span> <span class="keyword">apply</span> sys.dm_exec_sql_text(qs.sql_handle) <span class="keyword">AS</span> qt</span><br><span class="line"><span class="keyword">WHERE</span> execution_count&gt;<span class="number">1</span> <span class="keyword">and</span> last_execution_time&gt;<span class="keyword">dateadd</span>(dd,<span class="number">-5</span>,<span class="keyword">getdate</span>())</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> total_worker_time <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+
+<ol start="41">
+<li>查询平均耗CPU最多的前3个SQL，且最近5小时出现过</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TOP <span class="number">3</span></span><br><span class="line">total_worker_time/<span class="number">1000</span> <span class="keyword">AS</span> [总消耗CPU 时间(ms)],execution_count [运行次数],</span><br><span class="line">qs.total_worker_time/qs.execution_count/<span class="number">1000</span> <span class="keyword">AS</span> [平均消耗CPU 时间(ms)],</span><br><span class="line">last_execution_time <span class="keyword">AS</span> [最后一次执行时间],min_worker_time /<span class="number">1000</span> <span class="keyword">AS</span> [最小执行时间(ms)],</span><br><span class="line">max_worker_time /<span class="number">1000</span> <span class="keyword">AS</span> [最大执行时间(ms)],</span><br><span class="line"><span class="keyword">SUBSTRING</span>(qt.text,qs.statement_start_offset/<span class="number">2</span>+<span class="number">1</span>,</span><br><span class="line">(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> qs.statement_end_offset = <span class="number">-1</span></span><br><span class="line"><span class="keyword">THEN</span> <span class="keyword">DATALENGTH</span>(qt.text)</span><br><span class="line"><span class="keyword">ELSE</span> qs.statement_end_offset <span class="keyword">END</span> -qs.statement_start_offset)/<span class="number">2</span> + <span class="number">1</span>)</span><br><span class="line"><span class="keyword">AS</span> [使用CPU的语法], qt.text [完整语法],</span><br><span class="line">qt.dbid, dbname=db_name(qt.dbid),</span><br><span class="line">qt.objectid,object_name(qt.objectid,qt.dbid) ObjectName</span><br><span class="line"><span class="keyword">FROM</span> sys.dm_exec_query_stats qs <span class="keyword">WITH</span>(nolock)</span><br><span class="line"><span class="keyword">CROSS</span> <span class="keyword">apply</span> sys.dm_exec_sql_text(qs.sql_handle) <span class="keyword">AS</span> qt</span><br><span class="line"><span class="keyword">WHERE</span> execution_count&gt;<span class="number">1</span> <span class="keyword">and</span> last_execution_time&gt;<span class="keyword">dateadd</span>(hh,<span class="number">-5</span>,<span class="keyword">getdate</span>())</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> (qs.total_worker_time/qs.execution_count/<span class="number">1000</span>) <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+
+<ol start="42">
+<li>查看当前最耗资源的10个SQL及其spid</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TOP <span class="number">10</span></span><br><span class="line">session_id,request_id,start_time <span class="keyword">AS</span> <span class="string">&#x27;开始时间&#x27;</span>,<span class="keyword">status</span> <span class="keyword">AS</span> <span class="string">&#x27;状态&#x27;</span>,</span><br><span class="line">command <span class="keyword">AS</span> <span class="string">&#x27;命令&#x27;</span>,d_sql.text <span class="keyword">AS</span> <span class="string">&#x27;sql语句&#x27;</span>, DB_NAME(database_id) <span class="keyword">AS</span> <span class="string">&#x27;数据库名&#x27;</span>,</span><br><span class="line">blocking_session_id <span class="keyword">AS</span> <span class="string">&#x27;正在阻塞其他会话的会话ID&#x27;</span>,</span><br><span class="line">wait_type <span class="keyword">AS</span> <span class="string">&#x27;等待资源类型&#x27;</span>,wait_time <span class="keyword">AS</span> <span class="string">&#x27;等待时间&#x27;</span>,wait_resource <span class="keyword">AS</span> <span class="string">&#x27;等待的资源&#x27;</span>,</span><br><span class="line"><span class="keyword">reads</span> <span class="keyword">AS</span> <span class="string">&#x27;物理读次数&#x27;</span>,writes <span class="keyword">AS</span> <span class="string">&#x27;写次数&#x27;</span>,logical_reads <span class="keyword">AS</span> <span class="string">&#x27;逻辑读次数&#x27;</span>,</span><br><span class="line"><span class="keyword">row_count</span> <span class="keyword">AS</span> <span class="string">&#x27;返回结果行数&#x27;</span></span><br><span class="line"><span class="keyword">FROM</span> sys.dm_exec_requests <span class="keyword">AS</span> d_request</span><br><span class="line"><span class="keyword">CROSS</span> <span class="keyword">APPLY</span></span><br><span class="line">sys.dm_exec_sql_text(d_request.sql_handle) <span class="keyword">AS</span> d_sql</span><br><span class="line"><span class="keyword">WHERE</span> session_id&gt;<span class="number">50</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> cpu_time <span class="keyword">DESC</span></span><br><span class="line"><span class="comment">--前50号session_id一般是系统后台进程，sys.dm_exec_requests的status显示为background</span></span><br></pre></td></tr></table></figure>
+
+<ol start="43">
+<li>查询某个存储过程被哪些job调用了</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> msdb.dbo.sysjobs JOB <span class="keyword">WITH</span>( NOLOCK)</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> msdb. dbo.sysjobsteps STP <span class="keyword">WITH</span>(NOLOCK )</span><br><span class="line"><span class="keyword">ON</span> STP .job_id = JOB .job_id</span><br><span class="line"><span class="keyword">WHERE</span> STP .command <span class="keyword">LIKE</span> N<span class="string">&#x27;%sp_name%&#x27;</span></span><br><span class="line"><span class="comment">--以上要查询某个job被哪个job调用了，把sp_name存储过程名字改成job_name作业名字即可</span></span><br></pre></td></tr></table></figure>
+
+<ol start="44">
+<li>命令执行某个job</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">EXECUTE</span> msdb.dbo.sp_start_job N<span class="string">&#x27;job_name&#x27;</span> </span><br></pre></td></tr></table></figure>
+
+<ol start="45">
+<li>查询某表标识列的列名</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> COLUMN_NAME <span class="keyword">FROM</span> INFORMATION_SCHEMA.columns <span class="keyword">WHERE</span> TABLE_NAME=<span class="string">&#x27;表名&#x27;</span> <span class="keyword">AND</span> COLUMNPROPERTY(OBJECT_ID(<span class="string">&#x27;表名&#x27;</span>),COLUMN_NAME,<span class="string">&#x27;IsIdentity&#x27;</span>)=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<ol start="46">
+<li>获取标识列的种子值</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">IDENT_SEED</span> (<span class="string">&#x27;表名&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<ol start="47">
+<li>获取标识列的递增量</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">IDENT_INCR</span>(<span class="string">&#x27;表名&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<ol start="48">
+<li>获取指定表中最后生成的标识值</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">IDENT_CURRENT</span>(<span class="string">&#x27;表名&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<ol start="49">
+<li>重新设置标识种子值为XX</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DBCC CHECKIDENT (表名, RESEED, XX)</span><br></pre></td></tr></table></figure>
+
+<ol start="50">
+<li>升级前，查询服务器名、实例名、版本号 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> SERVERPROPERTY(<span class="string">&#x27;machinename&#x27;</span>),@@SERVERNAME,SERVERPROPERTY (<span class="string">&#x27;edition&#x27;</span>),@@<span class="keyword">version</span></span><br></pre></td></tr></table></figure>
+
+<ol start="51">
+<li>用户被grant这样操作赋予的权限 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> dbname </span><br><span class="line">exec sp_helprotect @username = <span class="string">&#x27;username&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="52">
+<li>授予某个用户执行某个数据库的sp的权限</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> dbname </span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">execute</span> <span class="keyword">to</span> <span class="string">&quot;username&quot;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="53">
+<li>always on</li>
+</ol>
+<p>-查看集群各节点的信息，包含节点成员的名称，类型，状态，拥有的投票仲裁数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span>  sys.dm_hadr_cluster_members;</span><br></pre></td></tr></table></figure>
+
+<p>-查看集群各节点的信息，包含节点成员的名称，节点成员上的sql实例名称</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> sys.dm_hadr_instance_node_map</span><br></pre></td></tr></table></figure>
+
+<p>-查看WSFC(windows server故障转移群集)的信息，包含集群名称，仲裁类型，仲裁状态</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> SYS.dm_hadr_cluster;</span><br></pre></td></tr></table></figure>
+
+<p>-查看AG名称</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> sys.dm_hadr_name_id_map</span><br></pre></td></tr></table></figure>
+
+<p>-查看集群各节点的子网信息，包含节点成员的名称，子网段，子网掩码</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span>  sys.dm_hadr_cluster_networks;</span><br></pre></td></tr></table></figure>
+
+<p>-查看侦听ip</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> sys.availability_group_listeners;</span><br></pre></td></tr></table></figure>
+
+<p>-查看主从各节点的状态</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> d.is_local,dc.database_name, d.synchronization_health_desc, </span><br><span class="line">d.synchronization_state_desc, d.database_state_desc </span><br><span class="line"><span class="keyword">from</span> sys.dm_hadr_database_replica_states d </span><br><span class="line"><span class="keyword">join</span> sys.availability_databases_cluster dc </span><br><span class="line"><span class="keyword">on</span> d.group_database_id=dc.group_database_id;</span><br></pre></td></tr></table></figure>
+
+<p>-查看辅助副本(传说中的从库)延迟多少M日志量</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> db_name(database_id),log_send_queue_size/<span class="number">1024</span> delay_M,* </span><br><span class="line"><span class="keyword">from</span> sys.dm_hadr_database_replica_states <span class="keyword">where</span> is_primary_replica=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> ar.replica_server_name, db_name(drs.database_id),drs.truncation_lsn, </span><br><span class="line">drs.log_send_queue_size, drs.redo_queue_size </span><br><span class="line"><span class="keyword">from</span> sys.dm_hadr_database_replica_states drs </span><br><span class="line"><span class="keyword">join</span> sys.availability_replicas ar <span class="keyword">on</span> drs.replica_id=ar.replica_id <span class="keyword">where</span> drs.is_local=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> ar.replica_server_name, db_name(drs.database_id),drs.truncation_lsn, </span><br><span class="line">drs.log_send_queue_size,drs.log_send_rate, drs.redo_queue_size,drs.redo_rate </span><br><span class="line"><span class="keyword">from</span> sys.dm_hadr_database_replica_states drs </span><br><span class="line"><span class="keyword">join</span> sys.availability_replicas ar <span class="keyword">on</span> drs.replica_id=ar.replica_id <span class="keyword">where</span> drs.is_local=<span class="number">0</span></span><br><span class="line"><span class="comment">--log_send_queue_size 主数据库中尚未发送到辅助数据库的日志记录量 (KB)</span></span><br><span class="line"><span class="comment">--log_send_rate 在最后一个活动期间，以千字节 (KB) 的平均主副本发送实例数据的速率/秒</span></span><br><span class="line"><span class="comment">--redo_queue_size 在最后一个活动期间，以千字节 (KB) 的平均主副本发送实例数据的速率/秒</span></span><br><span class="line"><span class="comment">--redo_rate 平均千字节 (KB) 中的给定辅助数据库做的日志记录速率 / 秒</span></span><br></pre></td></tr></table></figure>
+
+<ol start="54">
+<li>查询实例的FILESTREAM 使用的DIRECTORY_NAME </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span>  SERVERPROPERTY(<span class="string">&#x27;FilestreamShareName&#x27;</span>) </span><br></pre></td></tr></table></figure>
+
+<ol start="55">
+<li>查询FILETABLE表的数据库对应的DIRECTORY_NAME</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> db_name(database_id),* <span class="keyword">from</span> sys.database_filestream_options</span><br></pre></td></tr></table></figure>
+
+<p>仅仅使用filestream功能时，数据库不需要对应的DIRECTORY_NAME  56. 查询FILETABLE表对应的DIRECTORY_NAME </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> object_name(object_id),* <span class="keyword">from</span> sys.filetables</span><br></pre></td></tr></table></figure>
+
+<ol start="57">
+<li>查询filetable表testdb.dbo.table1中的文件完整路径名称 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> FileTableRootPath()+[file_stream].GetFileNamespacePath(),<span class="keyword">name</span> <span class="keyword">FROM</span> testdb.dbo.table1</span><br></pre></td></tr></table></figure>
+
+<ol start="58">
+<li>查询所有job的状态是否running </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> sj.Name, </span><br><span class="line">    <span class="keyword">CASE</span> </span><br><span class="line">        <span class="keyword">WHEN</span> sja.start_execution_date <span class="keyword">IS</span> <span class="literal">NULL</span> <span class="keyword">THEN</span> <span class="string">&#x27;Not running&#x27;</span> </span><br><span class="line">        <span class="keyword">WHEN</span> sja.start_execution_date <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">AND</span> sja.stop_execution_date <span class="keyword">IS</span> <span class="literal">NULL</span> <span class="keyword">THEN</span> <span class="string">&#x27;Running&#x27;</span> </span><br><span class="line">        <span class="keyword">WHEN</span> sja.start_execution_date <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">AND</span> sja.stop_execution_date <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">THEN</span> <span class="string">&#x27;Not running&#x27;</span> </span><br><span class="line">    <span class="keyword">END</span> <span class="keyword">AS</span> <span class="string">&#x27;RunStatus&#x27;</span> </span><br><span class="line"><span class="keyword">FROM</span> msdb.dbo.sysjobs sj </span><br><span class="line"><span class="keyword">JOIN</span> msdb.dbo.sysjobactivity sja </span><br><span class="line"><span class="keyword">ON</span> sj.job_id = sja.job_id </span><br><span class="line"><span class="keyword">WHERE</span> session_id = ( </span><br><span class="line">    <span class="keyword">SELECT</span> <span class="keyword">MAX</span>(session_id) <span class="keyword">FROM</span> msdb.dbo.sysjobactivity) <span class="keyword">order</span> <span class="keyword">by</span> RunStatus <span class="keyword">desc</span>;</span><br></pre></td></tr></table></figure>
+
+<ol start="59">
+<li>锁表的四种用法</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TABLOCKX </span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WITH</span> (TABLOCKX)</span><br></pre></td></tr></table></figure>
+
+<p>查询过程中，其他会话无法查询、更新此表，直到查询过程结束</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TABLOCK </span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WITH</span> (TABLOCK)</span><br></pre></td></tr></table></figure>
+
+<p>查询过程中，其他会话可以查询，但是无法更新此表，直到查询过程结束 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HOLDLOCK </span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WITH</span> (HOLDLOCK)</span><br></pre></td></tr></table></figure>
+
+<p>查询过程中，其他会话可以查询，但是无法更新此表，直到查询过程结束</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NOLOCK </span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WITH</span> (NOLOCK)</span><br></pre></td></tr></table></figure>
+
+<p>查询过程中，其他会话可以查询、更新此表</p>
+<ol start="60">
+<li>查询某个发布XX，发布的数据库对象的2种方法</li>
+</ol>
+<p>发布数据库上执行(数据来源这三张表distribution.dbo.MSpublications、distribution.dbo.MSarticles、sysarticlecolumns) </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> a.article,a.source_object,a.destination_object,b.colid <span class="keyword">from</span> </span><br><span class="line">(<span class="keyword">select</span> article,article_id,source_object,destination_object </span><br><span class="line"><span class="keyword">from</span> [distribution].[dbo].MSarticles <span class="keyword">where</span> publication_id <span class="keyword">in</span> </span><br><span class="line">( <span class="keyword">select</span> publication_id <span class="keyword">from</span> </span><br><span class="line">[distribution].[dbo].MSpublications <span class="keyword">where</span> publication=<span class="string">&#x27;XX&#x27;</span> </span><br><span class="line">) </span><br><span class="line">) a </span><br><span class="line"><span class="keyword">inner</span> <span class="keyword">join</span> </span><br><span class="line">(<span class="keyword">select</span> * <span class="keyword">from</span> replicate1.dbo.sysarticlecolumns) b </span><br><span class="line"><span class="keyword">on</span> a.article_id=b.artid <span class="keyword">order</span> <span class="keyword">by</span> a.article</span><br></pre></td></tr></table></figure>
+
+<p>订阅数据库上执行 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> article  <span class="keyword">from</span> MSreplication_objects <span class="keyword">where</span> publication=<span class="string">&#x27;XX&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>\61. 查询发布信息，发布名称，发布名称对应的发布序号 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> * <span class="keyword">from</span> distribution.dbo.MSpublications </span><br></pre></td></tr></table></figure>
+
+<ol start="62">
+<li>查询发布名里面的发布对象的信息，包含表、视图、存储过程等 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> * <span class="keyword">from</span>  distribution.dbo.MSarticles</span><br></pre></td></tr></table></figure>
+
+<ol start="63">
+<li>监控发布订阅是否有异常，执行以下5条语句即可</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> [distribution].[dbo].[MSlogreader_history] <span class="keyword">WHERE</span> error_id != <span class="number">0</span> <span class="keyword">AND</span> [<span class="built_in">time</span>] &gt;= <span class="keyword">DATEADD</span>(<span class="keyword">HOUR</span>, <span class="number">-1</span>, <span class="keyword">GETDATE</span>()) </span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> [distribution].[dbo].[MSdistribution_history] <span class="keyword">WHERE</span> error_id != <span class="number">0</span> <span class="keyword">AND</span> [<span class="built_in">time</span>] &gt;= <span class="keyword">DATEADD</span>(<span class="keyword">HOUR</span>, <span class="number">-1</span>, <span class="keyword">GETDATE</span>()) </span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> [distribution].[dbo].[MSsnapshot_history] <span class="keyword">WHERE</span> error_id != <span class="number">0</span> <span class="keyword">AND</span> [<span class="built_in">time</span>] &gt;= <span class="keyword">DATEADD</span>(<span class="keyword">HOUR</span>, <span class="number">-1</span>, <span class="keyword">GETDATE</span>()) </span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> [distribution].[dbo].MSrepl_errors <span class="keyword">order</span> <span class="keyword">by</span> <span class="number">2</span> <span class="keyword">desc</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> msdb.dbo.sysreplicationalerts <span class="keyword">order</span> <span class="keyword">by</span> <span class="number">7</span> <span class="keyword">desc</span></span><br></pre></td></tr></table></figure>
+
+<ol start="64">
+<li>查询XX表的索引信息 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a.name index_name,c.name table_name,d.name column_name </span><br><span class="line"><span class="keyword">FROM</span> sysindexes a <span class="keyword">JOIN</span> sysindexkeys b </span><br><span class="line"><span class="keyword">ON</span> a.id=b.id <span class="keyword">AND</span> a.indid=b.indid </span><br><span class="line"><span class="keyword">JOIN</span> sysobjects c </span><br><span class="line"><span class="keyword">ON</span> b.id=c.id </span><br><span class="line"><span class="keyword">JOIN</span> syscolumns d </span><br><span class="line"><span class="keyword">ON</span> b.id=d.id= <span class="keyword">AND</span> b.colid=d.colid </span><br><span class="line"><span class="keyword">WHERE</span> a.indid <span class="keyword">NOT</span> <span class="keyword">IN</span>(<span class="number">0</span>,<span class="number">255</span>) <span class="keyword">AND</span> c.name <span class="keyword">in</span> (<span class="string">&#x27;XX&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<ol start="65">
+<li>生成sql语句的执行计划(select XXX为例，当然select XXX也可以换成执行存储过程比如exec pro_XXX，都是只生成执行计划，不产生结果集，不会执行存储过程) </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> SHOWPLAN_ALL <span class="keyword">ON</span>; </span><br><span class="line">GO </span><br><span class="line"><span class="keyword">select</span> XXX </span><br><span class="line"><span class="keyword">GO</span> </span><br><span class="line"><span class="keyword">SET</span> SHOWPLAN_ALL <span class="keyword">OFF</span>; </span><br><span class="line">GO </span><br><span class="line">或 </span><br><span class="line"><span class="keyword">SET</span> SHOWPLAN_XML <span class="keyword">ON</span>; </span><br><span class="line">GO </span><br><span class="line"><span class="keyword">select</span> XXX </span><br><span class="line"><span class="keyword">GO</span> </span><br><span class="line"><span class="keyword">SET</span> SHOWPLAN_XML <span class="keyword">OFF</span>; </span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
+
+<ol start="66">
+<li>查询名称为XXX的job的最后一次运行成功的时间 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TOP <span class="number">1</span> <span class="keyword">CONVERT</span>(DATETIME, <span class="keyword">RTRIM</span>(run_date))+ ((run_time / <span class="number">10000</span> * <span class="number">3600</span>) + ((run_time % <span class="number">10000</span>) / <span class="number">100</span> * <span class="number">60</span>) + (run_time % <span class="number">10000</span>) % <span class="number">100</span>) / (<span class="number">86399.9964</span>) </span><br><span class="line"><span class="keyword">FROM</span> msdb.dbo.sysjobhistory jobhis <span class="keyword">inner</span> <span class="keyword">join</span> msdb.dbo.sysjobs  jobs </span><br><span class="line"><span class="keyword">on</span> jobhis.job_id = jobs.job_id <span class="keyword">AND</span> jobhis.step_id = <span class="number">0</span> <span class="keyword">AND</span> jobhis.run_status = <span class="number">1</span> </span><br><span class="line"><span class="keyword">and</span> jobs.name=<span class="string">&#x27;XXX&#x27;</span> </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="number">1</span> <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+
+<ol start="67">
+<li>查询某张分区表的总行数和大小，比如表为crm.EmailLog </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exec sp_spaceused &#x27;crm.EmailLog&#x27;;</span><br></pre></td></tr></table></figure>
+
+<ol start="68">
+<li>查询某张分区表的信息，每个分区有多少行，比如表为crm.EmailLog </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">convert</span>(<span class="built_in">varchar</span>(<span class="number">50</span>), ps.name </span><br><span class="line">) <span class="keyword">as</span> partition_scheme, </span><br><span class="line">p.partition_number, </span><br><span class="line"><span class="keyword">convert</span>(<span class="built_in">varchar</span>(<span class="number">10</span>), ds2.name </span><br><span class="line">) <span class="keyword">as</span> filegroup, </span><br><span class="line"><span class="keyword">convert</span>(<span class="built_in">varchar</span>(<span class="number">19</span>), <span class="keyword">isnull</span>(v.value, <span class="string">&#x27;&#x27;</span>), <span class="number">120</span>) <span class="keyword">as</span> range_boundary, </span><br><span class="line"><span class="keyword">str</span>(p.rows, <span class="number">9</span>) <span class="keyword">as</span> <span class="keyword">rows</span> </span><br><span class="line"><span class="keyword">from</span> sys.indexes i </span><br><span class="line"><span class="keyword">join</span> sys.partition_schemes ps <span class="keyword">on</span> i.data_space_id = ps.data_space_id </span><br><span class="line"><span class="keyword">join</span> sys.destination_data_spaces dds </span><br><span class="line"><span class="keyword">on</span> ps.data_space_id = dds.partition_scheme_id </span><br><span class="line"><span class="keyword">join</span> sys.data_spaces ds2 <span class="keyword">on</span> dds.data_space_id = ds2.data_space_id </span><br><span class="line"><span class="keyword">join</span> sys.partitions p <span class="keyword">on</span> dds.destination_id = p.partition_number </span><br><span class="line"><span class="keyword">and</span> p.object_id = i.object_id <span class="keyword">and</span> p.index_id = i.index_id </span><br><span class="line"><span class="keyword">join</span> sys.partition_functions pf <span class="keyword">on</span> ps.function_id = pf.function_id </span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> sys.Partition_Range_values v <span class="keyword">on</span> pf.function_id = v.function_id </span><br><span class="line"><span class="keyword">and</span> v.boundary_id = p.partition_number - pf.boundary_value_on_right </span><br><span class="line"><span class="keyword">WHERE</span> i.object_id = object_id(<span class="string">&#x27;crm.EmailLog&#x27;</span>) </span><br><span class="line"><span class="keyword">and</span> i.index_id <span class="keyword">in</span> (<span class="number">0</span>, <span class="number">1</span>) </span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> p.partition_number </span><br></pre></td></tr></table></figure>
+
+<ol start="69">
+<li>查询分区函数 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> sys.partition_functions</span><br></pre></td></tr></table></figure>
+
+<ol start="70">
+<li>查看分区架构 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> sys.partition_schemes</span><br></pre></td></tr></table></figure>
+
+<ol start="71">
+<li>查询ssis包的信息 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> msdb.dbo.sysssispackages</span><br></pre></td></tr></table></figure>
+
+<ol start="72">
+<li>查询某张表里的索引的大小,如下示例表为dbo.table1 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    i.name              <span class="keyword">AS</span> IndexName, </span><br><span class="line">    <span class="keyword">SUM</span>(page_count * <span class="number">8</span>) <span class="keyword">AS</span> IndexSizeKB </span><br><span class="line"><span class="keyword">FROM</span> sys.dm_db_index_physical_stats( </span><br><span class="line">    db_id(), object_id(<span class="string">&#x27;dbo.table1&#x27;</span>), <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="string">&#x27;DETAILED&#x27;</span>) <span class="keyword">AS</span> s </span><br><span class="line"><span class="keyword">JOIN</span> sys.indexes <span class="keyword">AS</span> i </span><br><span class="line"><span class="keyword">ON</span> s.[object_id] = i.[object_id] <span class="keyword">AND</span> s.index_id = i.index_id </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> i.name </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> i.name</span><br></pre></td></tr></table></figure>
+
+<ol start="73">
+<li>重建表上的所有索引</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">index</span> <span class="keyword">all</span> <span class="keyword">on</span> table_name <span class="keyword">rebuild</span> <span class="keyword">with</span> (<span class="keyword">online</span>=<span class="keyword">on</span>)</span><br></pre></td></tr></table></figure>
+
+<p>重建表上的某个索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">index</span> index_name <span class="keyword">on</span> table_name <span class="keyword">rebuild</span> <span class="keyword">with</span> (<span class="keyword">online</span>=<span class="keyword">on</span>)</span><br></pre></td></tr></table></figure>
+
+<p>重新组织表上的所有索引 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">index</span> <span class="keyword">all</span> <span class="keyword">on</span> table_name reorganize</span><br></pre></td></tr></table></figure>
+
+<p>重新组织表上的某个索引 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">index</span> index_name <span class="keyword">on</span> table_name reorganize</span><br></pre></td></tr></table></figure>
+
+<ol start="74">
+<li>查看数据文件可收缩空间，结果见Availabesize_MB字段值 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">name</span> ,<span class="keyword">size</span>*<span class="number">8</span>/<span class="number">1024</span> <span class="keyword">as</span> Totalsize_MB ,<span class="keyword">CAST</span>(FILEPROPERTY(<span class="keyword">name</span>,<span class="string">&#x27;SpaceUsed&#x27;</span>) <span class="keyword">AS</span> <span class="built_in">int</span>)*<span class="number">8</span>/<span class="number">1024</span> <span class="keyword">as</span> Usedsize_MB, </span><br><span class="line"><span class="keyword">size</span>*<span class="number">8</span>/<span class="number">1024</span> - <span class="keyword">CAST</span>(FILEPROPERTY(<span class="keyword">name</span>, <span class="string">&#x27;SpaceUsed&#x27;</span>) <span class="keyword">AS</span> <span class="built_in">int</span>)*<span class="number">8</span>/<span class="number">1024</span> <span class="keyword">AS</span> Availabesize_MB </span><br><span class="line"> <span class="keyword">from</span> sys.master_files <span class="keyword">where</span> database_id=db_id(N<span class="string">&#x27;DBNAME&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<ol start="75">
+<li>查询某个表中的全部索引的信息 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">declare</span> @tableName <span class="built_in">varchar</span>(<span class="number">50</span>) = <span class="string">&#x27;LbaListAlertDetail&#x27;</span> </span><br><span class="line"><span class="keyword">declare</span> @tableId <span class="built_in">int</span> </span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> @tableId = object_id </span><br><span class="line"><span class="keyword">from</span> sys.objects </span><br><span class="line"><span class="keyword">where</span> <span class="keyword">name</span> = @tableName </span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> OBJECT_NAME(IX.OBJECT_ID) Table_Name </span><br><span class="line">       ,IX.name <span class="keyword">AS</span> Index_Name </span><br><span class="line">       ,IX.type_desc Index_Type </span><br><span class="line">       ,<span class="keyword">SUM</span>(PS.[used_page_count]) * <span class="number">8</span> IndexSizeKB </span><br><span class="line">       ,IXUS.user_seeks <span class="keyword">AS</span> NumOfSeeks </span><br><span class="line">       ,IXUS.user_scans <span class="keyword">AS</span> NumOfScans </span><br><span class="line">       ,IXUS.user_lookups <span class="keyword">AS</span> NumOfLookups </span><br><span class="line">       ,IXUS.user_updates <span class="keyword">AS</span> NumOfUpdates </span><br><span class="line">       ,IXUS.last_user_seek <span class="keyword">AS</span> LastSeek </span><br><span class="line">       ,IXUS.last_user_scan <span class="keyword">AS</span> LastScan </span><br><span class="line">       ,IXUS.last_user_lookup <span class="keyword">AS</span> LastLookup </span><br><span class="line">       ,IXUS.last_user_update <span class="keyword">AS</span> LastUpdate </span><br><span class="line"><span class="keyword">FROM</span> sys.indexes IX </span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> sys.dm_db_index_usage_stats IXUS <span class="keyword">ON</span> IXUS.index_id = IX.index_id <span class="keyword">AND</span> IXUS.OBJECT_ID = IX.OBJECT_ID</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> sys.dm_db_partition_stats PS <span class="keyword">on</span> PS.object_id=IX.object_id </span><br><span class="line"><span class="keyword">WHERE</span> OBJECTPROPERTY(IX.OBJECT_ID,<span class="string">&#x27;IsUserTable&#x27;</span>) = <span class="number">1</span> </span><br><span class="line">    <span class="keyword">and</span> IX.OBJECT_ID = @tableId </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> OBJECT_NAME(IX.OBJECT_ID) ,IX.name ,IX.type_desc ,IXUS.user_seeks ,IXUS.user_scans ,IXUS.user_lookups,IXUS.user_updates ,IXUS.last_user_seek ,IXUS.last_user_scan ,IXUS.last_user_lookup ,IXUS.last_user_update</span><br></pre></td></tr></table></figure>
+
+<p>sqlserver中类似oracle的dba_source的视图是sys.sql_modules</p>
+<ol start="76">
+<li>查询某个数据库下的表数据占用磁盘容量最大的10张表 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> XX </span><br><span class="line"><span class="keyword">if</span> <span class="keyword">exists</span>(<span class="keyword">select</span> <span class="number">1</span> <span class="keyword">from</span> tempdb..sysobjects <span class="keyword">where</span> <span class="keyword">id</span>=object_id(<span class="string">&#x27;tempdb..#tabName&#x27;</span>) <span class="keyword">and</span> xtype=<span class="string">&#x27;u&#x27;</span>) </span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> <span class="comment">#tabName </span></span><br><span class="line"><span class="keyword">go</span> </span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="comment">#tabName( </span></span><br><span class="line">table_name <span class="built_in">varchar</span>(<span class="number">100</span>), </span><br><span class="line">rowsNum <span class="built_in">varchar</span>(<span class="number">100</span>), </span><br><span class="line">reserved_size <span class="built_in">varchar</span>(<span class="number">100</span>), </span><br><span class="line">data_size <span class="built_in">varchar</span>(<span class="number">100</span>), </span><br><span class="line">index_size <span class="built_in">varchar</span>(<span class="number">100</span>), </span><br><span class="line">unused_size <span class="built_in">varchar</span>(<span class="number">100</span>) </span><br><span class="line">) </span><br><span class="line">  </span><br><span class="line"><span class="keyword">declare</span> @<span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">100</span>) </span><br><span class="line"><span class="keyword">declare</span> cur <span class="keyword">cursor</span> <span class="keyword">for</span> </span><br><span class="line"><span class="keyword">select</span> <span class="keyword">name</span> <span class="keyword">from</span> sysobjects <span class="keyword">where</span> xtype=<span class="string">&#x27;u&#x27;</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">name</span> </span><br><span class="line"><span class="keyword">open</span> cur </span><br><span class="line"><span class="keyword">fetch</span> <span class="keyword">next</span> <span class="keyword">from</span> cur <span class="keyword">into</span> @<span class="keyword">name</span> </span><br><span class="line"><span class="keyword">while</span> @@fetch_status=<span class="number">0</span> </span><br><span class="line"><span class="keyword">begin</span> </span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> <span class="comment">#tabName </span></span><br><span class="line">    exec sp_spaceused @<span class="keyword">name</span> </span><br><span class="line">    <span class="keyword">fetch</span> <span class="keyword">next</span> <span class="keyword">from</span> cur <span class="keyword">into</span> @<span class="keyword">name</span> </span><br><span class="line"><span class="keyword">end</span> </span><br><span class="line"><span class="keyword">close</span> cur </span><br><span class="line"><span class="keyword">deallocate</span> cur </span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> top <span class="number">10</span> table_name, data_size,rowsNum ,index_size,unused_size ,reserved_size,<span class="keyword">convert</span>(<span class="built_in">int</span>,<span class="keyword">SUBSTRING</span>(data_size,<span class="number">0</span>,<span class="keyword">LEN</span>(data_size)<span class="number">-2</span>)) <span class="keyword">size</span> </span><br><span class="line"><span class="keyword">from</span> <span class="comment">#tabName ORDER BY size desc</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">或 </span><br><span class="line"><span class="keyword">select</span> top <span class="number">10</span> a.tablename,a.SCHEMANAME,<span class="keyword">sum</span>(a.TotalSpaceMB) TotalSpaceMB,<span class="keyword">sum</span>(a.RowCounts) RowCounts </span><br><span class="line"><span class="keyword">from</span> ( </span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    t.NAME <span class="keyword">AS</span> TableName, </span><br><span class="line">    s.Name <span class="keyword">AS</span> SchemaName, </span><br><span class="line">    p.rows <span class="keyword">AS</span> RowCounts, </span><br><span class="line">    <span class="keyword">SUM</span>(a.total_pages) * <span class="number">8</span> <span class="keyword">AS</span> TotalSpaceKB, </span><br><span class="line">    <span class="keyword">CAST</span>(<span class="keyword">ROUND</span>(((<span class="keyword">SUM</span>(a.total_pages) * <span class="number">8</span>) / <span class="number">1024.00</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="built_in">NUMERIC</span>(<span class="number">36</span>, <span class="number">2</span>)) <span class="keyword">AS</span> TotalSpaceMB, </span><br><span class="line">    <span class="keyword">SUM</span>(a.used_pages) * <span class="number">8</span> <span class="keyword">AS</span> UsedSpaceKB, </span><br><span class="line">    <span class="keyword">CAST</span>(<span class="keyword">ROUND</span>(((<span class="keyword">SUM</span>(a.used_pages) * <span class="number">8</span>) / <span class="number">1024.00</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="built_in">NUMERIC</span>(<span class="number">36</span>, <span class="number">2</span>)) <span class="keyword">AS</span> UsedSpaceMB, </span><br><span class="line">    (<span class="keyword">SUM</span>(a.total_pages) - <span class="keyword">SUM</span>(a.used_pages)) * <span class="number">8</span> <span class="keyword">AS</span> UnusedSpaceKB, </span><br><span class="line">    <span class="keyword">CAST</span>(<span class="keyword">ROUND</span>(((<span class="keyword">SUM</span>(a.total_pages) - <span class="keyword">SUM</span>(a.used_pages)) * <span class="number">8</span>) / <span class="number">1024.00</span>, <span class="number">2</span>) <span class="keyword">AS</span> <span class="built_in">NUMERIC</span>(<span class="number">36</span>, <span class="number">2</span>)) <span class="keyword">AS</span> UnusedSpaceMB </span><br><span class="line"><span class="keyword">FROM</span> </span><br><span class="line">    sys.tables t </span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span>       </span><br><span class="line">    sys.indexes i <span class="keyword">ON</span> t.OBJECT_ID = i.object_id </span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> </span><br><span class="line">    sys.partitions p <span class="keyword">ON</span> i.object_id = p.OBJECT_ID <span class="keyword">AND</span> i.index_id = p.index_id </span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> </span><br><span class="line">    sys.allocation_units a <span class="keyword">ON</span> p.partition_id = a.container_id </span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> </span><br><span class="line">    sys.schemas s <span class="keyword">ON</span> t.schema_id = s.schema_id </span><br><span class="line"><span class="keyword">WHERE</span> </span><br><span class="line">    t.NAME <span class="keyword">NOT</span> <span class="keyword">LIKE</span> <span class="string">&#x27;dt%&#x27;</span> </span><br><span class="line">    <span class="keyword">AND</span> t.is_ms_shipped = <span class="number">0</span> </span><br><span class="line">    <span class="keyword">AND</span> i.OBJECT_ID &gt; <span class="number">255</span> </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> </span><br><span class="line">    t.Name, s.Name, p.Rows) a </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span>  a.tablename,a.SCHEMANAME </span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">sum</span>(a.TotalSpaceMB) <span class="keyword">desc</span> </span><br><span class="line"><span class="comment">--这个比上一个专业 </span></span><br></pre></td></tr></table></figure>
+
+<ol start="77">
+<li>查询某个数据库中是否有create index ‘+name+ CHAR(10) </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="string">&#x27;use &#x27;</span>+<span class="keyword">name</span>+ <span class="built_in">CHAR</span>(<span class="number">10</span>) +<span class="string">&#x27;select DB_NAME(),OBJECT_NAME(OBJECT_ID),definition from &#x27;</span>+<span class="keyword">name</span>+<span class="string">&#x27;.sys.sql_modules</span></span><br><span class="line"><span class="string">WHERE objectproperty(OBJECT_ID, &#x27;&#x27;IsProcedure&#x27;&#x27;) = 1 </span></span><br><span class="line"><span class="string">AND definition like &#x27;&#x27;%online%=%on%&#x27;&#x27; and definition like &#x27;&#x27;%index%&#x27;&#x27;&#x27;</span> <span class="keyword">from</span> sys.databases; </span><br></pre></td></tr></table></figure>
+
+<ol start="78">
+<li>根据id号查询某个数据库名 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> DB_NAME(<span class="number">18</span>) </span><br></pre></td></tr></table></figure>
+
+<p>根据id号查询某个对象名 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> OBJECT_NAME(<span class="number">1769220894</span>)</span><br></pre></td></tr></table></figure>
+
+<ol start="79">
+<li>查看收缩的进度100%，此语句要到指定的数据库下执行</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> DB_NAME(database_id) <span class="keyword">AS</span> Exec_DB</span><br><span class="line">,percent_complete</span><br><span class="line">,<span class="keyword">CASE</span> <span class="keyword">WHEN</span> estimated_completion_time &lt; <span class="number">36000000</span></span><br><span class="line"><span class="keyword">THEN</span> <span class="string">&#x27;0&#x27;</span> <span class="keyword">ELSE</span> <span class="string">&#x27;&#x27;</span> <span class="keyword">END</span> + <span class="keyword">RTRIM</span>(estimated_completion_time/<span class="number">1000</span>/<span class="number">3600</span>)</span><br><span class="line">+ <span class="string">&#x27;:&#x27;</span> + <span class="keyword">RIGHT</span>(<span class="string">&#x27;0&#x27;</span> + <span class="keyword">RTRIM</span>((estimated_completion_time/<span class="number">1000</span>)%<span class="number">3600</span>/<span class="number">60</span>), <span class="number">2</span>)</span><br><span class="line">+ <span class="string">&#x27;:&#x27;</span> + <span class="keyword">RIGHT</span>(<span class="string">&#x27;0&#x27;</span> + <span class="keyword">RTRIM</span>((estimated_completion_time/<span class="number">1000</span>)%<span class="number">60</span>), <span class="number">2</span>) <span class="keyword">AS</span> [<span class="built_in">Time</span> Remaining]</span><br><span class="line">,b.text <span class="keyword">as</span> tsql</span><br><span class="line">,*</span><br><span class="line"><span class="keyword">FROM</span> SYS.DM_EXEC_REQUESTS</span><br><span class="line"><span class="keyword">cross</span> <span class="keyword">apply</span> sys.dm_exec_sql_text(sql_handle) <span class="keyword">as</span> b</span><br><span class="line"><span class="keyword">WHERE</span> command <span class="keyword">LIKE</span> <span class="string">&#x27;DbccFilesCompact%&#x27;</span> <span class="comment">--and database_id=db_id(&#x27;cardorder&#x27;)</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="number">2</span> <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+
+<ol start="80">
+<li>查看重新组织索引的100%进度</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> DB_NAME(database_id) <span class="keyword">AS</span> Exec_DB</span><br><span class="line">,percent_complete</span><br><span class="line">,<span class="keyword">CASE</span> <span class="keyword">WHEN</span> estimated_completion_time &lt; <span class="number">36000000</span></span><br><span class="line"><span class="keyword">THEN</span> <span class="string">&#x27;0&#x27;</span> <span class="keyword">ELSE</span> <span class="string">&#x27;&#x27;</span> <span class="keyword">END</span> + <span class="keyword">RTRIM</span>(estimated_completion_time/<span class="number">1000</span>/<span class="number">3600</span>)</span><br><span class="line">+ <span class="string">&#x27;:&#x27;</span> + <span class="keyword">RIGHT</span>(<span class="string">&#x27;0&#x27;</span> + <span class="keyword">RTRIM</span>((estimated_completion_time/<span class="number">1000</span>)%<span class="number">3600</span>/<span class="number">60</span>), <span class="number">2</span>)</span><br><span class="line">+ <span class="string">&#x27;:&#x27;</span> + <span class="keyword">RIGHT</span>(<span class="string">&#x27;0&#x27;</span> + <span class="keyword">RTRIM</span>((estimated_completion_time/<span class="number">1000</span>)%<span class="number">60</span>), <span class="number">2</span>) <span class="keyword">AS</span> [<span class="built_in">Time</span> Remaining]</span><br><span class="line">,b.text <span class="keyword">as</span> tsql</span><br><span class="line">,*</span><br><span class="line"><span class="keyword">FROM</span> SYS.DM_EXEC_REQUESTS</span><br><span class="line"><span class="keyword">cross</span> <span class="keyword">apply</span> sys.dm_exec_sql_text(sql_handle) <span class="keyword">as</span> b</span><br><span class="line"><span class="keyword">WHERE</span> command <span class="keyword">LIKE</span> <span class="string">&#x27;%REORGANIZE%&#x27;</span> <span class="comment">--and database_id=db_id(&#x27;cardorder&#x27;)</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="number">2</span> <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+
+<ol start="81">
+<li>查看存储过程的执行计划 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">        d.object_id , </span><br><span class="line">        DB_NAME(d.database_id) DBName , </span><br><span class="line">        OBJECT_NAME(object_id, database_id) <span class="string">&#x27;SPName&#x27;</span> , </span><br><span class="line">        d.cached_time , </span><br><span class="line">        d.last_execution_time , </span><br><span class="line">        d.total_elapsed_time/<span class="number">1000000</span>    <span class="keyword">AS</span> total_elapsed_time, </span><br><span class="line">        d.total_elapsed_time / d.execution_count/<span class="number">1000000</span> </span><br><span class="line">                                        <span class="keyword">AS</span> [avg_elapsed_time] , </span><br><span class="line">        d.last_elapsed_time/<span class="number">1000000</span>     <span class="keyword">AS</span> last_elapsed_time, </span><br><span class="line">        d.execution_count , </span><br><span class="line">        d.total_physical_reads , </span><br><span class="line">        d.last_physical_reads , </span><br><span class="line">        d.total_logical_writes , </span><br><span class="line">        d.last_logical_reads , </span><br><span class="line">        et.text SQLText , </span><br><span class="line">        eqp.query_plan executionplan </span><br><span class="line"><span class="keyword">FROM</span>    sys.dm_exec_procedure_stats <span class="keyword">AS</span> d </span><br><span class="line"><span class="keyword">CROSS</span> <span class="keyword">APPLY</span> sys.dm_exec_sql_text(d.sql_handle) et </span><br><span class="line"><span class="keyword">CROSS</span> <span class="keyword">APPLY</span> sys.dm_exec_query_plan(d.plan_handle) eqp </span><br><span class="line"><span class="keyword">WHERE</span>   OBJECT_NAME(object_id, database_id) = <span class="string">&#x27;xxxx&#x27;</span> </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> [total_worker_time] <span class="keyword">DESC</span>; </span><br></pre></td></tr></table></figure>
+
+<ol start="82">
+<li>查看当前用户 </li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">system_user</span> </span><br></pre></td></tr></table></figure>
+
+<p>\83. 查询ddl修改操作的记录 </p>
+<p>-执行如下找到trace文件的目录和名称 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> Sys.traces</span><br></pre></td></tr></table></figure>
+
+<p>-使用sqlserver profiler工具打开trace文件，就可以查到相关记录</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>花生了什么树
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.hongjy.cn/2021/11/13/2021-11-13-sqlserver%E5%B8%B8%E7%94%A8sql%E8%AF%AD%E5%8F%A5/" title="SQL Server 常用近百条SQL语句（收藏版）">http://www.hongjy.cn/2021/11/13/2021-11-13-sqlserver常用sql语句/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-sqlserver%E7%9F%A5%E8%AF%86%E7%82%B9%E6%8B%BE%E9%81%97/" rel="prev" title="sqlserver知识点拾遗">
+      <i class="fa fa-chevron-left"></i> sqlserver知识点拾遗
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-Typora%E5%AE%8C%E5%85%A8%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" rel="next" title="Typora使用教程">
+      Typora使用教程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="花生了什么树"
+      src="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+  <p class="site-author-name" itemprop="name">花生了什么树</p>
+  <div class="site-description" itemprop="description">.NET工程师</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AllenHongjun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AllenHongjun" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hongjy1991@gmail.com" title="E-Mail → mailto:hongjy1991@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.google.com/" title="Google → https:&#x2F;&#x2F;www.google.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/hongjy1991" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;hongjy1991" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://youtube.com/" title="YouTube → https:&#x2F;&#x2F;youtube.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://leetcode-cn.com/" title="https:&#x2F;&#x2F;leetcode-cn.com&#x2F;" rel="noopener" target="_blank">leetcode</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://lailin.xyz/" title="https:&#x2F;&#x2F;lailin.xyz&#x2F;" rel="noopener" target="_blank">lailin</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ciweigg2.github.io/" title="https:&#x2F;&#x2F;ciweigg2.github.io&#x2F;" rel="noopener" target="_blank">ciweigg2</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.itmuch.com/" title="https:&#x2F;&#x2F;www.itmuch.com&#x2F;" rel="noopener" target="_blank">itmuch</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://tengj.top/" title="http:&#x2F;&#x2F;tengj.top&#x2F;" rel="noopener" target="_blank">tengj</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">浙ICP备18047156号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花生了什么树</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">383k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5:49</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

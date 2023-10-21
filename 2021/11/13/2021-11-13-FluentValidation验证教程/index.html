@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hongjy.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="转载 - 基于 .NET 的 FluentValidation验证教程 FluentValidation 是一个基于 .NET 开发的验证框架，开源免费，而且优雅，支持链式操作，易于理解，功能完善，还是可与 MVC5、WebApi2 和 ASP.NET CORE 深度集成，组件内提供十几种常用验证器，可扩展性好，支持自定义验证器，支持本地化多语言。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FluentValidation验证教程">
+<meta property="og:url" content="http://www.hongjy.cn/2021/11/13/2021-11-13-FluentValidation%E9%AA%8C%E8%AF%81%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="花生了什么树的博客">
+<meta property="og:description" content="转载 - 基于 .NET 的 FluentValidation验证教程 FluentValidation 是一个基于 .NET 开发的验证框架，开源免费，而且优雅，支持链式操作，易于理解，功能完善，还是可与 MVC5、WebApi2 和 ASP.NET CORE 深度集成，组件内提供十几种常用验证器，可扩展性好，支持自定义验证器，支持本地化多语言。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blogimg.hongjy.cn/vs-code-logo.png">
+<meta property="article:published_time" content="2021-11-13T12:12:53.000Z">
+<meta property="article:modified_time" content="2023-10-21T09:04:45.138Z">
+<meta property="article:author" content="花生了什么树">
+<meta property="article:tag" content=".NET工程师 后端开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blogimg.hongjy.cn/vs-code-logo.png">
+
+<link rel="canonical" href="http://www.hongjy.cn/2021/11/13/2021-11-13-FluentValidation%E9%AA%8C%E8%AF%81%E6%95%99%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>FluentValidation验证教程 | 花生了什么树的博客</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?749761669bb5184278820a5fa5d144a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+    <!--github 挂饰-->
+    <a target="_blank" rel="noopener" href="https://github.com/allenHongjun" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">花生了什么树的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">修身治国齐家平天下</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于我</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://www.hongjy.cn/2021/11/13/2021-11-13-FluentValidation%E9%AA%8C%E8%AF%81%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+      <meta itemprop="name" content="花生了什么树">
+      <meta itemprop="description" content=".NET工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花生了什么树的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          FluentValidation验证教程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-13 20:12:53" itemprop="dateCreated datePublished" datetime="2021-11-13T20:12:53+08:00">2021-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-10-21 17:04:45" itemprop="dateModified" datetime="2023-10-21T17:04:45+08:00">2023-10-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BB%84%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">组件</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>25k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>23 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mq0036/p/14548370.html">转载 - 基于 .NET 的 FluentValidation验证教程</a></p>
+<p>FluentValidation 是一个基于 .NET 开发的验证框架，开源免费，而且优雅，支持链式操作，易于理解，功能完善，还是可与 MVC5、WebApi2 和 ASP.NET CORE 深度集成，组件内提供十几种常用验证器，可扩展性好，支持自定义验证器，支持本地化多语言。</p>
+<span id="more"></span>
+
+
+
+<p><img src="http://blogimg.hongjy.cn/vs-code-logo.png" alt="基于 .NET 的 FluentValidation 验证教程"></p>
+<p>虽然 FluentValidation 是一个非常强大的验证框架，但针对该框架的中文资料并不完善，零度在学习的过程中，将官方文档进行了翻译，由此产生本文，可供参阅。</p>
+<p>要使用验证框架, 需要在项目中添加对 FluentValidation.dll 的引用，支持 netstandard2.0 库和 .NET4.5 平台，支持.NET Core 平台，最简单的方法是使用 NuGet 包管理器引用组件。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Package FluentValidation</span><br></pre></td></tr></table></figure>
+
+<p>若要在 ASP.NET Core 中使用 FluentValidation 扩展，可引用以下包：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Package FluentValidation.AspNetCore</span><br></pre></td></tr></table></figure>
+
+<p>若要在 ASP.NET MVC 5 或 WebApi 2 项目集成, 可以使用分别使用 FluentValidation.Mvc5 和 FluentValidation.WebApi 程序包。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Install-Package FluentValidation.Mvc5</span><br><span class="line">Install-Package FluentValidation.WebApi</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建第一个验证程序"><a href="#创建第一个验证程序" class="headerlink" title="创建第一个验证程序"></a>创建第一个验证程序</h2><p>若要为特定对象定义一组验证规则, 您需要创建一个从 AbstractValidator<T> 继承的类, 其中泛型T参数是要验证的类的类型。假设您有一个客户类别:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Customer</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">int</span> Id &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">string</span> Surname &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">string</span> Forename &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">decimal</span> Discount &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">string</span> Address &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来自定义继承于 AbstractValidator 泛型类的验证器，然后在构造函数中使用 LINQ 表达式编写 RuleFor 验证规则。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> FluentValidation;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CustomerValidator</span> : <span class="title">AbstractValidator</span>&lt;<span class="title">Customer</span>&gt; &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">CustomerValidator</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    RuleFor(customer =&gt; customer.Surname).NotNull();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>若要执行验证程序，我们通过定义好的 CustomerValidator 验证器传入实体类 Customer 即可。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Customer customer = <span class="keyword">new</span> Customer();</span><br><span class="line">CustomerValidator validator = <span class="keyword">new</span> CustomerValidator();</span><br><span class="line"></span><br><span class="line">ValidationResult result = validator.Validate(customer);</span><br></pre></td></tr></table></figure>
+
+<p>该验证方法返回一个 ValidationResult 对象，表示验证结果，ValidationResult 包含两个属性：IsValid属性是布尔值, 它表示验证是否成功，Errors属性包含验证失败的详细信息。</p>
+<p>下面的代码演示向控制台输出验证失败的详细信息:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Customer customer = <span class="keyword">new</span> Customer();</span><br><span class="line">CustomerValidator validator = <span class="keyword">new</span> CustomerValidator();</span><br><span class="line"></span><br><span class="line">ValidationResult results = validator.Validate(customer);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(! results.IsValid) &#123;</span><br><span class="line">  <span class="keyword">foreach</span>(<span class="keyword">var</span> failure <span class="keyword">in</span> results.Errors) &#123;</span><br><span class="line">    Console.WriteLine(<span class="string">&quot;Property &quot;</span> + failure.PropertyName + <span class="string">&quot; Error was: &quot;</span> + failure.ErrorMessage);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="链接规则写法"><a href="#链接规则写法" class="headerlink" title="链接规则写法"></a>链接规则写法</h2><p>您可以将对象的同一属性用多个验证程序链在一起，以下代码将验证 Surname 属性不为 Null 的同时且不等于foo字符串。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> FluentValidation;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CustomerValidator</span> : <span class="title">AbstractValidator</span>&lt;<span class="title">Customer</span>&gt; &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">CustomerValidator</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    RuleFor(customer =&gt; customer.Surname).NotNull().NotEqual(<span class="string">&quot;foo&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="引发异常"><a href="#引发异常" class="headerlink" title="引发异常"></a>引发异常</h2><p>如果验证失败, 不想返回 ValidationResult 对象，而是想直接抛出异常，可通过调用验证器的 ValidateAndThrow 进行验证。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Customer customer = <span class="keyword">new</span> Customer();</span><br><span class="line">CustomerValidator validator = <span class="keyword">new</span> CustomerValidator();</span><br><span class="line"></span><br><span class="line">validator.ValidateAndThrow(customer);</span><br></pre></td></tr></table></figure>
+
+<p>如果验证失败，将引发一个 ValidationException 类型的异常，这个异常可以被上层程序捕获，并从异常中找到详细错误信息。</p>
+<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><p>当针对一个集合进行验证时，只需要定义集合项类型的规则即可，以下规则将对集合中的每个元素运行 NotNull 检查。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Person</span> &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">List</span>&lt;<span class="title">string</span>&gt; AddressLines</span> &#123;<span class="keyword">get</span>;<span class="keyword">set</span>;&#125; = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt;();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PersonValidator</span> : <span class="title">AbstractValidator</span>&lt;<span class="title">Person</span>&gt; &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">PersonValidator</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    RuleForEach(x =&gt; x.AddressLines).NotNull();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="复杂属性"><a href="#复杂属性" class="headerlink" title="复杂属性"></a>复杂属性</h2><p>验证程序可以用于复杂属性，假设您有两个类：客户和地址。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Customer</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">  <span class="keyword">public</span> Address Address &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Address</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">string</span> Line1 &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">string</span> Line2 &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">string</span> Town &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">string</span> County &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">string</span> Postcode &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后定义一个基于地址的 AddressValidator 验证器件：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AddressValidator</span> : <span class="title">AbstractValidator</span>&lt;<span class="title">Address</span>&gt; &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">AddressValidator</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    RuleFor(address =&gt; address.Postcode).NotNull();</span><br><span class="line">    <span class="comment">//etc</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后定义一个基于客户的 CustomerValidator 验证器件，对地址验证时使用地址验证器。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CustomerValidator</span> : <span class="title">AbstractValidator</span>&lt;<span class="title">Customer</span>&gt; &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">CustomerValidator</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    RuleFor(customer =&gt; customer.Name).NotNull();</span><br><span class="line">    RuleFor(customer =&gt; customer.Address).SetValidator(<span class="keyword">new</span> AddressValidator());</span><br><span class="line">  &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>另外，还可以在集合属性上使用验证程序，假设客户对象包含订单集合属性：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Customer</span> &#123;</span><br><span class="line">   <span class="keyword">public</span> IList&lt;Order&gt; Orders &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Order</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">string</span> ProductName &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">decimal</span>? Cost &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> customer = <span class="keyword">new</span> Customer();</span><br><span class="line">customer.Orders = <span class="keyword">new</span> List&lt;Order&gt; &#123;</span><br><span class="line">  <span class="keyword">new</span> Order &#123; ProductName = <span class="string">&quot;Foo&quot;</span> &#125;,</span><br><span class="line">  <span class="keyword">new</span> Order &#123; Cost = <span class="number">5</span> &#125; </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>定义了一个 OrderValidator 验证器件：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">OrderValidator</span> : <span class="title">AbstractValidator</span>&lt;<span class="title">Order</span>&gt; &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">OrderValidator</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        RuleFor(x =&gt; x.ProductName).NotNull();</span><br><span class="line">        RuleFor(x =&gt; x.Cost).GreaterThan(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此验证程序可在 CustomerValidator 中通过 SetCollectionValidator 方法使用:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CustomerValidator</span> : <span class="title">AbstractValidator</span>&lt;<span class="title">Customer</span>&gt; &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomerValidator</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        RuleFor(x =&gt; x.Orders).SetCollectionValidator(<span class="keyword">new</span> OrderValidator());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> validator = <span class="keyword">new</span> CustomerValidator();</span><br><span class="line"><span class="keyword">var</span> results = validator.Validate(customer);</span><br></pre></td></tr></table></figure>
+
+<p>执行行验证程序时, 通过验证结果，可以输出订单每个属性验证错误的详细信息：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreach</span>(<span class="keyword">var</span> result <span class="keyword">in</span> results.Errors) &#123;</span><br><span class="line">   Console.WriteLine(<span class="string">&quot;Property name: &quot;</span> + result.PropertyName);</span><br><span class="line">   Console.WriteLine(<span class="string">&quot;Error: &quot;</span> + result.ErrorMessage);</span><br><span class="line">   Console.WriteLine(<span class="string">&quot;&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">Property name: Orders[<span class="number">0</span>].Cost</span><br><span class="line">Error: <span class="string">&#x27;Cost&#x27;</span> must be greater than <span class="string">&#x27;0&#x27;</span>.</span><br><span class="line"></span><br><span class="line">Property name: Orders[<span class="number">1</span>].ProductName</span><br><span class="line">Error: <span class="string">&#x27;Product Name&#x27;</span> must not be empty.</span><br></pre></td></tr></table></figure>
+
+<p>在编写验证规则时，可以通过 Where 关键字排除或者筛选不需要验证的对象。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(x =&gt; x.Orders).SetCollectionValidator(<span class="keyword">new</span> OrderValidator())</span><br><span class="line">       .Where(x =&gt; x.Cost != <span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="支持规则集"><a href="#支持规则集" class="headerlink" title="支持规则集"></a>支持规则集</h2><p>规则集允许您将验证规则组合在一起, 作为一个组一起执行, 同时忽略其他规则，假如：Person 类有3个属性分别是 Id、Surname 和 Forename，我们将 Id 单独验证， Surname 和 Forename 作为一组 Names 规则集进行验证。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PersonValidator</span> : <span class="title">AbstractValidator</span>&lt;<span class="title">Person</span>&gt; &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">PersonValidator</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">     RuleSet(<span class="string">&quot;Names&quot;</span>, () =&gt; &#123;</span><br><span class="line">        RuleFor(x =&gt; x.Surname).NotNull();</span><br><span class="line">        RuleFor(x =&gt; x.Forename).NotNull();</span><br><span class="line">     &#125;);</span><br><span class="line"> </span><br><span class="line">     RuleFor(x =&gt; x.Id).NotEqual(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后，我们可以使用验证器提供的扩展方法，针对指定的规则集执行验证，以下代码将不验证 Id 属性。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> validator = <span class="keyword">new</span> PersonValidator();</span><br><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person();</span><br><span class="line"><span class="keyword">var</span> result = validator.Validate(person, ruleSet: <span class="string">&quot;Names&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>执行多个规则集验证，可以使用逗号分隔的字符串列表。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">validator.Validate(person, ruleSet: <span class="string">&quot;Names,MyRuleSet,SomeOtherRuleSet&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>通过*号匹配所有规则, 可以强制执行所有规则, 不管它们是否在规则集中:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">validator.Validate(person, ruleSet: <span class="string">&quot;*&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置方法"><a href="#配置方法" class="headerlink" title="配置方法"></a>配置方法</h2><p>通过在验证程序上调用 WithMessage 方法, 可以覆盖验证程序的默认验证错误消息：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(customer =&gt; customer.Surname).NotNull().WithMessage(<span class="string">&quot;姓名不能为空&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>错误提示中，可以通过 {PropertyName} 占位符替换属性名：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(customer =&gt; customer.Surname).NotNull().WithMessage(<span class="string">&quot;&#123;PropertyName&#125;不能为空&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>除了 {PropertyName} 占位符，框架还内置了：{PropertyValue}、{ComparisonValue}、{MinLength}、{MaxLength}和{TotalLength} 占位符，关于更多内置占位符，可以参阅官方文档。</p>
+<p>默认情况下，错误消息会输出属性名称，以下规则验证错误时，输出 Surname 不能为空。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(customer =&gt; customer.Surname).NotNull();</span><br></pre></td></tr></table></figure>
+
+<p>验证程序支持通过 WithName 方法来指定属性别名，以下代码输出姓名不能为空。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(customer =&gt; customer.Surname).NotNull().WithName(<span class="string">&quot;姓名&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>FluentValidation 还支持通过 DisplayNameResolver 自定义别名获取逻辑：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ValidatorOptions.DisplayNameResolver = (type, member) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span>(member != <span class="literal">null</span>) &#123;</span><br><span class="line">     <span class="keyword">return</span> member.Name + <span class="string">&quot;Foo&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>也可以使用 DisplayName 特性指定属性别名。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Person</span> &#123;</span><br><span class="line">  [<span class="meta">Display(Name=<span class="meta-string">&quot;Last name&quot;</span>)</span>]</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">string</span> Surname &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>某些条件下，可通过 When 方法按条件设置验证规则，如下代码：GreaterThan 规则仅在 IsPreferredCustomer 为 true 时才执行。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(customer =&gt; customer.CustomerDiscount).GreaterThan(<span class="number">0</span>).When(customer =&gt; customer.IsPreferredCustomer);</span><br></pre></td></tr></table></figure>
+
+<p>如果需要为多个规则指定相同的条件, 则可以在方法顶层调用，而不是在规则结束时将调:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">When(customer =&gt; customer.IsPreferred, () =&gt; &#123;</span><br><span class="line">   RuleFor(customer =&gt; customer.CustomerDiscount).GreaterThan(<span class="number">0</span>);</span><br><span class="line">   RuleFor(customer =&gt; customer.CreditCardNumber).NotNull();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>默认情况，编写多个链式验证规则时，下无论前一个规则失败与否，后一个规则都将执行，以下代码检查 Surname 是否为空，然后检查 Surname 不等于零度，如多 NotNull 验证失败，则仍将调用 NotEqual 验证。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(x =&gt; x.Surname).NotNull().NotEqual(<span class="string">&quot;零度&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>我们可以通过 StopOnFirstFailure 方法制定级联模式。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(x =&gt; x.Surname).Cascade(CascadeMode.StopOnFirstFailure).NotNull().NotEqual(<span class="string">&quot;foo&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>现在, 如果 NotNull 验证程序失败, NotEqual 验证程序将不会执行。</p>
+<p>CascadeMode 是一个枚举，Continue 表示始终调用规则定义中的所有验证程序，StopOnFirstFailure 表示一旦验证程序失败, 就停止执行后边的规则。</p>
+<p>若要全局设置级联模式, 可以在应用程序启动时修改 ValidatorOptions 类型的 CascadeMode 属性:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;</span><br></pre></td></tr></table></figure>
+
+<p>若要为单个验证程序类设置级联模式，可以这样写：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PersonValidator</span> : <span class="title">AbstractValidator</span>&lt;<span class="title">Person</span>&gt; &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">PersonValidator</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// First set the cascade mode</span></span><br><span class="line">    CascadeMode = CascadeMode.StopOnFirstFailure;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Rule definitions follow</span></span><br><span class="line">    RuleFor(...) </span><br><span class="line">    RuleFor(...)</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下, FluentValidation 中的所有规则都是独立运行的，无相互影响，有助于异步验证提高性能，但是, 有些情况下, 您希望某些规则仅在另一个规则验证完成后执行，通过 DependentRules 指定规则依赖，当依赖规则验证完成时，当前规则则会执行。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(x =&gt; x.Surname).NotNull().DependentRules(() =&gt; &#123;</span><br><span class="line">  RuleFor(x =&gt; x.Forename).NotNull();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>我们可以通过 ValidationContext 上下文的 RootContextData 字典向验证程序传递数据。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> instanceToValidate = <span class="keyword">new</span> Person();</span><br><span class="line"><span class="keyword">var</span> context = <span class="keyword">new</span> ValidationContext(person);</span><br><span class="line">context.RootContextData[<span class="string">&quot;MyCustomData&quot;</span>] = <span class="string">&quot;Test&quot;</span>; </span><br><span class="line"><span class="keyword">var</span> validator = <span class="keyword">new</span> PersonValidator();</span><br><span class="line">validator.Validate(context);</span><br></pre></td></tr></table></figure>
+
+<p>然后，可以通过调用 Custom 方法 在任何自定义属性验证程序内访问 RootContextData 字典。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(x =&gt; x.Surname).Custom((x, context) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span>(context.ParentContext.RootContextData.ContainsKey(<span class="string">&quot;MyCustomData&quot;</span>)) &#123;</span><br><span class="line">    context.AddFailure(<span class="string">&quot;My error message&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>如果每次调用验证程序前，都需要运行特定的代码, 可以通过重写 PreValidate 方法来拦截验证程序，该方法返回 true 验证程序将继续，返回 false 将终止继续验证。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MyValidator</span> : <span class="title">AbstractValidator</span>&lt;<span class="title">Person</span>&gt; &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">MyValidator</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    RuleFor(x =&gt; x.Name).NotNull();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">bool</span> <span class="title">PreValidate</span>(<span class="params">ValidationContext&lt;Person&gt; context, ValidationResult result</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (context.InstanceToValidate == <span class="literal">null</span>) &#123;</span><br><span class="line">      result.Errors.Add(<span class="keyword">new</span> ValidationFailure(<span class="string">&quot;&quot;</span>, <span class="string">&quot;Please ensure a model was supplied.&quot;</span>));</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="内置验证程序"><a href="#内置验证程序" class="headerlink" title="内置验证程序"></a>内置验证程序</h2><p>FluentValidation 有几个内置的验证器，这些验证器的错误消息都可以使用特定占位符。</p>
+<h3 id="NotNull-验证程序"><a href="#NotNull-验证程序" class="headerlink" title="NotNull 验证程序"></a>NotNull 验证程序</h3><p>说明：确保指定的属性不是 null。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(customer =&gt; customer.Surname).NotNull();</span><br></pre></td></tr></table></figure>
+
+<p>可用的格式参数占位符：<br>{PropertyName} = 正在验证的属性的名称<br>{PropertyValue} = 属性的当前值</p>
+<h3 id="NotEmpty-验证程序"><a href="#NotEmpty-验证程序" class="headerlink" title="NotEmpty 验证程序"></a>NotEmpty 验证程序</h3><p>说明: 确保指定的属性不是 null、空字符串或空格 (或值类型的默认值, 例如 int 0)。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(customer =&gt; customer.Surname).NotEmpty();</span><br></pre></td></tr></table></figure>
+
+<p>可用的格式参数占位符：<br>{PropertyName} = 正在验证的属性的名称<br>{PropertyValue} = 属性的当前值</p>
+<h3 id="NotEqual-验证程序"><a href="#NotEqual-验证程序" class="headerlink" title="NotEqual 验证程序"></a>NotEqual 验证程序</h3><p>说明: 确保指定属性的值不等于特定值 (或不等于其他属性的值)</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Not equal to a particular value</span></span><br><span class="line">RuleFor(customer =&gt; customer.Surname).NotEqual(<span class="string">&quot;Foo&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Not equal to another property</span></span><br><span class="line">RuleFor(customer =&gt; customer.Surname).NotEqual(customer =&gt; customer.Forename);</span><br></pre></td></tr></table></figure>
+
+<p>可用的格式参数占位符：<br>{PropertyName} = 正在验证的属性的名称<br>{ComparisonValue} = 属性不应等于的值</p>
+<h3 id="Equal-相等验证程序"><a href="#Equal-相等验证程序" class="headerlink" title="Equal 相等验证程序"></a>Equal 相等验证程序</h3><p>说明: 确保指定属性的值等于特定值 (或等于另一个属性的值)</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Equal to a particular value</span></span><br><span class="line">RuleFor(customer =&gt; customer.Surname).Equal(<span class="string">&quot;Foo&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Equal to another property</span></span><br><span class="line">RuleFor(customer =&gt; customer.Password).Equal(customer =&gt; customer.PasswordConfirmation);</span><br></pre></td></tr></table></figure>
+
+<p>可用的格式参数占位符：<br>{PropertyName} = 正在验证的属性的名称<br>{ComparisonValue} = 属性应相等的值<br>{PropertyValue} = 属性的当前值</p>
+<h3 id="Length-长度验证程序"><a href="#Length-长度验证程序" class="headerlink" title="Length 长度验证程序"></a>Length 长度验证程序</h3><p>确保特定字符串属性的长度位于指定范围内。但是, 它不能确保字符串属性是否为 null。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(customer =&gt; customer.Surname).Length(<span class="number">1</span>, <span class="number">250</span>); <span class="comment">//must be between 1 and 250 chars (inclusive)</span></span><br></pre></td></tr></table></figure>
+
+<p>可用的格式参数占位符：</p>
+<p>{PropertyName} = 正在验证的属性的名称<br>{MinLength} = 最小长度<br>{MaxLength} = 最大长度<br>{TotalLength} = 输入的字符数<br>{PropertyValue} = 属性的当前值</p>
+<h3 id="MaxLength-最大长度验证程序"><a href="#MaxLength-最大长度验证程序" class="headerlink" title="MaxLength 最大长度验证程序"></a>MaxLength 最大长度验证程序</h3><p>说明：确保特定字符串属性的长度不超过指定的值。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(customer =&gt; customer.Surname).MaximumLength(<span class="number">250</span>); <span class="comment">//must be 250 chars or fewer</span></span><br></pre></td></tr></table></figure>
+
+<p>可用的格式参数占位符：<br>{PropertyName} = 正在验证的属性的名称<br>{MaxLength} = 最大长度<br>{TotalLength} = 输入的字符数<br>{PropertyValue} = 属性的当前值</p>
+<h3 id="MinLength-最小长度验证程序"><a href="#MinLength-最小长度验证程序" class="headerlink" title="MinLength 最小长度验证程序"></a>MinLength 最小长度验证程序</h3><p>说明：确保特定字符串属性的长度不能小于指定的值。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(customer =&gt; customer.Surname).MinimumLength(<span class="number">10</span>); <span class="comment">//must be 10 chars or more</span></span><br></pre></td></tr></table></figure>
+
+<p>可用的格式参数占位符：<br>{PropertyName} = 正在验证的属性的名称<br>{MinLength} = 最小长度<br>{TotalLength} = 输入的字符数<br>{PropertyValue} = 属性的当前值</p>
+<h3 id="LessThan-小于验证程序"><a href="#LessThan-小于验证程序" class="headerlink" title="LessThan 小于验证程序"></a>LessThan 小于验证程序</h3><p>说明: 确保指定属性的值小于特定值 (或小于另一个属性的值)</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Less than a particular value</span></span><br><span class="line">RuleFor(customer =&gt; customer.CreditLimit).LessThan(<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Less than another property</span></span><br><span class="line">RuleFor(customer =&gt; customer.CreditLimit).LessThan(customer =&gt; customer.MaxCreditLimit);</span><br></pre></td></tr></table></figure>
+
+<p>可用的格式参数占位符：<br>{PropertyName} = 正在验证的属性的名称<br>{ComparisonValue}-属性比较的值<br>{PropertyValue} = 属性的当前值</p>
+<h3 id="LessThanOrEqualTo-小于等于验证程序"><a href="#LessThanOrEqualTo-小于等于验证程序" class="headerlink" title="LessThanOrEqualTo 小于等于验证程序"></a>LessThanOrEqualTo 小于等于验证程序</h3><p>说明: 确保指定属性的值小于等于特定值 (或小于等于另一个属性的值)</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Less than a particular value</span></span><br><span class="line">RuleFor(customer =&gt; customer.CreditLimit).LessThanOrEqualTo(<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Less than another property</span></span><br><span class="line">RuleFor(customer =&gt; customer.CreditLimit).LessThanOrEqualTo(customer =&gt; customer.MaxCreditLimit);</span><br></pre></td></tr></table></figure>
+
+<p>可用的格式参数占位符：<br>{PropertyName} = 正在验证的属性的名称<br>{ComparisonValue}-属性比较的值<br>{PropertyValue} = 属性的当前值</p>
+<h3 id="GreaterThan-大于验证程序"><a href="#GreaterThan-大于验证程序" class="headerlink" title="GreaterThan 大于验证程序"></a>GreaterThan 大于验证程序</h3><p>说明: 确保指定属性的值大于特定值 (或大于另一个属性的值)</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Greater than a particular value</span></span><br><span class="line">RuleFor(customer =&gt; customer.CreditLimit).GreaterThan(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Greater than another property</span></span><br><span class="line">RuleFor(customer =&gt; customer.CreditLimit).GreaterThan(customer =&gt; customer.MinimumCreditLimit);</span><br></pre></td></tr></table></figure>
+
+<p>可用的格式参数占位符：<br>{PropertyName} = 正在验证的属性的名称<br>{ComparisonValue}-属性比较的值<br>{PropertyValue} = 属性的当前值</p>
+<h3 id="GreaterThanOrEqualTo-大于等于验证程序"><a href="#GreaterThanOrEqualTo-大于等于验证程序" class="headerlink" title="GreaterThanOrEqualTo 大于等于验证程序"></a>GreaterThanOrEqualTo 大于等于验证程序</h3><p>说明: 确保指定属性的值大于等于特定值 (或大于等于另一个属性的值)</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Greater than a particular value</span></span><br><span class="line">RuleFor(customer =&gt; customer.CreditLimit).GreaterThanOrEqualTo(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Greater than another property</span></span><br><span class="line">RuleFor(customer =&gt; customer.CreditLimit).GreaterThanOrEqualTo(customer =&gt; customer.MinimumCreditLimit);</span><br></pre></td></tr></table></figure>
+
+<p>可用的格式参数占位符：<br>{PropertyName} = 正在验证的属性的名称<br>{ComparisonValue}-属性比较的值<br>{PropertyValue} = 属性的当前值</p>
+<h3 id="Must-验证程序"><a href="#Must-验证程序" class="headerlink" title="Must 验证程序"></a>Must 验证程序</h3><p>描述: 将指定属性的值传递到一个委托中, 可以对该值执行自定义验证逻辑</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(customer =&gt; customer.Surname).Must(surname =&gt; surname == <span class="string">&quot;Foo&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>可用的格式参数占位符：<br>{PropertyName} = 正在验证的属性的名称<br>{PropertyValue} = 属性的当前值</p>
+<p>请注意, 委托参数不仅传递参数，还支持直接传递验证对象参数:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(customer =&gt; customer.Surname).Must((customer, surname) =&gt; surname != customer.Forename)</span><br></pre></td></tr></table></figure>
+
+<h3 id="正则表达式验证程序"><a href="#正则表达式验证程序" class="headerlink" title="正则表达式验证程序"></a>正则表达式验证程序</h3><p>说明: 确保指定属性的值与给定的正则表达式匹配，正则表达式可参阅<a target="_blank" rel="noopener" href="https://www.xcode.me/book/regular-expressions-tutorial-30-minutes">正则表达式教程</a>这篇文章</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(customer =&gt; customer.Surname).Matches(<span class="string">&quot;some regex here&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>可用的格式参数占位符：<br>{PropertyName} = 正在验证的属性的名称<br>{PropertyValue} = 属性的当前值</p>
+<h3 id="Email-电子邮件验证程序"><a href="#Email-电子邮件验证程序" class="headerlink" title="Email 电子邮件验证程序"></a>Email 电子邮件验证程序</h3><p>说明: 确保指定属性的值是有效的电子邮件地址格式。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(customer =&gt; customer.Email).EmailAddress();</span><br></pre></td></tr></table></figure>
+
+<p>可用的格式参数占位符：<br>{PropertyName} = 正在验证的属性的名称<br>{PropertyValue} = 属性的当前值</p>
+<h2 id="自定义验证程序"><a href="#自定义验证程序" class="headerlink" title="自定义验证程序"></a>自定义验证程序</h2><h3 id="Must-验证程序-1"><a href="#Must-验证程序-1" class="headerlink" title="Must 验证程序"></a>Must 验证程序</h3><p>实现自定义验证程序的最简单方法是使用方法 Must 方法，假设我们有以下类：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Person</span> &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">IList</span>&lt;<span class="title">Person</span>&gt; Pets</span> &#123;<span class="keyword">get</span>;<span class="keyword">set</span>;&#125; = <span class="keyword">new</span> List&lt;Person&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了确保列表中至少包含10个元素, 我们可以这样做:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PersonValidator</span>:<span class="title">AbstractValidator</span>&lt;<span class="title">Person</span>&gt; &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">PersonValidator</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">   RuleFor(x =&gt; x.Pets).Must(list =&gt; list.Count &lt;= <span class="number">10</span>).WithMessage(<span class="string">&quot;The list must contain fewer than 10 items&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了使这种逻辑可重用, 我们可以将其封装为扩展方法。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">MyCustomValidators</span> &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="title">IRuleBuilderOptions</span>&lt;<span class="title">T</span>, <span class="title">IList</span>&lt;<span class="title">TElement</span>&gt;&gt; <span class="title">ListMustContainFewerThan</span>&lt;<span class="title">T</span>, <span class="title">TElement</span>&gt;(<span class="params"><span class="keyword">this</span> IRuleBuilder&lt;T, IList&lt;TElement&gt;&gt; ruleBuilder, <span class="keyword">int</span> num</span>)</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> ruleBuilder.Must(list =&gt; list.Count &lt; num).WithMessage(<span class="string">&quot;The list contains too many items&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这里，我们通过为 IRuleBuilder 创建扩展方法实现可重用逻辑，使用方法很简单。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(x =&gt; x.Pets).ListMustContainFewerThan(<span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="编写自定义验证程序"><a href="#编写自定义验证程序" class="headerlink" title="编写自定义验证程序"></a>编写自定义验证程序</h3><p>如果您想灵活控制可重用的验证器, 则可以使用 Must 方法编写自定义规则，此方法允许您手动创建与验证错误关联的实例。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PersonValidator</span>:<span class="title">AbstractValidator</span>&lt;<span class="title">Person</span>&gt; &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">PersonValidator</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">   RuleFor(x =&gt; x.Pets).Custom((list, context) =&gt; &#123;</span><br><span class="line">     <span class="keyword">if</span>(list.Count &gt; <span class="number">10</span>) &#123;</span><br><span class="line">       context.AddFailure(<span class="string">&quot;The list must contain 10 items or fewer&quot;</span>);</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此方法的优点是它允许您为同一规则返回多个错误。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">context.AddFailure(<span class="string">&quot;SomeOtherProperty&quot;</span>, <span class="string">&quot;The list must contain 10 items or fewer&quot;</span>);</span><br><span class="line"><span class="comment">// Or you can instantiate the ValidationFailure directly:</span></span><br><span class="line">context.AddFailure(<span class="keyword">new</span> ValidationFailure(<span class="string">&quot;SomeOtherProperty&quot;</span>, <span class="string">&quot;The list must contain 10 items or fewer&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义属性验证程序"><a href="#自定义属性验证程序" class="headerlink" title="自定义属性验证程序"></a>自定义属性验证程序</h3><p>在某些情况下, 针对某些属性的验证逻辑非常复杂, 我们希望将基于属性的自定义逻辑移动到单独的类中，可通过重写 PropertyValidator 类来完成。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> FluentValidation.Validators;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ListCountValidator</span>&lt;<span class="title">T</span>&gt; : <span class="title">PropertyValidator</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> _max;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ListCountValidator</span>(<span class="params"><span class="keyword">int</span> max</span>)</span></span><br><span class="line"><span class="function">		: <span class="title">base</span>(<span class="params"><span class="string">&quot;&#123;PropertyName&#125; must contain fewer than &#123;MaxElements&#125; items.&quot;</span></span>)</span> &#123;</span><br><span class="line">		_max = max;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">bool</span> <span class="title">IsValid</span>(<span class="params">PropertyValidatorContext context</span>)</span> &#123;</span><br><span class="line">		<span class="keyword">var</span> list = context.PropertyValue <span class="keyword">as</span> IList&lt;T&gt;;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(list != <span class="literal">null</span> &amp;&amp; list.Count &gt;= _max) &#123;</span><br><span class="line">			context.MessageFormatter.AppendArgument(<span class="string">&quot;MaxElements&quot;</span>, _max);</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>继承 PropertyValidator 时, 必须重写 IsValid 方法，此方法接受一个对象, 并返回一个布尔值, 指示验证是否成功，可通过 PropertyValidatorContext 属性访问：<br>Instance-正在验证的对象<br>PropertyDescription-属性的名称 (或者是由调用 WithName 的自定义的别名)<br>PropertyValue-正在验证的属性值<br>Member-描述正在验证的属性的 MemberInfo 信息</p>
+<p>若要使用自定义的属性验证程序, 可以在定义验证规则时调用：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PersonValidator</span> : <span class="title">AbstractValidator</span>&lt;<span class="title">Person</span>&gt; &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PersonValidator</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">       RuleFor(person =&gt; person.Pets).SetValidator(<span class="keyword">new</span> ListCountValidator&lt;Pet&gt;(<span class="number">10</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="本地化与多语言"><a href="#本地化与多语言" class="headerlink" title="本地化与多语言"></a>本地化与多语言</h2><p>FluentValidation 为默认验证消息提供几种语言的翻译，默认情况下, 会根据当前线程的 CurrentUICulture 语言文化来选择语言，你也可以使用 WithMessage 和 WithLocalizedMessage 来指定错误提示。</p>
+<h3 id="WithMessage"><a href="#WithMessage" class="headerlink" title="WithMessage"></a>WithMessage</h3><p>如果使用 Visual Studio 的内置的 resx 格式资源文件， 则可以通过调用 WithMessage 本地化错误消息。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(x =&gt; x.Surname).NotNull().WithMessage(x =&gt; MyLocalizedMessages.SurnameRequired);</span><br></pre></td></tr></table></figure>
+
+<p>当然，您可以将多种语言存储在数据库中，通过 lambda 表达式来读取多语言消息。</p>
+<h3 id="WithLocalizedMessage"><a href="#WithLocalizedMessage" class="headerlink" title="WithLocalizedMessage"></a>WithLocalizedMessage</h3><p>您可以通过调用 WithLocalizedMessage 方法，传递资源类型和资源名称，使错误消息支持本地多语言。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuleFor(x =&gt; x.Surname).NotNull().WithLocalizedMessage(<span class="keyword">typeof</span>(MyLocalizedMessages), <span class="string">&quot;SurnameRequired&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="默认错误消息"><a href="#默认错误消息" class="headerlink" title="默认错误消息"></a>默认错误消息</h3><p>如果您要替换 FluentValidation 的默认错误提示，可以实现 ILanguageManager 接口，该接口支持本地化多语言。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CustomLanguageManager</span> : <span class="title">FluentValidation.Resources.LanguageManager</span> &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">CustomLanguageManager</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    AddTranslation(<span class="string">&quot;en&quot;</span>, <span class="string">&quot;NotNullValidator&quot;</span>, <span class="string">&quot;&#x27;&#123;PropertyName&#125;&#x27; is required.&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上代码为 NotNullValidator 验证器自定义英文错误提示消息，当然也可以实现更多的语言，定义好 LanguageManager 后，需要在启动时进行配置。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ValidatorOptions.LanguageManager = <span class="keyword">new</span> CustomLanguageManager();</span><br></pre></td></tr></table></figure>
+
+<h3 id="禁用本地化多语言"><a href="#禁用本地化多语言" class="headerlink" title="禁用本地化多语言"></a>禁用本地化多语言</h3><p>您可以完全禁用 FluentValidation 对本地化的支持, 这将强制使用默认的英文语言, 而不考虑线程的 CurrentUICulture。这可以通过静态类 ValidatorOptions 在应用程序的启动例程中完成。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ValidatorOptions.LanguageManager.Enabled = <span class="literal">false</span>; </span><br></pre></td></tr></table></figure>
+
+<p>还可以强制指定默认语言，始终以特定语言显示:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ValidatorOptions.LanguageManager.Culture = <span class="keyword">new</span> CultureInfo(<span class="string">&quot;fr&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="ASP-NET-Core-集成"><a href="#ASP-NET-Core-集成" class="headerlink" title="ASP.NET Core 集成"></a>ASP.NET Core 集成</h2><p>FluentValidation 可以与 ASP.NET Core 集成, 要启用 MVC 集成, 您需要通过 NuGet 包来添加对程序集 FluentValidation.AspNetCore 的引用:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Package FluentValidation.AspNetCore</span><br></pre></td></tr></table></figure>
+
+<p>安装后, 您需要引用命名空间 using FluentValidation.AspNetCore，然后，在应用程序的启动类 Startup 中通过调用 services 的扩展方法 AddFluentValidation 进行配置。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConfigureServices</span>(<span class="params">IServiceCollection services</span>)</span> &#123;</span><br><span class="line">    services.AddMvc(setup =&gt; &#123;</span><br><span class="line">      <span class="comment">//...mvc setup...</span></span><br><span class="line">    &#125;).AddFluentValidation();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了让 ASP.NET Core 发现您的验证程序, 必须在服务集容器中注册它们。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConfigureServices</span>(<span class="params">IServiceCollection services</span>)</span> &#123;</span><br><span class="line">    services.AddMvc(setup =&gt; &#123;</span><br><span class="line">      <span class="comment">//...mvc setup...</span></span><br><span class="line">    &#125;).AddFluentValidation();</span><br><span class="line"></span><br><span class="line">    services.AddTransient&lt;IValidator&lt;Person&gt;, PersonValidator&gt;();</span><br><span class="line">    <span class="comment">//etc</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或使用 AddFromAssemblyContaining 方法自动注册特定程序集中的所有验证器。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">services.AddMvc()</span><br><span class="line">  .AddFluentValidation(fv =&gt; fv.RegisterValidatorsFromAssemblyContaining&lt;PersonValidator&gt;());</span><br></pre></td></tr></table></figure>
+
+<p>本示例定义 PersonValidator 验证器，用于验证 Person 类型。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Person</span> &#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span> Id &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">string</span> Email &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span> Age &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PersonValidator</span> : <span class="title">AbstractValidator</span>&lt;<span class="title">Person</span>&gt; &#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">PersonValidator</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">		RuleFor(x =&gt; x.Id).NotNull();</span><br><span class="line">		RuleFor(x =&gt; x.Name).Length(<span class="number">0</span>, <span class="number">10</span>);</span><br><span class="line">		RuleFor(x =&gt; x.Email).EmailAddress();</span><br><span class="line">		RuleFor(x =&gt; x.Age).InclusiveBetween(<span class="number">18</span>, <span class="number">60</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>定义控制器 PeopleController 用于创建并保存 Person 实例，使用 ModelState.IsValid 判断用户的输入是否验证通过。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PeopleController</span> : <span class="title">Controller</span> &#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> ActionResult <span class="title">Create</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> View();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	[<span class="meta">HttpPost</span>]</span><br><span class="line">	<span class="function"><span class="keyword">public</span> IActionResult <span class="title">Create</span>(<span class="params">Person person</span>)</span> &#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(! ModelState.IsValid) &#123; <span class="comment">// re-render the view when validation failed.</span></span><br><span class="line">			<span class="keyword">return</span> View(<span class="string">&quot;Create&quot;</span>, person);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		Save(person); <span class="comment">//Save the person to the database, or some other logic</span></span><br><span class="line"></span><br><span class="line">		TempData[<span class="string">&quot;notice&quot;</span>] = <span class="string">&quot;Person successfully created&quot;</span>;</span><br><span class="line">		<span class="keyword">return</span> RedirectToAction(<span class="string">&quot;Index&quot;</span>);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是我们创建 Person 的视图代码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@model Person</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">asp-validation-summary</span>=<span class="string">&quot;ModelOnly&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">asp-action</span>=<span class="string">&quot;Create&quot;</span>&gt;</span></span><br><span class="line">  Id: <span class="tag">&lt;<span class="name">input</span> <span class="attr">asp-for</span>=<span class="string">&quot;Id&quot;</span> /&gt;</span> <span class="tag">&lt;<span class="name">span</span> <span class="attr">asp-validation-for</span>=<span class="string">&quot;Id&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">  Name: <span class="tag">&lt;<span class="name">input</span> <span class="attr">asp-for</span>=<span class="string">&quot;Name&quot;</span> /&gt;</span> <span class="tag">&lt;<span class="name">span</span> <span class="attr">asp-validation-for</span>=<span class="string">&quot;Name&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">  Email: <span class="tag">&lt;<span class="name">input</span> <span class="attr">asp-for</span>=<span class="string">&quot;Email&quot;</span> /&gt;</span> <span class="tag">&lt;<span class="name">span</span> <span class="attr">asp-validation-for</span>=<span class="string">&quot;Email&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">  Age: <span class="tag">&lt;<span class="name">input</span> <span class="attr">asp-for</span>=<span class="string">&quot;Age&quot;</span> /&gt;</span> <span class="tag">&lt;<span class="name">span</span> <span class="attr">asp-validation-for</span>=<span class="string">&quot;Age&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">br</span> /&gt;</span><span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;submtit&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>现在, 当您提交表单时, MVC 的模型绑定系统将使用 PersonPersonValidator 验证输入，并将验证结果保存至 ModelState 用于判断。</p>
+<h3 id="与-ASP-NET-Core-内置验证的兼容性"><a href="#与-ASP-NET-Core-内置验证的兼容性" class="headerlink" title="与 ASP.NET Core 内置验证的兼容性"></a>与 ASP.NET Core 内置验证的兼容性</h3><p>默认情况下, 在执行 FluentValidation 验证之后, MVC原生内置的 DataAnnotations 验证方式也可能执行，这意味着您可以将 FluentValidation 与 DataAnnotations 验证混合在一起使用。如果要禁用此行为, 将 FluentValidation 设为唯一的验证库, 可以将 RunDefaultMvcValidationAfterFluentValidationExecutes 属性设为 false 值：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">services.AddMvc().AddFluentValidation(fv =&gt; &#123;</span><br><span class="line"> fv.RunDefaultMvcValidationAfterFluentValidationExecutes = <span class="literal">false</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="隐式与显式子属性验证"><a href="#隐式与显式子属性验证" class="headerlink" title="隐式与显式子属性验证"></a>隐式与显式子属性验证</h3><p>在验证复杂对象时, 默认情况下, 您必须手动通过 SetValidator 方法指定复杂属性的子验证器。运行 ASP.NET MVC 应用程序时, 还可以选择为子属性启用隐式验证，启用此功能时, MVC 的验证基础结构将会自动查找每个属性的验证程序, 而不必指定的子验证程序，这可以通过将 SetValidatorImplicitlyValidateChildProperties 设置为 true 来完成:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">services.AddMvc().AddFluentValidation(fv =&gt; &#123;</span><br><span class="line"> fv.ImplicitlyValidateChildProperties = <span class="literal">true</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>请注意, 如果启用此行为, 则不应手动通过 SetValidator 指定子属性验证程序, 否则，验证程序将执行两次。</p>
+<h3 id="客户端验证"><a href="#客户端验证" class="headerlink" title="客户端验证"></a>客户端验证</h3><p>FluentValidation 是服务端验证框架, 不直接提供任何客户端验证。但是, 它可以生成 jQuery 验证框架支持的 HTML 元素元数据，用于支持 jquery.validate 框架的自动验证。</p>
+<h3 id="手动验证"><a href="#手动验证" class="headerlink" title="手动验证"></a>手动验证</h3><p>有时您可能需要手动验证 MVC 项目中的对象，在这种情况下， 我们可以将验证结果复制到 MVC 的 ModelState 字典中，便可用于前端错误提示。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">DoSomething</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">  <span class="keyword">var</span> customer = <span class="keyword">new</span> Customer();</span><br><span class="line">  <span class="keyword">var</span> validator = <span class="keyword">new</span> CustomerValidator();</span><br><span class="line">  <span class="keyword">var</span> results = validator.Validate(customer);</span><br><span class="line"></span><br><span class="line">  results.AddToModelState(ModelState, <span class="literal">null</span>);</span><br><span class="line">  <span class="keyword">return</span> View();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>AddToModelState 方法是作为扩展方法实现的, 需要引用 FluentValidation 命名空间，请注意, 第二个参数是可选的模型名称前缀, 该参数可设置对象属性在 ModelState 字典中的前缀。</p>
+<h3 id="验证程序自定义"><a href="#验证程序自定义" class="headerlink" title="验证程序自定义"></a>验证程序自定义</h3><p>您可以使用 CustomizeValidatorAttribute 为模型指定验证程序，也支持为验证器指定规则集。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">Save</span>(<span class="params">[CustomizeValidator(RuleSet=<span class="string">&quot;MyRuleset&quot;</span></span>)] Customer cust)</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这相当于为验证指定规则集，等同于将规则集传递给验证程序：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> validator = <span class="keyword">new</span> CustomerValidator();</span><br><span class="line"><span class="keyword">var</span> customer = <span class="keyword">new</span> Customer();</span><br><span class="line"><span class="keyword">var</span> result = validator.Validate(customer, ruleSet: <span class="string">&quot;MyRuleset&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>该属性还可用于调用单个属性的验证:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">Save</span>(<span class="params">[CustomizeValidator(Properties=<span class="string">&quot;Surname,Forename&quot;</span></span>)] Customer cust)</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这相当于对验证程序指定特定属性，其它属性将不被验证：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> validator = <span class="keyword">new</span> CustomerValidator();</span><br><span class="line"><span class="keyword">var</span> customer = <span class="keyword">new</span> Customer();</span><br><span class="line"><span class="keyword">var</span> result = validator.Validate(customer, properties: <span class="keyword">new</span>[] &#123; <span class="string">&quot;Surname&quot;</span>, <span class="string">&quot;Forename&quot;</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>也可以使用 CustomizeValidatorAttribute 特性跳过某些类型的验证。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">Save</span>(<span class="params">[CustomizeValidator(Skip=<span class="literal">true</span></span>)] Customer cust)</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="验证器拦截器"><a href="#验证器拦截器" class="headerlink" title="验证器拦截器"></a>验证器拦截器</h3><p>您可以使用拦截器进一步自定义验证过程，拦截器必须实现 FluentValidation.Mvc 命名空间中的 IValidatorInterceptor 接口：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IValidatorInterceptor</span>	&#123;</span><br><span class="line">  <span class="function">ValidationContext <span class="title">BeforeMvcValidation</span>(<span class="params">ControllerContext controllerContext, ValidationContext validationContext</span>)</span>;</span><br><span class="line">  <span class="function">ValidationResult <span class="title">AfterMvcValidation</span>(<span class="params">ControllerContext controllerContext, ValidationContext validationContext, ValidationResult result</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此接口有两个方法：BeforeMvcValidation 和 AfterMvcValidation，分别可拦截验证前和验证后的过程。除了在验证程序类中直接实现此接口外, 我们还可以在外部实现该接口, 通过 CustomizeValidatorAttribute 特性指定拦截器:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">Save</span>(<span class="params">[CustomizeValidator(Interceptor=<span class="keyword">typeof</span>(MyCustomerInterceptor</span>))] Customer cust)</span> &#123;</span><br><span class="line"> <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这种情况下, 拦截器必须是一个实现 IValidatorInterceptor 接口，并具有公共无参数构造函数的类。请注意, 拦截器是高级方案，大多数情况下, 您可能不需要使用拦截器, 但如果需要, 可以选择它。</p>
+<h3 id="为客户端指定规则集"><a href="#为客户端指定规则集" class="headerlink" title="为客户端指定规则集"></a>为客户端指定规则集</h3><p>默认情况下 FluentValidation 不会为客户端生成基于规则集的验证代码, 但您可以通过 RuleSetForClientSideMessagesAttribute 为客户端指定规则集。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">RuleSetForClientSideMessages(<span class="meta-string">&quot;MyRuleset&quot;</span>)</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">Index</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">   <span class="keyword">return</span> View(<span class="keyword">new</span> PersonViewModel());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可以在控制器中使用 SetRulesetForClientsideMessages 扩展方法 (需要引用 FluentValidation 命名空间)为客户端指定规则集。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">Index</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">   ControllerContext.SetRulesetForClientsideMessages(<span class="string">&quot;MyRuleset&quot;</span>);</span><br><span class="line">   <span class="keyword">return</span> View(<span class="keyword">new</span> PersonViewModel());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ASP-NET-MVC-5-集成"><a href="#ASP-NET-MVC-5-集成" class="headerlink" title="ASP.NET MVC 5 集成"></a>ASP.NET MVC 5 集成</h2><p>FluentValidation 还可以与旧的 ASP.NET MVC 5 项目集成，需要通过 NuGet 添加对程序集 FluentValidation.Mvc5 的引用，然后引用 FluentValidation.Mvc 命名空间：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Package FluentValidation.Mvc5</span><br></pre></td></tr></table></figure>
+
+<p>安装后, 需要在应用程序全局文件 (Global.asax) 中配置 Application_Start 事件，以便于 FluentValidation 执行初始化。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">Application_Start</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    AreaRegistration.RegisterAllAreas();</span><br><span class="line"></span><br><span class="line">    RegisterGlobalFilters(GlobalFilters.Filters);</span><br><span class="line">    RegisterRoutes(RouteTable.Routes);</span><br><span class="line"></span><br><span class="line">    FluentValidationModelValidatorProvider.Configure();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在MVC内部, FluentValidation 利用验证器工厂为特定类型创建验证程序，默认情况下使用 AttributedValidatorFactory 工厂，通过特性的方式，允许您为指定的模型设置验证程序：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Validator(typeof(PersonValidator))</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Person</span> &#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span> Id &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">string</span> Email &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span> Age &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PersonValidator</span> : <span class="title">AbstractValidator</span>&lt;<span class="title">Person</span>&gt; &#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">PersonValidator</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">		RuleFor(x =&gt; x.Id).NotNull();</span><br><span class="line">		RuleFor(x =&gt; x.Name).Length(<span class="number">0</span>, <span class="number">10</span>);</span><br><span class="line">		RuleFor(x =&gt; x.Email).EmailAddress();</span><br><span class="line">		RuleFor(x =&gt; x.Age).InclusiveBetween(<span class="number">18</span>, <span class="number">60</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>您还可以使用MVC自带的 IoC 依赖注入容器实现自定义的验证器工厂, 而不是使用上述特性标记的方法。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FluentValidationModelValidatorProvider.Configure(provider =&gt; &#123;</span><br><span class="line">  provider.ValidatorFactory = <span class="keyword">new</span> MyCustomValidatorFactory();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>最后, 我们可以创建控制器和与之关联的视图:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PeopleController</span> : <span class="title">Controller</span> &#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> ActionResult <span class="title">Create</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> View();</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	[<span class="meta">HttpPost</span>]</span><br><span class="line">	<span class="function"><span class="keyword">public</span> ActionResult <span class="title">Create</span>(<span class="params">Person person</span>)</span> &#123;</span><br><span class="line"> </span><br><span class="line">		<span class="keyword">if</span>(! ModelState.IsValid) &#123; <span class="comment">// re-render the view when validation failed.</span></span><br><span class="line">			<span class="keyword">return</span> View(<span class="string">&quot;Create&quot;</span>, person);</span><br><span class="line">		&#125;</span><br><span class="line"> </span><br><span class="line">		TempData[<span class="string">&quot;notice&quot;</span>] = <span class="string">&quot;Person successfully created&quot;</span>;</span><br><span class="line">		<span class="keyword">return</span> RedirectToAction(<span class="string">&quot;Index&quot;</span>);</span><br><span class="line"> </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是相应的视图代码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@Html.ValidationSummary()</span><br><span class="line"> </span><br><span class="line">@using (Html.BeginForm()) &#123;</span><br><span class="line">	Id: @Html.TextBoxFor(x =&gt; x.Id) @Html.ValidationMessageFor(x =&gt; x.Id)</span><br><span class="line">	<span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">	Name: @Html.TextBoxFor(x =&gt; x.Name) @Html.ValidationMessageFor(x =&gt; x.Name) 		</span><br><span class="line">	<span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">	Email: @Html.TextBoxFor(x =&gt; x.Email) @Html.ValidationMessageFor(x =&gt; x.Email)</span><br><span class="line">	<span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">	Age: @Html.TextBoxFor(x =&gt; x.Age) @Html.ValidationMessageFor(x =&gt; x.Age)</span><br><span class="line"> </span><br><span class="line">	<span class="tag">&lt;<span class="name">br</span> /&gt;</span><span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line"> </span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;submit&quot;</span> /&gt;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在, 当您提交表单时， MVC 的将使用 FluentValidation 框架验证模型。</p>
+<h3 id="特别说明"><a href="#特别说明" class="headerlink" title="特别说明"></a>特别说明</h3><p>在 ASP.NET MVC 5 中使用 FluentValidation 框架，和 ASP.NET Core 基本相同，所以，客户端验证、手动验证、验证程序自定义、验证器拦截器和客户端规则集都类似于上文，由于文章篇幅，这里将不再赘述。</p>
+<h2 id="ASP-NET-WebApi-2-集成"><a href="#ASP-NET-WebApi-2-集成" class="headerlink" title="ASP.NET WebApi 2 集成"></a>ASP.NET WebApi 2 集成</h2><p>FluentValidation 的 WebApi 的集成 与 MVC 5 集成 (上面) 相同, 但您需要通过 NuGet 引用 FluentValidation.WebApi 程序包。</p>
+<p>出处：<a target="_blank" rel="noopener" href="https://www.xcode.me/post/5849">https://www.xcode.me/post/5849</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>花生了什么树
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.hongjy.cn/2021/11/13/2021-11-13-FluentValidation%E9%AA%8C%E8%AF%81%E6%95%99%E7%A8%8B/" title="FluentValidation验证教程">http://www.hongjy.cn/2021/11/13/2021-11-13-FluentValidation验证教程/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-%E6%9C%BA%E8%BD%A6%E7%9B%B8%E5%86%8C/" rel="prev" title="机车相册">
+      <i class="fa fa-chevron-left"></i> 机车相册
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/13/2021-11-13-win%E6%B3%A8%E5%86%8C%E8%A1%A8%E5%AD%A6%E4%B9%A0%E4%BD%BF%E7%94%A8/" rel="next" title="win注册表学习使用">
+      win注册表学习使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AA%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">1.</span> <span class="nav-text">创建第一个验证程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%93%BE%E6%8E%A5%E8%A7%84%E5%88%99%E5%86%99%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">链接规则写法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%8F%91%E5%BC%82%E5%B8%B8"><span class="nav-number">3.</span> <span class="nav-text">引发异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E5%90%88"><span class="nav-number">4.</span> <span class="nav-text">集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E5%B1%9E%E6%80%A7"><span class="nav-number">5.</span> <span class="nav-text">复杂属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%AF%E6%8C%81%E8%A7%84%E5%88%99%E9%9B%86"><span class="nav-number">6.</span> <span class="nav-text">支持规则集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95"><span class="nav-number">7.</span> <span class="nav-text">配置方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E7%BD%AE%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">8.</span> <span class="nav-text">内置验证程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NotNull-%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">8.1.</span> <span class="nav-text">NotNull 验证程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NotEmpty-%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">8.2.</span> <span class="nav-text">NotEmpty 验证程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NotEqual-%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">8.3.</span> <span class="nav-text">NotEqual 验证程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Equal-%E7%9B%B8%E7%AD%89%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">8.4.</span> <span class="nav-text">Equal 相等验证程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Length-%E9%95%BF%E5%BA%A6%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">8.5.</span> <span class="nav-text">Length 长度验证程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MaxLength-%E6%9C%80%E5%A4%A7%E9%95%BF%E5%BA%A6%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">8.6.</span> <span class="nav-text">MaxLength 最大长度验证程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MinLength-%E6%9C%80%E5%B0%8F%E9%95%BF%E5%BA%A6%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">8.7.</span> <span class="nav-text">MinLength 最小长度验证程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LessThan-%E5%B0%8F%E4%BA%8E%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">8.8.</span> <span class="nav-text">LessThan 小于验证程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LessThanOrEqualTo-%E5%B0%8F%E4%BA%8E%E7%AD%89%E4%BA%8E%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">8.9.</span> <span class="nav-text">LessThanOrEqualTo 小于等于验证程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GreaterThan-%E5%A4%A7%E4%BA%8E%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">8.10.</span> <span class="nav-text">GreaterThan 大于验证程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GreaterThanOrEqualTo-%E5%A4%A7%E4%BA%8E%E7%AD%89%E4%BA%8E%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">8.11.</span> <span class="nav-text">GreaterThanOrEqualTo 大于等于验证程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Must-%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">8.12.</span> <span class="nav-text">Must 验证程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">8.13.</span> <span class="nav-text">正则表达式验证程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Email-%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">8.14.</span> <span class="nav-text">Email 电子邮件验证程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">9.</span> <span class="nav-text">自定义验证程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Must-%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F-1"><span class="nav-number">9.1.</span> <span class="nav-text">Must 验证程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E8%87%AA%E5%AE%9A%E4%B9%89%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">9.2.</span> <span class="nav-text">编写自定义验证程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F"><span class="nav-number">9.3.</span> <span class="nav-text">自定义属性验证程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E5%8C%96%E4%B8%8E%E5%A4%9A%E8%AF%AD%E8%A8%80"><span class="nav-number">10.</span> <span class="nav-text">本地化与多语言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WithMessage"><span class="nav-number">10.1.</span> <span class="nav-text">WithMessage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WithLocalizedMessage"><span class="nav-number">10.2.</span> <span class="nav-text">WithLocalizedMessage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E9%94%99%E8%AF%AF%E6%B6%88%E6%81%AF"><span class="nav-number">10.3.</span> <span class="nav-text">默认错误消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A6%81%E7%94%A8%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%A4%9A%E8%AF%AD%E8%A8%80"><span class="nav-number">10.4.</span> <span class="nav-text">禁用本地化多语言</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ASP-NET-Core-%E9%9B%86%E6%88%90"><span class="nav-number">11.</span> <span class="nav-text">ASP.NET Core 集成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8E-ASP-NET-Core-%E5%86%85%E7%BD%AE%E9%AA%8C%E8%AF%81%E7%9A%84%E5%85%BC%E5%AE%B9%E6%80%A7"><span class="nav-number">11.1.</span> <span class="nav-text">与 ASP.NET Core 内置验证的兼容性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E5%BC%8F%E4%B8%8E%E6%98%BE%E5%BC%8F%E5%AD%90%E5%B1%9E%E6%80%A7%E9%AA%8C%E8%AF%81"><span class="nav-number">11.2.</span> <span class="nav-text">隐式与显式子属性验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%AA%8C%E8%AF%81"><span class="nav-number">11.3.</span> <span class="nav-text">客户端验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E5%8A%A8%E9%AA%8C%E8%AF%81"><span class="nav-number">11.4.</span> <span class="nav-text">手动验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E7%A8%8B%E5%BA%8F%E8%87%AA%E5%AE%9A%E4%B9%89"><span class="nav-number">11.5.</span> <span class="nav-text">验证程序自定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E5%99%A8%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="nav-number">11.6.</span> <span class="nav-text">验证器拦截器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8C%87%E5%AE%9A%E8%A7%84%E5%88%99%E9%9B%86"><span class="nav-number">11.7.</span> <span class="nav-text">为客户端指定规则集</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ASP-NET-MVC-5-%E9%9B%86%E6%88%90"><span class="nav-number">12.</span> <span class="nav-text">ASP.NET MVC 5 集成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%88%AB%E8%AF%B4%E6%98%8E"><span class="nav-number">12.1.</span> <span class="nav-text">特别说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ASP-NET-WebApi-2-%E9%9B%86%E6%88%90"><span class="nav-number">13.</span> <span class="nav-text">ASP.NET WebApi 2 集成</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="花生了什么树"
+      src="http://blogimg.hongjy.cn/v2-a6137a264b6b78a3f1bdce115cf7c224_720w.jpg">
+  <p class="site-author-name" itemprop="name">花生了什么树</p>
+  <div class="site-description" itemprop="description">.NET工程师</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/AllenHongjun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AllenHongjun" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hongjy1991@gmail.com" title="E-Mail → mailto:hongjy1991@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.google.com/" title="Google → https:&#x2F;&#x2F;www.google.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/hongjy1991" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;hongjy1991" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://youtube.com/" title="YouTube → https:&#x2F;&#x2F;youtube.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://leetcode-cn.com/" title="https:&#x2F;&#x2F;leetcode-cn.com&#x2F;" rel="noopener" target="_blank">leetcode</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://lailin.xyz/" title="https:&#x2F;&#x2F;lailin.xyz&#x2F;" rel="noopener" target="_blank">lailin</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ciweigg2.github.io/" title="https:&#x2F;&#x2F;ciweigg2.github.io&#x2F;" rel="noopener" target="_blank">ciweigg2</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.itmuch.com/" title="https:&#x2F;&#x2F;www.itmuch.com&#x2F;" rel="noopener" target="_blank">itmuch</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://tengj.top/" title="http:&#x2F;&#x2F;tengj.top&#x2F;" rel="noopener" target="_blank">tengj</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">浙ICP备18047156号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花生了什么树</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">383k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5:49</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
