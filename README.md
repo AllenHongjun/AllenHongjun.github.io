@@ -14,14 +14,15 @@ blog
 ### 常用命令
 - hexo init 博客名   #新建一个博客
 - hexo new 文章名   #新建一片文章
+- hexo clean
 - hexo g/generate   #生成博客
 - hexo d/deploy     #发布到github page
 - hexo server -p 5000 --debug #在指定的端口本地浏览
 
 ### 初始安装
 - 安装 nodejs 
-- 安装 hexo
-- set-ExecutionPolicy RemoteSigned 开启
+- 全局安装 hexo  npm install hexo -g
+- 更改执行策略以运行 PowerShell 脚本  set-ExecutionPolicy RemoteSigned 
 - 
 
 
